@@ -7,4 +7,4 @@ output: html_document
 <br>
 <br>
 
-[Controle II - 2024.2](./tree/main/Controle2/_book) (em construção)
+[Controle II - 2024.2](./tree/main/Controle2/_book/index.html) (em construção)
