@@ -1,0 +1,9 @@
+"0","plt.plot(resp.t, resp.outputs)"
+"1","[<matplotlib.lines.Line2D object at 0x0000023D0C5E8710>]
+"
+"0","plt.grid()"
+"0","plt.xlabel('Tempo (seg)')"
+"0","plt.show()"
+"1","Text(0.5, 24.355555555555544, 'Tempo (seg)')
+"
+"0",""

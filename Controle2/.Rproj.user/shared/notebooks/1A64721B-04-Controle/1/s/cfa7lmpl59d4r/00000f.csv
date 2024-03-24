@@ -1,0 +1,8 @@
+"0","n = 2"
+"0","Al = np.block([[A,np.zeros((n,1))],[np.zeros((1,n+1))]])"
+"0","Bl = Ba"
+"0","Cl = np.block([C,0])"
+"0","L0 = np.block([[L],[0]])"
+"0","L1 = np.block([[L],[-1]])"
+"0","M = np.block([[np.zeros((n,1))],[1]])"
+"0",""

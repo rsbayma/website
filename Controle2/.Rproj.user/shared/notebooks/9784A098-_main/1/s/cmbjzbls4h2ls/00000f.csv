@@ -1,0 +1,26 @@
+"0","Amf = A - B@K"
+"0","Bmf = B@N"
+"0","Cmf = C"
+"0","Dmf = np.array([[0]])"
+"0",""
+"0","# Sistema"
+"0","sis = ct.ss(Amf,Bmf,Cmf,Dmf)"
+"0",""
+"0","# Simulação"
+"0","t,y = ct.step_response(sis,7)"
+"0",""
+"0","plt.plot(t,y)"
+"1","[<matplotlib.lines.Line2D object at 0x000001D50A748E90>]
+"
+"0","plt.grid()"
+"0","plt.xlabel('Tempo (seg)')"
+"1","Text(0.5, 24.355555555555544, 'Tempo (seg)')
+"
+"0","plt.ylabel('Saída')"
+"1","Text(61.7482638888889, 0.5, 'Saída')
+"
+"0","plt.legend('y')"
+"1","<matplotlib.legend.Legend object at 0x000001D50A71B140>
+"
+"0","plt.show()"
+"0",""

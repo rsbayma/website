@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 3 Modelagem | Sistemas de Controle II (EL180)</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 3 Modelagem | Sistemas de Controle II (EL180)" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 3 Modelagem | Sistemas de Controle II (EL180)" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Rafael Suzuki Bayma" />
+
+
+<meta name="date" content="2024-02-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introdução-às-técnicas-de-espaço-de-estados..html"/>
+<link rel="next" href="análise-de-sistemas-com-espaço-de-estados.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Apresentação</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#objetivos"><i class="fa fa-check"></i><b>1.1</b> Objetivos</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#avaliação"><i class="fa fa-check"></i><b>1.2</b> <strong>Avaliação:</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html"><i class="fa fa-check"></i><b>2</b> Introdução às técnicas de espaço de estados.</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#o-que-é-espaço-de-estados"><i class="fa fa-check"></i><b>2.1</b> O que é espaço de estados?</a></li>
+<li class="chapter" data-level="2.2" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#o-que-é-estado"><i class="fa fa-check"></i><b>2.2</b> O que é estado?</a></li>
+<li class="chapter" data-level="2.3" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#sistemas-lit-siso"><i class="fa fa-check"></i><b>2.3</b> Sistemas LIT SISO</a></li>
+<li class="chapter" data-level="2.4" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#representação-matricial"><i class="fa fa-check"></i><b>2.4</b> Representação matricial</a></li>
+<li class="chapter" data-level="2.5" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#sistemas-lit-mimo"><i class="fa fa-check"></i><b>2.5</b> Sistemas LIT MIMO</a></li>
+<li class="chapter" data-level="2.6" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#sistemas-não-lineares"><i class="fa fa-check"></i><b>2.6</b> Sistemas não-lineares</a></li>
+<li class="chapter" data-level="2.7" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#equilíbrio"><i class="fa fa-check"></i><b>2.7</b> Equilíbrio</a></li>
+<li class="chapter" data-level="2.8" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#linearização"><i class="fa fa-check"></i><b>2.8</b> Linearização</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="modelagem.html"><a href="modelagem.html"><i class="fa fa-check"></i><b>3</b> Modelagem</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="modelagem.html"><a href="modelagem.html#sobre-a-não-unicidade-da-representação-de-estados"><i class="fa fa-check"></i><b>3.1</b> Sobre a não unicidade da representação de estados</a></li>
+<li class="chapter" data-level="3.2" data-path="modelagem.html"><a href="modelagem.html#equação-diferencial-simples"><i class="fa fa-check"></i><b>3.2</b> Equação diferencial simples</a></li>
+<li class="chapter" data-level="3.3" data-path="modelagem.html"><a href="modelagem.html#diagramas-de-simulação"><i class="fa fa-check"></i><b>3.3</b> Diagramas de simulação</a></li>
+<li class="chapter" data-level="3.4" data-path="modelagem.html"><a href="modelagem.html#forma-canônica-de-controlador-fcc"><i class="fa fa-check"></i><b>3.4</b> Forma canônica de controlador (FCC)</a></li>
+<li class="chapter" data-level="3.5" data-path="modelagem.html"><a href="modelagem.html#fcc-geral"><i class="fa fa-check"></i><b>3.5</b> FCC geral</a></li>
+<li class="chapter" data-level="3.6" data-path="modelagem.html"><a href="modelagem.html#forma-de-jordan-ou-modal"><i class="fa fa-check"></i><b>3.6</b> Forma de Jordan ou Modal</a></li>
+<li class="chapter" data-level="3.7" data-path="modelagem.html"><a href="modelagem.html#pólos-reais-e-distintos"><i class="fa fa-check"></i><b>3.7</b> Pólos reais e distintos</a></li>
+<li class="chapter" data-level="3.8" data-path="modelagem.html"><a href="modelagem.html#forma-de-jordan-com-polos-reais-e-repetidos"><i class="fa fa-check"></i><b>3.8</b> Forma de Jordan com polos reais e repetidos</a></li>
+<li class="chapter" data-level="3.9" data-path="modelagem.html"><a href="modelagem.html#transformação-de-estado"><i class="fa fa-check"></i><b>3.9</b> Transformação de estado</a></li>
+<li class="chapter" data-level="3.10" data-path="modelagem.html"><a href="modelagem.html#dica-útil-matriz-inversa-de-segunda-ordem"><i class="fa fa-check"></i><b>3.10</b> Dica útil: Matriz inversa de segunda ordem</a></li>
+<li class="chapter" data-level="3.11" data-path="modelagem.html"><a href="modelagem.html#pólos-complexos-conjugados"><i class="fa fa-check"></i><b>3.11</b> Pólos complexos conjugados</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html"><i class="fa fa-check"></i><b>4</b> Análise de sistemas com espaço de estados</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#sinal-de-saída-e-função-de-transferência"><i class="fa fa-check"></i><b>4.1</b> Sinal de saída e função de transferência</a></li>
+<li class="chapter" data-level="4.2" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#pólos-de-um-sistema-no-espaço-de-estados-autovalores"><i class="fa fa-check"></i><b>4.2</b> Pólos de um sistema no espaço de estados (Autovalores)</a></li>
+<li class="chapter" data-level="4.3" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#zeros-do-sistema"><i class="fa fa-check"></i><b>4.3</b> Zeros do sistema</a></li>
+<li class="chapter" data-level="4.4" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#estabilidade-no-espaço-de-estados"><i class="fa fa-check"></i><b>4.4</b> Estabilidade no espaço de estados</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html"><i class="fa fa-check"></i><b>5</b> Realimentação de estados</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#análise-da-realimentação-de-estados"><i class="fa fa-check"></i><b>5.1</b> Análise da realimentação de estados</a></li>
+<li class="chapter" data-level="5.2" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#forma-canônica-de-controlador"><i class="fa fa-check"></i><b>5.2</b> Forma canônica de controlador</a></li>
+<li class="chapter" data-level="5.3" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#método-de-ackermann"><i class="fa fa-check"></i><b>5.3</b> Método de Ackermann</a></li>
+<li class="chapter" data-level="5.4" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#introdução-da-referência"><i class="fa fa-check"></i><b>5.4</b> Introdução da referência</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#simulação-em-malha-fechada"><i class="fa fa-check"></i><b>5.4.1</b> Simulação em malha fechada</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#escolha-dos-pólos"><i class="fa fa-check"></i><b>5.5</b> Escolha dos pólos</a></li>
+<li class="chapter" data-level="5.6" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#estimadores-de-estado"><i class="fa fa-check"></i><b>5.6</b> Estimadores de estado</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#modelagem-do-observador"><i class="fa fa-check"></i><b>5.6.1</b> Modelagem do observador</a></li>
+<li class="chapter" data-level="5.6.2" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#forma-canônica-de-observador"><i class="fa fa-check"></i><b>5.6.2</b> Forma canônica de observador</a></li>
+<li class="chapter" data-level="5.6.3" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#observabilidade"><i class="fa fa-check"></i><b>5.6.3</b> Observabilidade</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#compensador-dinâmico"><i class="fa fa-check"></i><b>5.7</b> Compensador dinâmico</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#compensador-com-referência"><i class="fa fa-check"></i><b>5.7.1</b> Compensador com referência</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#controle-integral"><i class="fa fa-check"></i><b>5.8</b> Controle integral</a>
+<ul>
+<li class="chapter" data-level="5.8.1" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#escolha-dos-pólos-1"><i class="fa fa-check"></i><b>5.8.1</b> Escolha dos pólos</a></li>
+<li class="chapter" data-level="5.8.2" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#equações-de-estado-do-compensador"><i class="fa fa-check"></i><b>5.8.2</b> Equações de estado do compensador:</a></li>
+<li class="chapter" data-level="5.8.3" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#simulação-em-malha-fechada-1"><i class="fa fa-check"></i><b>5.8.3</b> Simulação em malha fechada</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="controle-digital.html"><a href="controle-digital.html"><i class="fa fa-check"></i><b>6</b> Controle Digital</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="controle-digital.html"><a href="controle-digital.html#amostras"><i class="fa fa-check"></i><b>6.1</b> Amostras</a></li>
+<li class="chapter" data-level="6.2" data-path="controle-digital.html"><a href="controle-digital.html#conversor-ad"><i class="fa fa-check"></i><b>6.2</b> Conversor A/D</a></li>
+<li class="chapter" data-level="6.3" data-path="controle-digital.html"><a href="controle-digital.html#período-de-amostragem"><i class="fa fa-check"></i><b>6.3</b> Período de amostragem</a></li>
+<li class="chapter" data-level="6.4" data-path="controle-digital.html"><a href="controle-digital.html#sistemas-de-controle-digital"><i class="fa fa-check"></i><b>6.4</b> Sistemas de controle digital</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Sistemas de Controle II (EL180)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modelagem" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Capítulo 3</span> Modelagem<a href="modelagem.html#modelagem" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Neste capítulo vamos estudar diferentes formas de obter equações de estados.</p>
+<div id="sobre-a-não-unicidade-da-representação-de-estados" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Sobre a não unicidade da representação de estados<a href="modelagem.html#sobre-a-não-unicidade-da-representação-de-estados" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Um sistema LIT pode possuir diferentes representações de estados. Isso depende de quais variáveis de estados são escolhidas para a representação. O mesmo sistema pode admitir diferentes conjuntos de estados.</p>
+<p>Isso significa que um mesmo sistema pode possuir diferentes matrizes de representação, todas de mesma ordem. A representação não é única, por isso <em>não unicidade</em>.</p>
+<p>Isso não ocorre com a representação por função de transferência. Um sistema possui uma e apenas uma função de transferência padrão.</p>
+</div>
+<div id="equação-diferencial-simples" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Equação diferencial simples<a href="modelagem.html#equação-diferencial-simples" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para um sistema representado por uma EDO simples, sem derivadas do sinal de entrada, pode-se obter as equações de estado de um jeito bastante simples. Para isso basta escolher uma variável de estado como a derivada da outra, normalmente em sequência.</p>
+<strong>Exemplo:</strong>
+<span class="math display">\[
+\dddot{y} + 6\ddot{y} + 11\dot{y} + 6y = 6u
+\]</span>
+Sistema de 3a ordem, então definimos os estados como a saída e suas derivadas até ordem 2.
+<span class="math display">\[\begin{aligned}
+    x_1 &amp;=y\\
+    x_2 &amp;=\dot{y}\\
+    x_3 &amp;=\ddot{y}
+\end{aligned}\]</span>
+<p>Para um sistema de 2a ordem, definimos os estados como saída e sua derivada.</p>
+<p>Generalizando, para um sistema de ordem <span class="math inline">\(n\)</span>, definimos a saída e todas as derivadas até ordem <span class="math inline">\(n-1\)</span>.</p>
+Para montar a equação de estados precisamos das derivadas de cada estado. Mas pela forma como definimos cada um, as duas primeiras derivadas podem ser obtidas em função da própria definição.
+<span class="math display">\[\begin{aligned}
+    \dot{x}_1 &amp;=\dot{y} = x_2\\
+    \dot{x}_2 &amp;=\ddot{y} = x_3
+\end{aligned}\]</span>
+Por último, precisamos da derivada do último estado. Note que esta é:
+<span class="math display">\[\begin{aligned}
+    x_3 &amp;=\dddot{y}
+\end{aligned}\]</span>
+que pode ser obtida da EDO original como:
+<span class="math display">\[\begin{aligned}
+    \dddot{y} &amp;= -6\ddot{y} - 11\dot{y} - 6y + 6u\\
+    &amp;= -6x_3 -11x_2 - 6x_1 + 6u
+  \end{aligned}\]</span>
+Assim as equações de estado são:
+<span class="math display">\[\begin{aligned}
+    \dot{x}_1 &amp;=x_2\\
+    \dot{x}_2 &amp;= x_3\\
+    \dot{x}_3 &amp;=-6x_3 -11x_2 - 6x_1 + 6u
+  \end{aligned}\]</span>
+<p>Agora basta converter para o formato matricial. Na matriz <span class="math inline">\(\mathbf{A}\)</span> o elemento da linha <span class="math inline">\(i\)</span> e coluna <span class="math inline">\(j\)</span> é o coeficiente da variável <span class="math inline">\(j\)</span> na equação <span class="math inline">\(i\)</span> (relativa a derivada da variável <span class="math inline">\(i\)</span>). Na matriz <span class="math inline">\(\mathbf{B}\)</span> o elemento da linha <span class="math inline">\(i\)</span> é simplesmente o coeficiente de <span class="math inline">\(u\)</span> na equação <span class="math inline">\(i\)</span>.</p>
+Para o exemplo, o resultado é:
+<span class="math display">\[\begin{aligned}
+    \left[\begin{array}{c}\dot{x}_1\\
+    \dot{x}_2\\
+    \dot{x}_3\\ \end{array}\right] &amp;=
+    \left[\begin{array}{rrr}1 &amp; 0 &amp; 0\\0 &amp; 1 &amp; 0 \\-6 &amp; -11 &amp; -6\end{array}\right]
+    \left[\begin{array}{c}{x}_1\\ {x}_2\\ {x}_3\\ \end{array}\right] +
+    \left[\begin{array}{c}0 \\ 0 \\ 6 \end{array}\right]u
+\end{aligned}\]</span>
+<p>Perceba que nossa escolha inicial da sequência de estados é arbitrária. Nada impede que façamos uma permutação. por exemplo:
+<span class="math display">\[
+  \begin{aligned}
+    x_3 &amp;=y\\
+    x_2 &amp;=\dot{y}\\
+    x_1 &amp;=\ddot{y}
+  \end{aligned}
+\]</span>
+Tente verificar que neste caso, a equação de estados se tornaria:
+<span class="math display">\[
+  \begin{aligned}
+    \left[\begin{array}{c}\dot{x}_1\\
+    \dot{x}_2\\
+    \dot{x}_3\\ \end{array}\right] &amp;=
+    \left[\begin{array}{rrr}-6 &amp; -11 &amp; -6\\ 1 &amp; 0 &amp; 0\\0 &amp; 1 &amp; 0\end{array}\right]
+    \left[\begin{array}{c}{x}_1\\ {x}_2\\ {x}_3\\ \end{array}\right] +
+    \left[\begin{array}{c}0 \\ 0 \\ 6 \end{array}\right]u
+  \end{aligned}
+\]</span></p>
+</div>
+<div id="diagramas-de-simulação" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Diagramas de simulação<a href="modelagem.html#diagramas-de-simulação" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Em algumas ocasiões, modelos dinâmicos surgem ou são projetados a partir de um diagrama de simulação.</p>
+<p>Esses são diagramas de blocos convencionais, tais como vistos em disciplinas anteriores, obedecendo às regras de simplificação normais.</p>
+<p>Uma característica marcante é que eles são construídos apenas com 3 elementos: o integrador, o ganho e o somador.</p>
+<p>Isso foi convecionado para, antigamente, facilitar a implementação com eletrônica analógica, i.e., amplificadores operacionais. Atualmente, utilizamos apenas para facilitar a escrita da equação de estados.</p>
+<p>Os diagramas são uma forma inteligível de ler as relações entre os estados do sistema e assim deduzir as equações de estados.</p>
+</div>
+<div id="forma-canônica-de-controlador-fcc" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Forma canônica de controlador (FCC)<a href="modelagem.html#forma-canônica-de-controlador-fcc" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A FCC é um tipo de representação útil principalmente para converter uma função de transferência em equação de estados.</p>
+<p>Considere o seguinte exemplo:</p>
+<p><span class="math display">\[
+\begin{aligned}
+G(s) &amp;= \frac{s+2}{s^2+7s+12}
+\end{aligned}
+\]</span></p>
+<p>Para construir um diagrama na forma canônica de controlador, faça o seguinte:</p>
+<ul>
+<li>Desenhe integradores em série, tantos quantos forem a ordem do sistema</li>
+<li>A entrada será o sinal mais a esquerda. A saída, o mais a direita.</li>
+<li>Realimente <strong>todos</strong> os integradores, cada um através de um ganho constante</li>
+<li>As realimentações devem ser ligadas a um <strong>único</strong> somador posicionado na entrada do integrador mais a esquerda. Se quiser organizar melhor, divida o somador em outros de duas entradas, imediatamente abaixo</li>
+<li>O valor de cada ganho de realimentação é o negativo de um coeficiente do denominador.</li>
+<li>Utilize os coeficientes de <strong>maior</strong> potência de <span class="math inline">\(s\)</span> para as ligações dos integradores mais perto da <strong>entrada</strong></li>
+<li>A saída do sistema é consturída a partir de um somador</li>
+<li>Ao somador de saída, ligue as saídas de cada integrador através de um ganho constante</li>
+<li>O valor de cada ganho é igual a um coeficiente do numerador</li>
+<li>Utilize os coeficientes de <strong>menor</strong> potência de <span class="math inline">\(s\)</span> para as ligações dos integradores mais perto da <strong>saída</strong></li>
+</ul>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-8"></span>
+<img src="figs/Fig7.7.svg" alt="Diagrama de simulação" width="100%" />
+<p class="caption">
+Figure 3.1: Diagrama de simulação
+</p>
+</div>
+<p>Para o diagrama feito, as equações de estado são:</p>
+<p><span class="math display">\[
+\begin{aligned}
+    \dot{x}_2&amp;=x_{1}\\\dot{x}_1&amp;=u - 7 x_{1} - 12 x_{2}
+\end{aligned}
+\]</span></p>
+<p>Logo a representação matricial é:</p>
+<p><span class="math display">\[
+\left[\begin{matrix}\dot{x}_1\\\dot{x}_2\end{matrix}\right]=\left[\begin{matrix}-7 &amp; -12\\1 &amp; 0\end{matrix}\right]\left[\begin{matrix}x_{1}\\x_{2}\end{matrix}\right]+\left[\begin{matrix}1\\0\end{matrix}\right]u
+\]</span></p>
+<p>Note que os estados foram ordenados da esquerda para a direita. <em>O que aconteceria se tivéssemos nomeado ao contrário?</em></p>
+</div>
+<div id="fcc-geral" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> FCC geral<a href="modelagem.html#fcc-geral" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para um sistema geral de ordem <span class="math inline">\(n\)</span>, com função de transferência
+<span class="math display">\[
+\begin{aligned}
+    G(s) &amp;= \frac{b_1s^{n-1}+b_2s^{n-2}+\ldots b_n}{s^n+a_1s^{n-1}+a_2s^{n-2}+\ldots + a_n}
+\end{aligned}
+\]</span></p>
+<p>Perceba que o coeficiente de maior grau do denominador foi feito igual a <span class="math inline">\(1\)</span>.</p>
+<p>As matrizes da forma canônica de controlador tem a seguinte estrutura</p>
+<p><span class="math display">\[
+\begin{aligned}
+    \mathbf{A} &amp;= \left[\begin{array}{cccccc}
+                  -a_1 &amp; -a_2 &amp; \ldots &amp; a_{n-1} &amp;-a_n\\
+                     1 &amp; 0 &amp; \ldots &amp; 0 &amp; 0 \\
+                     0 &amp; 1 &amp; \ldots &amp; 0 &amp; 0 \\
+                     \vdots &amp; \vdots &amp; \ldots &amp; \vdots&amp; \vdots \\
+                     0 &amp; 0 &amp; \ldots  &amp; 1 &amp; 0
+    \end{array}\right]\\
+    \mathbf{B} &amp;= \left[\begin{array}{cccccc}
+                  1 \\ 0 \\ 0 \\ \vdots \\ 0
+    \end{array}\right]\\
+    \mathbf{C} &amp;= \left[\begin{array}{cccccc}
+                  b_1 &amp; b_2 &amp; \ldots &amp; b_{n-1} &amp; b_n
+    \end{array}\right]\\
+    D &amp;=0
+\end{aligned}
+\]</span></p>
+<p><strong>Observações</strong></p>
+<ul>
+<li>Matriz <span class="math inline">\(\mathbf{A}\)</span>
+<ul>
+<li>A primeira linha é dada pelos coeficientes do denominador, com sinal trocado, ordem decrescente de potência</li>
+<li>Abaixo da segunda linha temos uma matriz identididade e uma coluna de zeros</li>
+</ul></li>
+<li>Matriz <span class="math inline">\(\mathbf{B}\)</span>
+<ul>
+<li>Primeiro elemento <span class="math inline">\(1\)</span> e os demais zero</li>
+</ul></li>
+<li>Matriz <span class="math inline">\(\mathbf{C}\)</span>
+<ul>
+<li>Coeficientes do numerador, sem troca de sinal, ordem decrescente de potência</li>
+</ul></li>
+<li>Termo <span class="math inline">\(D\)</span>
+<ul>
+<li>Nulo (apenas se o grau do numerador for estritamente menor que o do denominador)</li>
+</ul></li>
+</ul>
+<p><strong>Observacão</strong>: A função de transferência tem o grau do denominador estritamente maior que o do numerador. Caso não seja, é necessário fazer divisão longa antes de prosseguir. O termo quociente será a matriz <span class="math inline">\(D\)</span>.</p>
+<p><strong>Exercício</strong>: Ache as matrizes da forma de controlador do sistema:
+<span class="math display">\[
+\begin{aligned}
+    G(s) &amp;= \frac{5s^2+8}{s(s+5)(s^2+9)}
+\end{aligned}
+\]</span></p>
+</div>
+<div id="forma-de-jordan-ou-modal" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Forma de Jordan ou Modal<a href="modelagem.html#forma-de-jordan-ou-modal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Na forma modal, os estados aparecem majoritariamente desacoplados, isto é, uma equação de estados depende apenas da sua própria variável de estado e do sinal de entrada.</p>
+<p>Isso é possível sempre que o sistema tiver pólos reais e distintos.</p>
+<p>Quando o sistema tiver pólos repetidos, haverá um pequeno acoplamento entre equações, mas apenas entre os estados referentes ao mesmo pólo.</p>
+<p>Quando o sistema tiver pólos imaginários, as equações podem ser desacopladas, mas ao custo de ganhos imaginários.</p>
+<p>Para eliminar os ganhos imaginários, podemos introduzir um pequeno acoplamento entre os estados associados aos pólos conjugados.</p>
+<p><strong>Exemplo resolvido</strong>:</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-9"></span>
+<img src="figs/Fig7.8.svg" alt="Diagrama em forma de Jordan" width="100%" />
+<p class="caption">
+Figure 3.2: Diagrama em forma de Jordan
+</p>
+</div>
+Para o sistema da Fig 7.8.
+<span class="math display">\[\begin{aligned}
+    \dot{z}_1 &amp;= u - 4z_1\\
+    \dot{z}_2 &amp;= u - 3z_2\\
+    y &amp;= 2z_1-z_2
+\end{aligned}\]</span>
+Uma consequência do desacoplamento é que matriz <span class="math inline">\(\mathbf{F}\)</span> se torna <strong>diagonal</strong>.
+<span class="math display">\[\begin{aligned}
+    \dot{\mathbf{x}} &amp;= \left[\begin{array}{rr}-4 &amp; 0\\0 &amp; -3\end{array}\right]\mathbf{x}+\left[\begin{array}{r}1\\1\end{array}\right]u\\
+    y &amp;= \left[\begin{array}{rr}2 &amp; -1\end{array}\right]\mathbf{x}
+\end{aligned}\]</span>
+<p>A forma modal é útil para determinar rápida e intuitivamente uma propriedade chamada controlabilidade. O sistema é não-controlável quando o sinal de controle não consegue “chegar” até um determinado integrador por nenhum caminho.</p>
+<p>Algumas observações importantes:</p>
+<ol style="list-style-type: decimal">
+<li>Um sistema pode perder controlabilidade quando na sua função de transferência há algum cancelamento entre pólos e zeros.</li>
+<li>Para achar a forma modal a partir da função de transferência, use expansão em frações parciais</li>
+</ol>
+</div>
+<div id="pólos-reais-e-distintos" class="section level2 hasAnchor" number="3.7">
+<h2><span class="header-section-number">3.7</span> Pólos reais e distintos<a href="modelagem.html#pólos-reais-e-distintos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>Ache a expansão em frações parciais da função de transferência</li>
+<li>Faça um diagrama para cada uma das parcelas da expansão</li>
+<li>Nomeie os estados (saída dos integradores) e monte as equações normalmente</li>
+</ul>
+<strong>Mais um exemplo de modal</strong>
+<span class="math display">\[\begin{aligned}
+    G(s) &amp;=\frac{s+3}{(s+1)(s+5)(s-9)}
+\end{aligned}\]</span>
+<p>Precisamos primeiro expandir e achar os resíduos (frações parciais). É possível fazer isso usando a função “residue” do módulo <em>scipy.signal</em>. A funçao “apart” do módulo <em>sympy</em> também resolve o problema, embora nem sempre da forma esperada em problemas de engenharia.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="modelagem.html#cb1-1" tabindex="-1"></a><span class="im">import</span> scipy.signal <span class="im">as</span> sig</span>
+<span id="cb1-2"><a href="modelagem.html#cb1-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="modelagem.html#cb1-3" tabindex="-1"></a>num <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">3</span>]</span>
+<span id="cb1-4"><a href="modelagem.html#cb1-4" tabindex="-1"></a>den <span class="op">=</span> np.poly([<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">5</span>,<span class="dv">9</span>])</span>
+<span id="cb1-5"><a href="modelagem.html#cb1-5" tabindex="-1"></a>r,p,k <span class="op">=</span> sig.residue(num,den)</span>
+<span id="cb1-6"><a href="modelagem.html#cb1-6" tabindex="-1"></a>r <span class="op">=</span> r.<span class="bu">round</span>(decimals<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb1-7"><a href="modelagem.html#cb1-7" tabindex="-1"></a>p <span class="op">=</span> p.<span class="bu">round</span>(decimals<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb1-8"><a href="modelagem.html#cb1-8" tabindex="-1"></a><span class="bu">print</span>(r)</span></code></pre></div>
+<pre><code>## [-0.05   -0.0357  0.0857]</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="modelagem.html#cb3-1" tabindex="-1"></a><span class="bu">print</span>(p)</span></code></pre></div>
+<pre><code>## [-1. -5.  9.]</code></pre>
+<p>Logo:
+<span class="math display">\[
+    G(s) = \frac{-0.05}{s+1}-\frac{0.03}{s+5}+\frac{0.08}{s-9}
+\]</span></p>
+<p>O diagrama para a representação de cada modo está a seguir</p>
+<p><img src="figs/modal1.svg" width="100%" /></p>
+<p>As equações de estado vão ser (<strong>verifique você mesmo!</strong>):
+<span class="math display">\[
+    \dot{x}_1 = -x_1-0.05u
+\]</span></p>
+<p><span class="math display">\[
+    \dot{x}_2 = -5x_2-0.03u
+\]</span></p>
+<p><span class="math display">\[
+    \dot{x}_3 = 9x_3+0.08u
+\]</span></p>
+<p>A equação de saída é:
+<span class="math display">\[
+    y = x_1+x_2+x_3
+\]</span></p>
+<p>Por fim, a representação matricial:
+<span class="math display">\[
+    \dot{\mathbf{x}} = \left[\begin{array}{rrr}
+    -1 &amp; 0 &amp; 0\\
+    0 &amp; -5 &amp; 0\\
+    0 &amp; 0 &amp; 9
+    \end{array}
+    \right]\mathbf{x} +
+    \left[\begin{array}{r}
+    1 \\
+    1 \\
+    1
+    \end{array}\right]u
+\]</span></p>
+E a equação de saída.
+<span class="math display">\[\begin{aligned}
+    y = \left[\begin{array}{ccc}-0.05 &amp; -0.03 &amp; 0.08\end{array}\right]\mathbf{x}
+\end{aligned}\]</span>
+</div>
+<div id="forma-de-jordan-com-polos-reais-e-repetidos" class="section level2 hasAnchor" number="3.8">
+<h2><span class="header-section-number">3.8</span> Forma de Jordan com polos reais e repetidos<a href="modelagem.html#forma-de-jordan-com-polos-reais-e-repetidos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+Suponha que:
+<span class="math display">\[\begin{aligned}
+    G(s) &amp;= \frac{16s}{(s+3)^2(s+5)}
+\end{aligned}\]</span>
+<p>Vamos calcular rapidamente os resíduos e a expansão:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="modelagem.html#cb5-1" tabindex="-1"></a>num <span class="op">=</span> np.array([<span class="dv">16</span>,<span class="dv">0</span>])</span>
+<span id="cb5-2"><a href="modelagem.html#cb5-2" tabindex="-1"></a>den <span class="op">=</span> np.convolve([<span class="dv">1</span>,<span class="dv">3</span>],[<span class="dv">1</span>,<span class="dv">3</span>])</span>
+<span id="cb5-3"><a href="modelagem.html#cb5-3" tabindex="-1"></a>den <span class="op">=</span> np.convolve(den,[<span class="dv">1</span>,<span class="dv">5</span>])</span>
+<span id="cb5-4"><a href="modelagem.html#cb5-4" tabindex="-1"></a>r,p,k <span class="op">=</span> sig.residue(num,den)</span>
+<span id="cb5-5"><a href="modelagem.html#cb5-5" tabindex="-1"></a><span class="bu">print</span>(r)</span></code></pre></div>
+<pre><code>## [ 20. -24. -20.]</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="modelagem.html#cb7-1" tabindex="-1"></a><span class="bu">print</span>(p)</span></code></pre></div>
+<pre><code>## [-3. -3. -5.]</code></pre>
+<p>Então:
+<span class="math display">\[
+\begin{aligned}
+    G(s) &amp;= \frac{20}{(s+3)}-\frac{24}{(s+3)^2}-\frac{20}{s+5}
+\end{aligned}
+\]</span></p>
+<p>Observe no diagrama como devemos implementar o termo quadrático:</p>
+<p><img src="figs/modal3.svg" width="100%" /></p>
+<p>Observe que os estágios correspondentes ao polo repetido ficam em série, e não em paralelo, diferente dos outros.</p>
+<p><strong>Exercício: escreva a representação matricial</strong></p>
+</div>
+<div id="transformação-de-estado" class="section level2 hasAnchor" number="3.9">
+<h2><span class="header-section-number">3.9</span> Transformação de estado<a href="modelagem.html#transformação-de-estado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Uma única função de transferência pode ter diferentes representações de estado (matrizes)</p>
+<p>Quando mudamos de uma representação para outra, as matrizes mudam, e os estados <strong>não são mais os mesmos</strong>. Eles adquirem outro significado físico. No entanto, as características intrínsecas do sistema, tais como pólos, zeros, estabilidade e outras permanecem as mesmas.</p>
+<p>A explicação matemática para isso é a teoria de transformações lineares.</p>
+Supondo que a representação “velha” seja:
+<span class="math display">\[\begin{aligned}
+    \mathbf{\dot{x}} &amp;= \mathbf{Ax+B}u\\
+    y &amp;= \mathbf{Cx}+Ju
+\end{aligned}\]</span>
+A mudança para um novo vetor de estados, digamos <span class="math inline">\(\mathbf{z}\)</span>, é representada por uma transformação linear:
+<span class="math display">\[\begin{aligned}
+    \mathbf{x} &amp;= \mathbf{Tz}
+\end{aligned}\]</span>
+<p>onde <span class="math inline">\(\mathbf{T}\)</span> é uma matriz quadrada de ordem <span class="math inline">\(n\)</span>, inversível (ou seja, é possível “ir” e “voltar” com a mudança).</p>
+Esperamos que, usando o novo vetor de estados <span class="math inline">\(\mathbf{z}\)</span>, a representação seja algo como:
+<span class="math display">\[\begin{aligned}
+    \mathbf{\dot{z}} &amp;= \mathbf{A_nz+B_n}u\\
+    y &amp;= \mathbf{C_nz}+D_nu
+\end{aligned}\]</span>
+Pode-se mostrar que a representação “nova” se relaciona com a “velha”, usando a matriz de transformação <span class="math inline">\(\mathbf{T}\)</span> da seguinte forma:
+<span class="math display">\[\begin{aligned}
+    \mathbf{A}_n &amp;= \mathbf{T^{-1}AT}\\
+    \mathbf{B}_n &amp;= \mathbf{T^{-1}B}\\
+    \mathbf{C}_n &amp;= \mathbf{CT}\\
+    D_n &amp;= D
+\end{aligned}\]</span>
+<p>A transformação para forma de Jordan, em particular, é um procedimento que chamamos de diagonalização</p>
+</div>
+<div id="dica-útil-matriz-inversa-de-segunda-ordem" class="section level2 hasAnchor" number="3.10">
+<h2><span class="header-section-number">3.10</span> Dica útil: Matriz inversa de segunda ordem<a href="modelagem.html#dica-útil-matriz-inversa-de-segunda-ordem" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para fazer transformações em sistemas de ordem 2, precisamos da inversa da matriz de transformação.</p>
+<p>Um regra rápida para achar a inversa de 2a ordem é:</p>
+<ol style="list-style-type: decimal">
+<li>Troque a ordem dos elementos da diagonal principal</li>
+<li>Inverta o sinal dos elementos não diagonais</li>
+<li>Divida a matriz inteira pelo determinante da matriz original (supondo que ele não é zero)</li>
+</ol>
+<span class="math display">\[\begin{aligned}
+    \left[\begin{array}{cc} a&amp;b\\c&amp;d \end{array}\right]^{-1} &amp;= \frac{\left[\begin{array}{cc} d&amp;-b\\-c&amp;a \end{array}\right]}{ad-bc}
+\end{aligned}\]</span>
+<p><strong>Lembre-se que isso só vale para matriz de ordem 2!</strong></p>
+<strong>Exercício</strong>: para a função de transferência
+<span class="math display">\[\begin{aligned}
+    G(s) =\frac{3s^2-1}{(s+1)(s+7)(s+5)}
+\end{aligned}\]</span>
+<ol style="list-style-type: decimal">
+<li>Faça o diagrama de blocos da forma de controlador</li>
+<li>Obtenha as matrizes da forma de controlador</li>
+<li>Obtenha as matrizes da forma modal</li>
+<li>Ache as matrizes se aplicada a transformação</li>
+</ol>
+<span class="math display">\[\begin{aligned}
+    \mathbf{T} =\left[\begin{array}{cc}1&amp;-1\\1&amp;1 \end{array}\right]
+\end{aligned}\]</span>
+</div>
+<div id="pólos-complexos-conjugados" class="section level2 hasAnchor" number="3.11">
+<h2><span class="header-section-number">3.11</span> Pólos complexos conjugados<a href="modelagem.html#pólos-complexos-conjugados" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Quando os polos são complexos, somos tentados a usar ganhos complexos no diagrama de blocos, o que não é possível de realizar fisicamente.</p>
+<p>Quando há polos complexos e, consequentemente, resíduos complexos, podemos fazer um artifício baseado na própria expansão em frações para nos “livrarmos” de qualquer número complexo presente.</p>
+Suponha, por exemplo:
+<span class="math display">\[\begin{aligned}
+    G(s) &amp;= \frac{100}{s(s^2+2s+5)}
+\end{aligned}\]</span>
+A expansão em frações parciais dessa função é:
+<span class="math display">\[\begin{aligned}
+    G(s) &amp;= \frac{20}{s}+\frac{-10+j5}{s+1-j2}+\frac{-10-j5}{s+1+j2}
+\end{aligned}\]</span>
+<p>Os pólos complexos usam ganhos de realimentação e de saída complexos. Para evitar isso, podemos usar um artifício que acopla os modos complexos entre si, mas continuando isolados dos outros modos do sistema</p>
+Para um caso geral de conjugados
+<span class="math display">\[\begin{aligned}
+    \frac{a+jb}{s-\sigma-j\omega}+\frac{a-jb}{s-\sigma+j\omega}
+\end{aligned}\]</span>
+<p>O diagrama de blocos (dedução um pouco trabalhosa) equivalente é:</p>
+<p><img src="figs/JordanComplexos.svg" width="100%" /></p>
+As equações de estado são as seguintes:
+<span class="math display">\[\begin{aligned}
+    \dot{R} &amp;= \sigma R-\omega I + u\\
+    \dot{I} &amp;= \omega R-\sigma I + u\\
+    y &amp;= 2a\, R -2b\, I
+\end{aligned}\]</span>
+<p>Assim, a contribuição do par conjugado para a forma modal é a seguinte:</p>
+<ul>
+<li>Na matriz de estados, encaixe a seguinte matrix <span class="math inline">\(2\times 2\)</span> feita a partir das partes real e imaginária dos pólos complexos
+<span class="math display">\[\begin{aligned}
+  \left[\begin{array}{cc} \sigma &amp; -\omega\\ \omega &amp; \sigma\end{array}\right]
+\end{aligned}\]</span></li>
+<li>Na matriz de entrada, a contribuição é apenas um vetor coluna de 1’s</li>
+<li>Na matriz de saída, a contribuição é uma linha de dois elementos construído a partir das partes real e imaginária do resíduo complexo
+<span class="math display">\[\begin{aligned}
+  \left[\begin{array}{cc} 2a &amp; -2b\end{array}\right]
+\end{aligned}\]</span></li>
+</ul>
+Voltando ao exemplo…
+<span class="math display">\[\begin{aligned}
+    G(s) &amp;= \frac{20}{s}+\frac{-10+j5}{s+1-j2}+\frac{-10-j5}{s+1+j2}
+\end{aligned}\]</span>
+<p>Para a parcela complexa, vamos tomar como referência o pólo <span class="math inline">\(s=-1+j2\)</span>. Para este, <span class="math inline">\(\sigma = -1\)</span> e <span class="math inline">\(\omega=2\)</span></p>
+<p>O resíduo complexo correspondente é <span class="math inline">\(-10+j5\)</span>. Então, neste caso: <span class="math inline">\(a=-10\)</span> e <span class="math inline">\(b=5\)</span></p>
+Assim as equações de estado serão:
+<span class="math display">\[\begin{aligned}
+    \dot{x}_1 &amp;= u\\
+    \dot{x}_2 &amp;= -x_2-2x_3+u\\
+     \dot{x}_3 &amp;= 2x_2-x_3+u\\
+     y &amp;= 20x_1 -20x_2+10x_3
+\end{aligned}\]</span>
+<p><strong>Construa as matrizes a partir daqui. Observe que a matriz de estados não é mais diagonal (mas é quase)</strong></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introdução-às-técnicas-de-espaço-de-estados..html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="análise-de-sistemas-com-espaço-de-estados.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-Modelagem.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

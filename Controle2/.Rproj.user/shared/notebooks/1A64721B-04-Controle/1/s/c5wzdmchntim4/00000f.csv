@@ -1,0 +1,8 @@
+"0","Amf = A - B@K"
+"0","Bmf = B@N"
+"0","Cmf = C"
+"0","Dmf = np.array([[0]])"
+"0",""
+"0","# Sistema"
+"0","sis = ct.ss(Amf,Bmf,Cmf,Dmf)"
+"0",""

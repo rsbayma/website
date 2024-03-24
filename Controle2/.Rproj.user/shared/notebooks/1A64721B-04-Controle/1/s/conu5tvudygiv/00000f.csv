@@ -1,0 +1,5 @@
+"0","Amf = np.block([[A  ,  -B@Ka ] , [ L1@C ,  Al-Bl@Ka-L0@Cl ] ])"
+"0","Bmf = np.block([[np.zeros(B.shape)],[M]])"
+"0","Cmf = np.block([C, np.zeros([1,3])])"
+"0","Dmf = 0"
+"0",""

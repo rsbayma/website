@@ -1,0 +1,3 @@
+"0","Ob_str = latex(ImmutableMatrix(Ob))"
+"0","det_Ob_str = latex(np.linalg.det(Ob))"
+"0",""

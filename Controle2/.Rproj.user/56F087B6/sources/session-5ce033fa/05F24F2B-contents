@@ -1,0 +1,272 @@
+---
+title: "Análise de Sistemas Lineares"
+author: "3a Avaliação - 2023.4"
+date: " "
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+params:
+  matricula: '20233940099'
+  nome: 'Rafael'
+---
+
+```{r include=FALSE, results='asis'}
+library(reticulate)
+MM = params$matricula
+```
+
+```{python Dados, echo=FALSE}
+mat = r.MM
+dia = '04'
+mes = '12'
+```
+
+```{python include=FALSE}
+from sympy import symbols, latex
+from numpy.random import RandomState, randint
+from numpy import arange
+import numpy as np
+from sympy import *
+from IPython.display import display, Math
+import matplotlib.pyplot as plt
+
+_nn = int(mat[0:4]+mat[-2:]+dia+mes)
+_rng = RandomState(_nn)
+_M = _rng.randint(-9,10,size=(200,))
+
+global nm
+nm= 0
+def pick(pos=True,exc=[]):
+    global nm
+    nm +=1
+    p = _M[nm]
+    if pos==True:
+        p = abs(p)
+        while p == 0:
+            nm +=1
+            p = abs(_M[nm])
+    if len(exc)>0:
+        while p in exc:
+            nm +=1
+            p = _M[nm]
+    return p
+  
+respostas = True
+
+t = symbols('t', real=True)
+
+```
+
+```{r , echo=FALSE, results='asis'}
+cat(paste0('#### **Aluno(a): **', params$nome))
+```
+
+**1a-** Dado o espectro: 
+
+```{python Q1, echo=FALSE, fig.align='center'}
+f0 = 1 + abs(pick())
+f = np.arange(-3,4)*f0
+X = np.array([abs(pick()) for n in range(3)])
+X = np.block([np.flip(X), pick(), X])
+plt.figure(figsize=(15,8));
+plt.stem(f,X);
+plt.grid();
+plt.xticks(f);
+plt.yticks(X);
+plt.xlabel('Frequência (Hertz)');
+plt.show();
+```
+
+(a) Determine a frequência fundamental do sinal e o período. <br>
+(b) Escreva a série exponencial do sinal. <br>
+(c) Determine a potência do sinal.
+
+```{python R1, echo=FALSE}
+if respostas==True:
+  serie = sum([D*exp(I*2*pi*w*t) for (D,w) in zip(X,f)])
+  power = sum([abs(D)**2 for D in X])
+  serie_str = latex(serie)
+  power_str = latex(power)
+  R1a = r'(a) $$f_0 = ' + latex(f0) + ', \, T_0 = ' + latex(1/f0)  + '$$ <br>'
+  R1b = r'(b) $$x(t) = ' + serie_str + '$$ <br>'
+  R1c = r'(c) $$P = ' + power_str + '$$ <br>'
+  R1 = R1a + R1b + R1c
+```
+
+```{r outR1, echo=FALSE, results='asis'}
+if(py$respostas){
+  cat('*Resp:* <br>')
+  cat(py$R1)
+}
+``` 
+
+**2** - Dada a série de Fourier para o sinal $s(t)$
+
+```{python Q2, echo=FALSE}
+mD = np.array([10+abs(pick()) for n in range(3)])
+mF = np.array([pick()/10 for n in range(3)])
+w0 = 2+abs(pick())
+A0 =2+pick() 
+s = A0+sum([A*cos(n*w0*t+B) for (A,n,B) in zip(mD,[1,3,5],mF)])
+P = A0**2+ sum(mD**2)/2
+s_str = r' s(t) = ' + latex(s)   
+P_str = r' $$ P = ' + latex(P) + '$$'
+```
+
+$$
+  `r py$s_str`
+$$
+Determine a potência do sinal e esboce os espectros **exponenciais** de amplitude e fase
+
+```{r outR2, echo=FALSE, results='asis'}
+if(py$respostas){
+  cat('*Resp:* <br>')
+  cat(py$P_str)
+}
+``` 
+
+```{python R2, echo=FALSE, fig.align='center'}
+if respostas==True:
+  mag = np.block([np.flip(mD)/2, abs(A0), mD/2])
+  fase = np.block([np.flip(-mF), arg(A0), mF])
+  fase = np.float64(fase)
+  freq = np.arange(-3,4)
+  plt .figure(figsize=(15,8));
+  plt.subplot(211);
+  plt.stem(freq, mag);
+  plt.grid();
+  plt.xticks(freq);
+  plt.yticks(mag);
+  plt.title(r'Modulo');
+  plt.subplot(212);
+  plt.stem(freq, fase);
+  plt.grid();
+  plt.xlabel(r'Frequencia ($n$)');
+  plt.xticks(freq);
+  plt.yticks(fase);
+  plt.title('Fase');
+  plt.show();
+```
+
+**3 - ** Dada a série de Fourier:
+
+```{python Q3, echo=FALSE}
+a = 2+abs(pick())
+b = 3 + abs(pick())
+n = symbols('n')
+w0 = 2*pi*(1+abs(pick()))
+An = 3*a**2/(a**2*n**2+b)
+x = Sum(An*exp(I*(n*w0*t)), (n,-oo,oo))
+x_str = 'x(t) = '  + latex(x)
+N = 1 + (abs(pick())%3)
+fN_str = latex(N*w0)
+A_0_str = r'$$A_0 = ' + latex(An.subs(n,0)) + r'\approx' +  latex(An.subs(n,0).evalf(3)) + '$$'
+A_N_str = r'$$A_' + f'{N}' +  '= ' + latex(An.subs(n,N)) + r'\approx' +  latex(An.subs(n,N).evalf(3)) + '$$'
+```
+
+$$
+`r py$x_str`
+$$
+
+(a) Determine o termo DC do sinal <br>
+(b) Determine a amplitude e a fase da componente de frequência $`r py$fN_str`$ rad/s
+(c) O sinal possui simetria? Justifique
+
+```{r outR3, echo=FALSE, results='asis'}
+if(py$respostas){
+  cat('*Resp:* <br>')
+  cat(py$A_0_str)
+  cat(py$A_N_str)
+  cat('*Simetria par. Todos os coeficentes complexos possuem fase 0, logo a série possui apenas termos cosseno.*')
+}
+``` 
+
+**4** - Utilizando a transformada inversa de Fourier, determine o sinal $x(t)$ cujos espectros são mostrados na figura.
+
+```{python Q4, echo=FALSE, fig.align='center'}
+b = (-1)**(abs(pick()))*(1+abs(pick()))
+L = abs(2+abs(pick()))
+A = 10*(1+abs(pick()))+1+abs(pick())
+w = np.linspace(-2*L,2*L,500)
+ret = lambda x: np.float64((abs(x)<=0.5))
+fase = lambda w: w/b
+modu = lambda w: A*ret(w/L)
+
+plt.figure(figsize=(15,8));
+plt.subplot(211);
+plt.plot(w,modu(w));
+plt.title('Módulo');
+plt.yticks([0,A]);
+Xticks = np.array([-2*L,-L/2,0,L/2,2*L])
+plt.xticks(Xticks);
+plt.grid();
+plt.subplot(212);
+plt.plot(w,fase(w));
+plt.title('Fase (em radianos)');
+plt.xlabel('Frequência (rad/s)');
+Xticks = np.array([-L,0,L])
+plt.xticks(Xticks);
+plt.yticks(fase(Xticks));
+plt.grid();
+plt.show();
+
+w = symbols('omega',real=True)
+t = symbols('t', positive=True)
+x = Integral(A*exp(I*w/b)*exp(I*w*t),(w,Rational(-L,2),Rational(L,2))).doit()
+x = x.rewrite(cos).simplify()
+
+x_str = r'$$ x(t) = '  + latex(x) + '$$'
+```
+
+```{r outR4, echo=FALSE, results='asis'}
+if(py$respostas){
+  cat('*Resp:* <br>')
+  cat(py$x_str)
+}
+``` 
+
+**5 -** Uma rede industrial de comunicações utiliza uma central de *broadcasting* e um conjunto de torres, cada uma localizada em um ponto geográfico diferente. 
+
+![ ](torre.png)
+
+Quando a central emite um sinal $x(t)$, o sinal $y(t)$ recebido em uma torre pode ser modelado como a saída de um filtro linear. 
+$$
+    y(t) = \int_{-\infty}^\infty h(\sigma) x(t-\sigma)\, d\sigma
+$$
+onde $h(\sigma)$ é a resposta ao impulso que modela aquela torre.
+
+```{python Q5, echo=FALSE}
+d = [abs(pick())+1 for n in range(5)]
+F1 = 10*d[0]+d[1]
+L = 1+abs(pick())
+F2 = (2+abs(pick()))*F1
+F3 = F2+100*d[2]+10*d[3]+d[4]
+Fs = np.array([F1,F2,F3])
+f0 = np.random.choice(Fs)
+w0_str = latex(2*pi*(f0+1))
+A = 1+abs(pick())
+A_str = latex(A)
+torres = np.array([r'\alpha', r'\beta', r'\gamma'],dtype=str)
+resp = 'Apenas a torre $' + torres[f0==Fs][0] + '$'
+```
+
+A resposta em frequência de cada torre pode ser modelada como um filtro passa-faixas ideal, especificado por uma frequência central $F$ e frequências de corte inferior e superior respectivamente localizadas em uma faixa de $\pm `r py$L`$% relativa a $F$. Atualmente, existem três torres com as seguintes especificações:
+
+- Torre $\alpha$: frequência central $F = `r py$F1`$ Hertz
+- Torre $\beta$: frequência central $F = `r py$F2`$ Hertz
+- Torre $\gamma$: frequência central $F = `r py$F3`$ Hertz
+
+Suponha que a central trasmita um sinal de áudio descrito por:
+$$
+    x(t) = 1000\, sinc(`r py$A_str` t)\, \cos(`r py$w0_str` t)
+$$
+
+Verifique quais torres receberão o sinal. Justifique suas respostas.
+
+```{r outR5, echo=FALSE, results='asis'}
+if(py$respostas){
+  cat('*Resp:* <br>')
+  cat(py$resp)
+}
+``` 

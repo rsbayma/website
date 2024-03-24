@@ -1,0 +1,125 @@
+\documentclass[12pt, a4paper]{article}
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\evensidemargin}{0.5cm}
+\setlength{\topmargin}{-1.6cm}
+\setlength{\leftmargin}{0.3cm}
+\setlength{\rightmargin}{0.3cm}
+\setlength{\textheight}{24.00cm} 
+\setlength{\textwidth}{15.00cm}
+\parindent 20pt
+\parskip 5pt
+\pagestyle{plain}
+
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{colortbl} 
+\usepackage{xcolor} 
+\usepackage{enumerate}
+
+\title{}
+\date{\today}
+
+\allowdisplaybreaks
+
+\newcommand{\namelistlabel}[1]{\mbox{#1}\hfil}
+\newenvironment{namelist}[1]{%1
+\begin{list}{}
+    {
+        \let\makelabel\namelistlabel
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{1.1\labelwidth}
+    }
+  }{%1
+\end{list}}
+
+\begin{document}
+\maketitle
+
+\section{O que é controle digital?}
+
+Controle automático digital é um ramo da Engenharia de Controle Automático que faz análise, projeto e implantação de sistemas de controle em malha fechada (realimentados) usando microprocessadores digitais.
+
+O controle analógico é implantado através de um circuito composto de amplificadores operacionais (circuitos integrados), resistores e capacitores. Os ganhos do controlador são determinados pelos valores dos resistores e capacitores. Tudo é soldado em placa de circuito impresso (PCI) para poder interagir com os sensores e atuadores da planta. 
+
+Um controlador digital é apenas um programa de gravado na memória de um computador e executado por um microprocessador. 
+\begin{itemize}
+	\item As informações provenientes dos sensores da planta são obtidas através de um circuito conversor analógico digital (AD)
+	\item O algoritmo de controle é uma equação de diferenças implementada dentro de um loop de repetição.
+	\item Calculada a ação de controle (número dentro do programa), ela é transformada em sinal elétrico usando um circuito chamado conversor digital-analógico (DA)
+\end{itemize}
+	
+A forma provavelmente mais barata de realizar um controlador digital é através de uma PCI contendo um microcontrolador, que já possui conversor AD, normalmente. A conversão DA usualmente é feita usando modulação por largura de pulso (PWM).
+
+Entretanto, dependendo do recurso disponível, o controlador pode ser realizado um computador comum (PC, por exemplo), desde que ele esteja equipado com placas de conversão AD/DA. 
+
+\section{Vantagens do controle digital}
+
+\subsection{Mudança de ganhos}
+
+Às vezes é necessário modificar o controlador, porque a planta pode sofrer modificações (previsíveis ou não) que alteram a função de transferência. Se a função de transferência muda, os ganhos do controlador precisam ser readequados. 
+
+Num circuito analógico isso é problemático porque alterar os ganhos requer mudar os resistores e capacitores, o que implica em dessoldar componentes e soldar novos. Em um controlador digital basta alterar o valor numérico das variáveis que armazenam os ganhos do controlador.
+
+\subsection{Monitoramento do controle}
+
+Colocar um computador em uma malha pode ser útil pois ele pode ser programado para fazer outras tarefas além do controle. Um exemplo é o armazenamento dos dados em longo prazo, que podem ser usados para diagnóstico de problemas e manutenção preditiva do sistema como um todo. 
+
+\subsection{Controle avançado}
+
+Em um controlador digital podemos testar estratégias de controle que exigem cálculos mais complexos. Exemplos: controle adaptativo, não-linear, neural, entre outros. Tais cálculos não são viáveis de se fazer usando circuitos analógicos.
+
+\section{Desvantagens} 
+
+\subsection{Custos}
+Em geral o custo de implantação de um sistema digital é maior que um circuito analógico. Os custos tem caído bastante, principalmente usando placas onde o microcontrolador já vem montado. 
+
+Se levarmos em consideração apenas os componentes, um circuito analógico provavelmente ainda sai mais barato; porém, se incluirmos a mão de obra, provavelmente não compensa. 
+
+O custo se torna muito mais alto ao pensarmos em colocar um computador completo (estilo desktop ou industrial). Porém, deve-se levar em conta as outras funções que o computador pode desempenhar, que vão além de apenas o controle. 
+
+Vale ressaltar, porém, que em longo prazo e considerando custos de manutenção e riscos de parada do sistema, o controle digital acaba se tornando atrativo haja vista que tende a contornar esses problemas em relação à realização analógica. 1
+
+\subsection{Energia}
+
+Os computadores digitais normalmente usam mais energia do que um circuito analógico especificamente projetado para o controle de uma planta. Além do consumo do próprio computador, também há necessidade de circuitos de comunicação em rede e refrigeração.
+
+Deve-se lembrar que quanto mais rápido o processador, mais chaveamentos ele faz e, portanto, mais ele aquece. Assim, o projeto fica mais caro não apenas pelo custo do processador, mas pela necessidade de pensar em algum tipo de resfriamento do sistema.  
+
+\subsection{Atraso}
+
+O computador digital trabalha em tempo discreto, realizando as tarefas apenas em instantes específicos de tempo, de acordo com o clock do processador. Isso o efetivamente faz com que o controle digital esteja atrasado no tempo em relação a um circuito analógico que faz a mesma tarefa. 
+
+O problema pode ser contornado trabalhando com clocks mais rápidos, porém isso tende a ficar mais custoso em termos financeiros e energéticos.
+
+As dificuldades podem ser reduzidas utilizando uma teoria mais específica para o projeto de controladores digitais. 
+
+\section{Tempo discreto}
+
+A principal dificuldade do controle digital é trabalhar com o chamado tempo discreto. Isso é necessário porque o computador digital só executa instruções durante o ciclo de máquina. Entre um ciclo e outro, efetivamente o controlador não pode realizar ação nenhuma sobre o sistema.
+
+Até aqui, os sinais trabalhados são tratados como funções, por exemplo $x(t)$ de um domínio contínuo, isto é, $t$ pode assumir qualquer valor do conjunto dos números reais. Em outras palavras dentro de um intervalo de tempo qualquer, sempre pode-se recuperar alguma informação do sinal. Mais ainda, em tempo contínuo nunca é possível especificar ``contar'' os instantes de tempo, haja vista que é infinito o número de instantes em um dado intervalo.
+
+Em tempo discreto, apenas a informação em determinados instantes é relevante. Na prática, um intervalo de tempo é dividido em intervalos menores e iguais entre si, de modo que podemos contar e ordenar tais intervalos.
+
+O menor intervalo de tempo em um período de tempo discreto é chamado de período de amostragem, normalmente denotado $T$.  
+
+Os instantes de tempo discreto são unicamente identificados pela sequência $kT$, onde $k$ é um número inteiro, isto é, $0$, $T$, $2T$, etc. Também é possível considerar tempos negativos.
+
+Observe que, como $T$ é constante, o que governa a evolução do tempo discreto é o número inteiro $k$.
+
+Um sinal de tempo discreto, denotado $x[k]$ pode ser entendido como um sinal contínuo cuja informação foi capturada apenas nos instantes de amostragem, isto é, $x[k]=x(kT)$.
+
+As informações entre um período de amostragem e outro passam a ser irrelevantes. Quando necessário definir algum valor para elas, adota-se algum tipo de convenção, por exemplo que os valores entre amostras é simplesmente zero.
+
+
+\end{document}
+

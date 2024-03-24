@@ -1,0 +1,224 @@
+\documentclass[12pt, a4paper]{article}
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\evensidemargin}{0.5cm}
+\setlength{\topmargin}{-1.6cm}
+\setlength{\leftmargin}{0.3cm}
+\setlength{\rightmargin}{0.3cm}
+\setlength{\textheight}{24.00cm} 
+\setlength{\textwidth}{15.00cm}
+\parindent 20pt
+\parskip 5pt
+\pagestyle{plain}
+
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{colortbl} 
+\usepackage{xcolor} 
+\usepackage{enumerate}
+
+\title{Guia de análise em tempo discreto}
+\date{\today}
+
+\allowdisplaybreaks
+
+\newcommand{\namelistlabel}[1]{\mbox{#1}\hfil}
+\newenvironment{namelist}[1]{%1
+\begin{list}{}
+    {
+        \let\makelabel\namelistlabel
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{1.1\labelwidth}
+    }
+  }{%1
+\end{list}}
+
+\begin{document}
+\maketitle
+
+\section{Transformada Z}
+
+Transformadas fundamentais:
+\begin{align}
+	x[k] &=\delta[k] \leftrightarrow X(z) = 1\\
+	x[k] &= a^ku[k] \leftrightarrow X(z) = \frac{z}{z-a}
+\end{align}
+
+Obs: quando $a$ for complexo, use módulo-fase e procure pelos pares conjugados.
+
+Propriedades fundamentais da transformada Z
+
+\newcommand{\Z}[1]{\mathcal{Z}\left\{#1\right\}}
+Linearidade:
+\begin{align}
+	\Z{a_1x_1[k]+a_2x_2[k]} &= a_1X_1(z) + a_2X_2(z)
+\end{align}
+
+Avanço temporal e condição inicial:
+\begin{align}
+	\Z{x[k+1]} &= zX(z)-zx[0] 
+\end{align}
+
+Convolução. Se:
+\begin{align}
+ 	x[k]*h[k] &= \sum_{n=-\infty}^{+\infty} h[n]x[k-n]
+\end{align}
+então:
+\begin{align}
+	\Z{x[k]*h[k]} &= X(z)H(z)
+\end{align}
+
+\section{Escolha do período de amostragem}
+
+Sistema com polos reais: use período de amostragem 10x menor que a \textbf{menor constante de tempo}
+
+Sistema com polos complexos: use frequência de amostragem 10x maior que a \textbf{maior frequência natural}.
+
+\textbf{Outra opção: } use período de amostragem menor que 10x o tempo de acomodação mais rápido.
+
+\section{Fundamentos de análise discreta}
+
+Relação de mapeamento:
+\begin{align}
+	z = e^{sT}
+\end{align}
+
+Eixo imaginário: $s=j\omega$ $\rightarrow$ Circunferência de raio 1: $|z|=1$
+
+Semi-plano esquerdo: $\Re\{s\}<0$ $\rightarrow$ Interior do círculo unitário: $|z|<1$
+
+Infinito esquerdo: $\Re\{s\}=-\infty$ $\rightarrow$ Origem: $z=0$
+
+Pólos:
+
+\begin{itemize}
+\item Real puro positivo, $|z|<1$. Exponencial pura, estável (decrescente)
+
+\item Real puro positivo, $|z|>1$. Exponencial pura, não-estável (crescente)
+
+\item Real puro negativo, $|z|<1$. Exponencial com sinal alternante, estável (decrescente)
+
+\item Real puro positivo, $|z|>1$. Exponencial com sinal alternante, não-estável (crescente)
+
+\item $z=1$. Degrau
+
+\item $z=-1$. Impulsos alternantes
+
+\item Qualquer imaginário $|z|=1$. Senóide pura. Frequência = fase do polo.
+
+\item Complexo $|z|<1$. Senóide amortecida. 
+\end{itemize}
+
+\section{Teorma do valor final}
+
+Se o sinal no domínio do tempo converge para um valor constante (degrau), então o valor final é dado por:
+\begin{align}
+	y[\infty] = \lim\limits_{z\rightarrow 1} \left(\frac{z-1}{z}\right) Y(z)
+\end{align}
+
+Se o sinal tiver uma rampa, ao invés de um degrau, na sua transformada, aumente a potência do fator $\frac{z-1}{z}$ até a rampa sumir. 
+
+\section{Equivalentes discretos}
+
+\subsection{Tustin, bilinear ou trapezoidal}
+
+\begin{align}
+	s = \frac{2}{T}\,\frac{z-1}{z+1}
+\end{align}
+
+Em alguns casos também é bom saber a relação inversa:
+\begin{align}
+	z &= \frac{T}{2} \,\frac{s+1}{s-1}
+\end{align}
+
+\subsection{Mapeamento}
+
+Proponha uma função de transferência $\hat{G}(z)$ no domínio Z que tenha o mesmo número de polos e zeros explícitos da função contínua $G(s)$. Deixe o ganho na função em Z implícito, isto é, denotado por uma variável $K$, por exemplo.
+
+Para cada polo e zero explícito na função contínua, obtenha um polo ou zero explícito na função discreta usando a relação:
+\begin{align}
+	z = e^{sT}
+\end{align}
+
+Se achar necessário, introduza zeros em $z=-1$ na função discreta. Lembre-se que só se pode introduzir zeros até o limite máximo em que o número de pólos se iguala ao número de zeros da nova função. 
+
+Equalize os ganhos DC das duas funções e resolva a equação para obter o ganho $K$ da função discreta:
+\begin{align}
+	G(0) &= \hat{G}(1)
+\end{align}
+
+\subsection{Equivalente por holder}
+
+\begin{align}
+	\hat{G}(z) &= \frac{z-1}{z} \mathcal{Z}\left\{\frac{G(s)}{s}\right\}
+\end{align}
+
+Para achar a transformada $\mathcal{Z}$ de uma função de $s$:
+\begin{enumerate}
+	\item Expanda $G(s)/s$ em frações parciais
+	\item Ache a transformada de Laplace inversa
+	\item Substitua $t=kT$
+	\item Calcule a transformada $\mathcal{Z}$ da função de tempo discreto resultante. 
+\end{enumerate}
+
+\section{Projeto por emulação}
+
+Dada a função de transferência contínua da planta, projete um controlador também contínuo. Escolha um período de amostragem apropriado e discretize usando um método à sua escolha.
+
+\section{Diagramas de blocos equivalentes}
+
+Dados dois blocos $G(z)$ e $C(z)$ em série, paralelo ou loop, as regras de simplificação em bloco equivalente $M(z)$ seguem as mesmas do domínio contínuo
+
+Paralelo = mesma entrada, saídas ligadas no somador
+\begin{align}
+	M(z) = G(z) + C(z)
+\end{align}
+
+Série = entrada de um é a saída do outro
+\begin{align}
+	M(z) = G(z)C(z)
+\end{align}
+
+Malha, loop: saída de um é realimentada para a própria entrada através do outro e um somador
+\begin{align}
+	M(z) = \frac{G(z)}{1+C(z)G(z)}
+\end{align}
+
+\section{LGR discreto}
+
+Segue as mesmas regras de construção do LGR contínuo. O projeto é feito apenas observando o círculo unitário como referência de estabilidade.
+
+Lembre-se: equação fundamental (supõe controle proporcional)
+\begin{align}
+	1 + K\, G(z) = 0
+\end{align}
+
+Condição de fase:
+\begin{align}
+	\angle G(z) = \pm 180^o
+\end{align}
+
+Condição de módulo
+\begin{align}
+	|K G(z)| = 1
+\end{align}
+
+Pontos de destaque do LGR (revisão)
+\begin{itemize}
+	\item Pontos de partida: pólos de malha aberta
+	\item Pontos de chegada: zeros de malha aberta ou assíntotas
+	\item Número de assíntotas: número de pólos menos o número de zeros
+	\item Estabilidade crítica: cruzamento com o círculo unitário
+	\item Pontos de ramificação (raízes múltiplas)
+\end{itemize}
+
+\end{document}
+

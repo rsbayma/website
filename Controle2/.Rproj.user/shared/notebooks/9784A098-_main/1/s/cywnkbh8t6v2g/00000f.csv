@@ -1,0 +1,15 @@
+"2","Error in py_call_impl(callable, call_args$unnamed, call_args$named) : 
+  TypeError: cannot determine truth value of Relational
+[90mRun ]8;;rstudio:run:reticulate::py_last_error()`reticulate::py_last_error()`]8;; for details.[39m
+"
+"0","import control as ct"
+"0","import numpy as np"
+"0",""
+"0","w0 = 1"
+"0","A = np.array([[0, 1],[-w0**2, 0]])"
+"0","B = np.array([[0],[1]])"
+"0","polos = [-2*w0, -2*w0]"
+"0","K = ct.acker(A,B, polos)"
+"0","print(K)"
+"1","[[3. 4.]]
+"

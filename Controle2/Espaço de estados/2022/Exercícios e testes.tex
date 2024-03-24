@@ -1,0 +1,98 @@
+\documentclass[12pt, a4paper]{article}
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\evensidemargin}{0.5cm}
+\setlength{\topmargin}{-1.6cm}
+\setlength{\leftmargin}{0.3cm}
+\setlength{\rightmargin}{0.3cm}
+\setlength{\textheight}{24.00cm} 
+\setlength{\textwidth}{15.00cm}
+\parindent 20pt
+\parskip 5pt
+\pagestyle{plain}
+
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{colortbl} 
+\usepackage{xcolor} 
+\usepackage{enumerate}
+
+\title{}
+\date{\today}
+
+\allowdisplaybreaks
+
+\newcommand{\namelistlabel}[1]{\mbox{#1}\hfil}
+\newenvironment{namelist}[1]{%1
+\begin{list}{}
+    {
+        \let\makelabel\namelistlabel
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{1.1\labelwidth}
+    }
+  }{%1
+\end{list}}
+
+\begin{document}
+\maketitle
+
+Para os problemas a seguir, considere as seguintes funções de transferência 
+\begin{align}
+	H_1(s) &= \frac{K}{Ts+1}\\
+	H_2(s) &= \frac{K}{as+b}\\
+	H_3(s) &= \frac{K}{as-b}\\	
+	H_4(s) &= \frac{as+b}{cs+d}\\
+	H_5(s) &= \frac{K}{(s+a)(s+b)}\\
+	H_6(s) &= \frac{K(s+c)}{(s+a)(s+b)}\\
+	H_7(s) &= \frac{K(s+d)}{(s+a)(s+b)(s+c)}
+\end{align}
+
+Os parâmetros em cada uma podem ser números reais arbitrários.
+
+1 - Determine a constante de tempo dominante de cada uma dos sistemas a seguir
+\begin{align}
+	H_1(s) &= \frac{1}{2s+1}\\
+	H_2(s) &= \frac{10}{s+2}\\
+	H_3(s) &= \frac{7}{5s+3}\\
+	H_4(s) &= \frac{s+1}{s+2}\\
+	H_5(s) &= \frac{1}{(s+3)(3s+1)}\\
+	H_6(s) &= \frac{5s+6}{s^2+4s+3}\\
+	H_7(s) &= \frac{100}{(10s+5)(6s+7)(20s+53)}
+\end{align}
+
+2 - Especifique um período de amostragem apropriado para os sistemas em malha aberta descrito pelas funções.
+
+3 - Especifique um período de amostragem apropriado para os sistemas formados pela realimentação unitárias das funções.
+
+4 - Discretize as equações diferenciais a seguir para um período de amostragem arbitrário $T$, e usando diferenças em avanço e em atraso. 
+\begin{align}
+	R y(t) + L \dot{y}(t) &= x(t)\\
+	m \ddot{y}(t) + k y(t) &= x(t)\\
+	\ddot{y}(t) + a y(t) &= bx(t) + c\dot{x}(t)
+\end{align}
+
+5 - Discretize as funções de transferência a seguir usando o método trapezoidal.
+\begin{align}
+	G_1(s) &= \frac{2}{4s+1} & T&=0.1\\
+	G_2(s) &= \frac{8}{9s+3} & T&=1\\
+	G_3(s) &= \frac{K(s+a)}{(s+b)} & T&\\
+	G_4(s) &= \frac{10}{(s+1)(s+2)} & T&=0.01\\	
+	G_5(s) &= \frac{4}{s^2+2s+4} & T&=
+\end{align}
+
+6 - Faça uma análise crítica dos resultados obtidos no problema 5 usando simulações no computador.
+
+7 - Repita o problema 5 para o método de mapeamento de pólos e zeros. 
+
+8 - Repita o problema 5 usando o método de equivalente ZOH. 
+
+\end{document}
+

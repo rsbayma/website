@@ -1,0 +1,12 @@
+"0","import matplotlib.pyplot as plt"
+"0","plt.plot(t,y)"
+"1","[<matplotlib.lines.Line2D object at 0x000001D50A71ADE0>]
+"
+"0","plt.grid()"
+"0","plt.xlabel('Tempo (seg)')"
+"0","plt.ylabel('Saída')"
+"1","Text(0.5, 22.141805555555546, 'Tempo (seg)')
+"
+"2","Warning: unable to translate 'plt.ylabel('Sa<ed>da')' to a wide string"
+"2","Error in gsub(""^\\s*|\\s*$"", """", contents) : input string 1 is invalid
+"

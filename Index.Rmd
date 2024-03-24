@@ -1,0 +1,10 @@
+---
+title: "Material de aulas - Sistemas de Controle"
+output: html_document
+---
+
+<br>
+<br>
+<br>
+
+[Controle II - 2024.2](./Controle2/_book/index.html) (em construção)

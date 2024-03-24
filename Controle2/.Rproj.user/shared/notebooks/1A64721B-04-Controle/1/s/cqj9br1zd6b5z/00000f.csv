@@ -1,0 +1,3 @@
+"0","Co_str = latex(ImmutableMatrix(Co))"
+"0","det_Co_str = latex(np.linalg.det(Co))"
+"0",""

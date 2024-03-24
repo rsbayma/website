@@ -1,0 +1,5 @@
+"0","Ac_str = sp.latex(sp.ImmutableMatrix(Ac))"
+"0","Bc_str = sp.latex(sp.ImmutableMatrix(B1))"
+"0","Cc_str = sp.latex(sp.ImmutableMatrix(Cc))"
+"0","Dc_str = sp.latex(sp.ImmutableMatrix(D1))"
+"0",""

@@ -1,0 +1,4 @@
+"0","numQ = latex(Poly(Qs.num[0][0].round(4),s).as_expr())"
+"0","denQ = latex(Poly(Qs.den[0][0].round(4),s).as_expr())"
+"0","Qs_str = r'\frac{' + numQ + '}{' + denQ + '}'"
+"0",""

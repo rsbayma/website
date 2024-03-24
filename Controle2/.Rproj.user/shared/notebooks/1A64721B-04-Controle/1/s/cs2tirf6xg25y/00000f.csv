@@ -1,0 +1,20 @@
+"0","G = ct.tf(10, np.poly([-1, -2]))"
+"0","MF = ct.series(C2,ct.feedback(G,C1,1))"
+"0","tabela = ct.damp(MF)"
+"1","    Eigenvalue (pole)       Damping     Frequency
+     -18.9    +17.83j        0.7275         25.98
+     -18.9    -17.83j        0.7275         25.98
+       -14    +14.28j           0.7            20
+       -14    -14.28j           0.7            20
+                  -10             1            10
+      -1.4    +1.428j           0.7             2
+      -1.4    -1.428j           0.7             2
+                    0             1             0
+"
+"0","MF.zeros()"
+"2","C:\Users\rafae\AppData\Local\Programs\Python\PYTHON~1\Lib\site-packages\control\lti.py:118: RuntimeWarning: invalid value encountered in divide
+  zeta = -real(splane_poles)/wn
+"
+"1","array([-18.9+17.82666542j, -18.9-17.82666542j, -14. +14.28285686j,
+       -14. -14.28285686j,   0.  +0.j        ])
+"

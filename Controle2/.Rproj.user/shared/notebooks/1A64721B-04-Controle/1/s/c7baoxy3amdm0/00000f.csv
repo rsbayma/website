@@ -1,0 +1,3 @@
+"0","Aa_str = sp.latex(sp.ImmutableMatrix(Aa))"
+"0","Ba_str = sp.latex(sp.ImmutableMatrix(Ba))"
+"0",""

@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 5 Realimentação de estados | Sistemas de Controle II (EL180)</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 5 Realimentação de estados | Sistemas de Controle II (EL180)" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 5 Realimentação de estados | Sistemas de Controle II (EL180)" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Rafael Suzuki Bayma" />
+
+
+<meta name="date" content="2024-02-27" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="análise-de-sistemas-com-espaço-de-estados.html"/>
+<link rel="next" href="controle-digital.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> url: your book url like https://bookdown.org/yihui/bookdown</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#objetivos"><i class="fa fa-check"></i><b>1.1</b> Objetivos</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#avaliação"><i class="fa fa-check"></i><b>1.2</b> <strong>Avaliação:</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html"><i class="fa fa-check"></i><b>2</b> Introdução às técnicas de espaço de estados.</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#o-que-é-espaço-de-estados"><i class="fa fa-check"></i><b>2.1</b> O que é espaço de estados?</a></li>
+<li class="chapter" data-level="2.2" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#o-que-é-estado"><i class="fa fa-check"></i><b>2.2</b> O que é estado?</a></li>
+<li class="chapter" data-level="2.3" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#sistemas-lit-siso"><i class="fa fa-check"></i><b>2.3</b> Sistemas LIT SISO</a></li>
+<li class="chapter" data-level="2.4" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#representação-matricial"><i class="fa fa-check"></i><b>2.4</b> Representação matricial</a></li>
+<li class="chapter" data-level="2.5" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#sistemas-lit-mimo"><i class="fa fa-check"></i><b>2.5</b> Sistemas LIT MIMO</a></li>
+<li class="chapter" data-level="2.6" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#sistemas-não-lineares"><i class="fa fa-check"></i><b>2.6</b> Sistemas não-lineares</a></li>
+<li class="chapter" data-level="2.7" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#equilíbrio"><i class="fa fa-check"></i><b>2.7</b> Equilíbrio</a></li>
+<li class="chapter" data-level="2.8" data-path="introdução-às-técnicas-de-espaço-de-estados..html"><a href="introdução-às-técnicas-de-espaço-de-estados..html#linearização"><i class="fa fa-check"></i><b>2.8</b> Linearização</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="modelagem.html"><a href="modelagem.html"><i class="fa fa-check"></i><b>3</b> Modelagem</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="modelagem.html"><a href="modelagem.html#sobre-a-não-unicidade-da-representação-de-estados"><i class="fa fa-check"></i><b>3.1</b> Sobre a não unicidade da representação de estados</a></li>
+<li class="chapter" data-level="3.2" data-path="modelagem.html"><a href="modelagem.html#equação-diferencial-simples"><i class="fa fa-check"></i><b>3.2</b> Equação diferencial simples</a></li>
+<li class="chapter" data-level="3.3" data-path="modelagem.html"><a href="modelagem.html#diagramas-de-simulação"><i class="fa fa-check"></i><b>3.3</b> Diagramas de simulação</a></li>
+<li class="chapter" data-level="3.4" data-path="modelagem.html"><a href="modelagem.html#forma-canônica-de-controlador-fcc"><i class="fa fa-check"></i><b>3.4</b> Forma canônica de controlador (FCC)</a></li>
+<li class="chapter" data-level="3.5" data-path="modelagem.html"><a href="modelagem.html#fcc-geral"><i class="fa fa-check"></i><b>3.5</b> FCC geral</a></li>
+<li class="chapter" data-level="3.6" data-path="modelagem.html"><a href="modelagem.html#forma-de-jordan-ou-modal"><i class="fa fa-check"></i><b>3.6</b> Forma de Jordan ou Modal</a></li>
+<li class="chapter" data-level="3.7" data-path="modelagem.html"><a href="modelagem.html#pólos-reais-e-distintos"><i class="fa fa-check"></i><b>3.7</b> Pólos reais e distintos</a></li>
+<li class="chapter" data-level="3.8" data-path="modelagem.html"><a href="modelagem.html#forma-de-jordan-com-polos-reais-e-repetidos"><i class="fa fa-check"></i><b>3.8</b> Forma de Jordan com polos reais e repetidos</a></li>
+<li class="chapter" data-level="3.9" data-path="modelagem.html"><a href="modelagem.html#transformação-de-estado"><i class="fa fa-check"></i><b>3.9</b> Transformação de estado</a></li>
+<li class="chapter" data-level="3.10" data-path="modelagem.html"><a href="modelagem.html#dica-útil-matriz-inversa-de-segunda-ordem"><i class="fa fa-check"></i><b>3.10</b> Dica útil: Matriz inversa de segunda ordem</a></li>
+<li class="chapter" data-level="3.11" data-path="modelagem.html"><a href="modelagem.html#pólos-complexos-conjugados"><i class="fa fa-check"></i><b>3.11</b> Pólos complexos conjugados</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html"><i class="fa fa-check"></i><b>4</b> Análise de sistemas com espaço de estados</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#sinal-de-saída-e-função-de-transferência"><i class="fa fa-check"></i><b>4.1</b> Sinal de saída e função de transferência</a></li>
+<li class="chapter" data-level="4.2" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#pólos-de-um-sistema-no-espaço-de-estados-autovalores"><i class="fa fa-check"></i><b>4.2</b> Pólos de um sistema no espaço de estados (Autovalores)</a></li>
+<li class="chapter" data-level="4.3" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#zeros-do-sistema"><i class="fa fa-check"></i><b>4.3</b> Zeros do sistema</a></li>
+<li class="chapter" data-level="4.4" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#estabilidade-no-espaço-de-estados"><i class="fa fa-check"></i><b>4.4</b> Estabilidade no espaço de estados</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html"><i class="fa fa-check"></i><b>5</b> Realimentação de estados</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#análise-da-realimentação-de-estados"><i class="fa fa-check"></i><b>5.1</b> Análise da realimentação de estados</a></li>
+<li class="chapter" data-level="5.2" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#forma-canônica-de-controlador"><i class="fa fa-check"></i><b>5.2</b> Forma canônica de controlador</a></li>
+<li class="chapter" data-level="5.3" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#método-de-ackermann"><i class="fa fa-check"></i><b>5.3</b> Método de Ackermann</a></li>
+<li class="chapter" data-level="5.4" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#introdução-da-referência"><i class="fa fa-check"></i><b>5.4</b> Introdução da referência</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#simulação-em-malha-fechada"><i class="fa fa-check"></i><b>5.4.1</b> Simulação em malha fechada</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#escolha-dos-pólos"><i class="fa fa-check"></i><b>5.5</b> Escolha dos pólos</a></li>
+<li class="chapter" data-level="5.6" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#estimadores-de-estado"><i class="fa fa-check"></i><b>5.6</b> Estimadores de estado</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#modelagem-do-observador"><i class="fa fa-check"></i><b>5.6.1</b> Modelagem do observador</a></li>
+<li class="chapter" data-level="5.6.2" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#forma-canônica-de-observador"><i class="fa fa-check"></i><b>5.6.2</b> Forma canônica de observador</a></li>
+<li class="chapter" data-level="5.6.3" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#observabilidade"><i class="fa fa-check"></i><b>5.6.3</b> Observabilidade</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#compensador-dinâmico"><i class="fa fa-check"></i><b>5.7</b> Compensador dinâmico</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#compensador-com-referência"><i class="fa fa-check"></i><b>5.7.1</b> Compensador com referência</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#controle-integral"><i class="fa fa-check"></i><b>5.8</b> Controle integral</a>
+<ul>
+<li class="chapter" data-level="5.8.1" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#escolha-dos-pólos-1"><i class="fa fa-check"></i><b>5.8.1</b> Escolha dos pólos</a></li>
+<li class="chapter" data-level="5.8.2" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#equações-de-estado-do-compensador"><i class="fa fa-check"></i><b>5.8.2</b> Equações de estado do compensador:</a></li>
+<li class="chapter" data-level="5.8.3" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html#simulação-em-malha-fechada-1"><i class="fa fa-check"></i><b>5.8.3</b> Simulação em malha fechada</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="controle-digital.html"><a href="controle-digital.html"><i class="fa fa-check"></i><b>6</b> Controle Digital</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="controle-digital.html"><a href="controle-digital.html#amostras"><i class="fa fa-check"></i><b>6.1</b> Amostras</a></li>
+<li class="chapter" data-level="6.2" data-path="controle-digital.html"><a href="controle-digital.html#conversor-ad"><i class="fa fa-check"></i><b>6.2</b> Conversor A/D</a></li>
+<li class="chapter" data-level="6.3" data-path="controle-digital.html"><a href="controle-digital.html#período-de-amostragem"><i class="fa fa-check"></i><b>6.3</b> Período de amostragem</a></li>
+<li class="chapter" data-level="6.4" data-path="controle-digital.html"><a href="controle-digital.html#sistemas-de-controle-digital"><i class="fa fa-check"></i><b>6.4</b> Sistemas de controle digital</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Sistemas de Controle II (EL180)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="realimentação-de-estados" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Capítulo 5</span> Realimentação de estados<a href="realimentação-de-estados.html#realimentação-de-estados" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>A principal técnico de controle em espaço de estados é o que chamamos de
+“realimentação de estados”.</p>
+<p>A estratégia básica é fazer a lei de controle <span class="math inline">\(u\)</span> ser proporcional ao
+vetor de estados.
+<span class="math display">\[\begin{align*}
+    u = -\mathbf{Kx}
+\end{align*}\]</span></p>
+<p>Isto lembra um pouco o controle proporcional: realimentação negativa
+e o controlador é apenas uma constante. Mas a diferença básica é que,
+como o <span class="math inline">\(\mathbf{x}\)</span> é um vetor, o controlador <span class="math inline">\(\mathbf{K}\)</span> tem que ser
+um vetor também.</p>
+<p>O sinal de controle é um escalar. Sendo <span class="math inline">\(\mathbf{x}\)</span> um vetor coluna de
+<span class="math inline">\(n\)</span> elementos, então <span class="math inline">\(\mathbf{K}\)</span> deve ser um vetor linha de <span class="math inline">\(n\)</span>
+elementos. Assim:
+<span class="math display">\[\begin{align*}
+    \mathbf{K}= \left[\begin{array}{cccc}K_1 &amp; K_2 &amp; \ldots &amp; K_n\end{array}\right]
+\end{align*}\]</span></p>
+<p>O objetivo inicial da realimentação de estados é fazer com que os
+estados do sistema caminhem para zero (ponto de equilíbrio) a partir de
+um estado inicial <span class="math inline">\(\mathbf{x}(0)\neq \mathbf{0}\)</span>, em regime permanente
+(isto é, passado um longo tempo). Esse problema é chamado de
+<strong>regulação</strong>.</p>
+<p>É possível mostra que se o controlador é capaz de fazer regulação de
+estados, podemos fazer a saída atingir qualquer valor, que é o objetivo
+do sistema de controle.</p>
+<p><strong>Observação importante</strong>: para o algoritmo funcionar supomos que
+<strong>todos</strong> os estados são conhecidos para calcular a ação de controle.</p>
+<p>Isso quase sempre não é verdade. Os estados são grandezas internas que,
+às vezes, nem conseguimos medir. Mas mesmo quando é possível, pode não
+ser economicamente viável comprar sensores para medir todos os estados (um sistema de ordem elevada). O único sinal que está disponível, por definição, é o sinal de saída.</p>
+<p>Na prática o que se faz é construir um sistema auxiliar que
+forneça uma <em>estimativa</em> dos estados reais a partir do sinal de saída.
+Esse sistema é conhecido como estimador ou observador de estados. O projeto e análise do observador de estados será visto mais a frente.</p>
+<p><strong>Por enquanto vamos considerar que é possível medir todos os estados do
+sistema para fazer a realimentação</strong></p>
+<div id="análise-da-realimentação-de-estados" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Análise da realimentação de estados<a href="realimentação-de-estados.html#análise-da-realimentação-de-estados" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para entender como projetar o controlador, precisamos entender o que acontece com o sistema quando a estratégia é implementada.</p>
+<p>Seja um sistema:
+<span class="math display">\[\begin{align*}
+    \mathbf{\dot{x}} &amp;= \mathbf{Ax+B}u
+\end{align*}\]</span></p>
+<p>Se usarmos a lei de controle <span class="math inline">\(u = -\mathbf{Kx}\)</span>, a equação deixará de
+ter entrada, podendo ser resolvida a partir da condição inicial.</p>
+<p><span class="math display">\[\begin{align*}
+    \mathbf{\dot{x}} &amp;= \mathbf{Ax+B(-Kx)}\\
+    &amp;= \mathbf{Ax-BKx}\\
+    &amp;= \mathbf{(A-BK)x}\\
+    \mathbf{\dot{x}} &amp;= \mathbf{A}_m \mathbf{x}
+\end{align*}\]</span></p>
+<p>Vamos chamar matriz <span class="math inline">\(\mathbf{A}_m\)</span> de “matriz de malha fechada”.</p>
+<p>A última equação é uma EDO que não possui entrada, então só tem sentido
+resolvê-la para uma condição inicial <span class="math inline">\(\mathbf{x}(0)\)</span> diferente de zero.</p>
+<p>A condição necessária para que os estados do sistema caminhem para zero
+em regime permanente é apenas que o sistema em malha fechada seja
+estável, isto é, <strong>todos</strong> os autovalores da matriz <span class="math inline">\(\mathbf{A}_m\)</span> devem
+ter parte real estritamente negativa.</p>
+<p>Além de estabilidade, é também desejado que a convergência dos estados
+para zero seja feita com critérios de velocidade e oscilação específicos
+do projeto. Isso é equivalente a satisfazer as condições de overshoot,
+tempo de acomodação e dominância.</p>
+<p>As condições de projeto são definidas em termos de pólos de malha fechada bem selecionados. Esses pólos determinam um polinômio de malha fechada <span class="math inline">\(\alpha (s)\)</span>.</p>
+<p>Sendo assim, o problema de regulação é enunciado como: <em>achar a matriz</em>
+<span class="math inline">\(\mathbf{K}\)</span>, tal que estejam no semi-plano esquerdo todas as raizes da
+equação:
+<span class="math display">\[\begin{align}
+    \det (s\mathbf{I-A_m})= \det (s\mathbf{I-A+BK})=\alpha (s)
+\end{align}\]</span></p>
+<p><strong>Exemplo</strong>
+<img src="figs/Ex7.15.svg" width="100%" /></p>
+<p>Problema de segunda ordem, então: <span class="math inline">\(\mathbf{K} = \begin{bmatrix} k_1 &amp; k_2\end{bmatrix}\)</span>.</p>
+<p>Matriz de malha fechada:
+<span class="math display">\[\begin{align}
+  \mathbf{A-BK} = \left[\begin{matrix}0 &amp; 1\\- \omega_{0}^{2} - k_{1} &amp; - k_{2}\end{matrix}\right]
+\end{align}\]</span></p>
+<p>Polinômio característico de malha fechada:
+<span class="math display">\[
+  |s\mathbf{I-A+BK}| = \omega_{0}^{2} + k_{1} + k_{2} s + s^{2}
+\]</span></p>
+<p>Polinômio mônico desejado, com dois polos em <span class="math inline">\(-2\omega_0\)</span>:
+<span class="math display">\[
+  \alpha(s) = 4 \omega_{0}^{2} + 4 \omega_{0} s + s^{2}
+\]</span></p>
+<p>Igualando termo a termo:
+<span class="math display">\[\begin{align}
+  k_1 + \omega_0^2 &amp;= 4\omega_0^2 \Rightarrow k_1 = 3\omega_0^2\\
+  k_2 &amp;= 4\omega_0
+\end{align}\]</span></p>
+<p>O livro mostra uma simulação da resposta desse sistema para
+<span class="math inline">\(\omega_0=1\)</span>.</p>
+<p><img src="figs/Fig7.13.svg" width="120%" /></p>
+<p>Repare que os gráficos mostram, em função do tempo, os
+dois estados. Note que nenhum dos sinais oscila. Isso porque as características dos pólos que foram alocados são válidas para todos os estados e a saída do
+sistema.</p>
+<p><strong>Exercício</strong></p>
+<p>Ache a forma de controlador do sistema
+<span class="math display">\[\begin{align}
+    G(s) = \frac{20}{(s+1)(s+2)}
+\end{align}\]</span></p>
+<p>Depois, projete um controlador de realimentação de estados que posicione
+os pólos em <span class="math inline">\(-3\pm j5\)</span></p>
+</div>
+<div id="forma-canônica-de-controlador" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Forma canônica de controlador<a href="realimentação-de-estados.html#forma-canônica-de-controlador" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>O exemplo anterior ilustra bem a solução do problema de realimentação de
+estados. Porém, ele é simples demais:</p>
+<ul>
+<li>Ele é de ordem baixa (2). Na
+prática, os sistemas podem ser de ordem bem mais elevada
+-Em um problema de ordem mais alta, o trabalho seria muito maior e a solução
+desenvolvida, inviável</li>
+<li>Além disso, em um problema real temos também
+que nos preocupar com questões numéricas de arredondamento.</li>
+</ul>
+<p>A primeira forma de lidar com problemas de ordem mais alta é transformar
+o sistema para forma canônica de controlador.</p>
+<p>Usar essa forma é vantajoso porque ela simplifica as equações dos ganhos
+na hora que igualamos os polinômios desejado e de projeto. Isso permite
+encontrar os ganhos com equações mais simples, geralmente fazendo
+substituições sucessivas.</p>
+<p>Normalmente, a forma mais fácil de mudar para a forma de controlador é
+achando a função de transferência do sistema e usando as regras práticas
+de inspeção do numerador e denominador.</p>
+<p>Isso pode ser um pouco trabalhoso para sistemas de ordem elevada.</p>
+</div>
+<div id="método-de-ackermann" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Método de Ackermann<a href="realimentação-de-estados.html#método-de-ackermann" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Uma maneira mais direta e geral de projetar a realimentação de estados é
+usar o método de Ackerman. Ele consiste de aplicar a expressão:
+<span class="math display">\[\begin{align}
+    \mathbf{K} = \left[\begin{array}{ccccc}0&amp;0&amp;\ldots &amp; 0 &amp; 1\end{array}\right]\mathbf{\mathcal{C}}^{-1}\alpha_c(\mathbf{A})
+\end{align}\]</span></p>
+<p>onde <span class="math inline">\(\mathbf{\mathcal{C}}\)</span> é a chamada matriz de controlabilidade do
+sistema
+<span class="math display">\[\begin{align}
+    \mathbf{\mathcal{C}} = \left[\begin{array}{ccccc}\mathbf{B}&amp;\mathbf{AB}&amp;\ldots &amp; \mathbf{A}^{n-2}\mathbf{B} &amp; \mathbf{A}^{n-1}\mathbf{B}\end{array}\right]
+\end{align}\]</span>
+e <span class="math inline">\(\alpha_c(\mathbf{A})\)</span> é uma matriz construída pela expressão:
+<span class="math display">\[\begin{align}
+    \alpha_c(\mathbf{A}) = \mathbf{A}^{n}+\alpha_1\mathbf{A}^{n-1}+\alpha_2\mathbf{A}^{n-2}+\ldots++\alpha_n\mathbf{I}
+\end{align}\]</span></p>
+<p>Note que <span class="math inline">\(\alpha_c(\mathbf{A})\)</span> é o polinômio de malha fechado desejado,
+mas no lugar de <span class="math inline">\(s\)</span> temos a matriz <span class="math inline">\(\mathbf{A}\)</span> de malha aberta do
+sistema.</p>
+<p>Observação: a solução do problema só existe se pudermos inverter a
+matriz de controlabilidade. Logo, a invertibilidade é condição
+necessária para o regulação do sistema. Normalmente, o primeiro passo de
+um projeto de controle é verificar se ele é controlável.</p>
+<p>O método é trabalhoso, mas fácil de implementar no computador. Em Python
+temos a função “acker()” da biblioteca <em>control</em> que faz o processo
+automaticamente (sem precisar fornecer a forma de controlador), que
+funciona bem para sistemas de até 10a ordem e preferencialmente com
+pólos de malha fechada não-repetidos.</p>
+<p>Para problemas mais complexos, recomenda-se o uso da função “place()” da
+biblioteca <em>control</em>, ou “place_poles()” da biblioteca <em>scipy.signal</em>.</p>
+<p>Nota: essas funções só funcionam para problemas numéricos.</p>
+<p><strong>Exemplo:</strong></p>
+<p><img src="figs/Ex7.16.svg" width="120%" /></p>
+<p>Matriz de controlabilidade:
+<span class="math display">\[\begin{align}
+\mathcal{{C}} &amp;= \begin{bmatrix} \mathbf{B} &amp; | &amp; \mathbf{AB}&amp; \end{bmatrix} = \left[\begin{matrix}0 &amp; 1\\1 &amp; 0\end{matrix}\right]
+\end{align}\]</span></p>
+<p>Inversa:
+<span class="math display">\[\begin{align}
+\mathcal{{C}}^{-1} &amp;= \left[\begin{matrix}0 &amp; 1\\1 &amp; 0\end{matrix}\right]
+\end{align}\]</span></p>
+<p>Note que, neste caso, a inversa é a própria matriz.</p>
+<p>Matriz <span class="math inline">\(\mathbf{A}\)</span> aplicada ao polinômio <span class="math inline">\(\alpha\)</span>:
+<span class="math display">\[
+  \alpha(\mathbf{A}) = 4\omega_0^2\mathbf{I} + 4\omega_0 \mathbf{A} + \mathbf{A}^2 = \left[\begin{matrix}3 \omega_{0}^{2} &amp; 4 \omega_{0}\\- 4 \omega_{0}^{3} &amp; 3 \omega_{0}^{2}\end{matrix}\right]
+\]</span></p>
+<p>Fórmula de Ackerman:
+<span class="math display">\[\begin{align}
+  \mathbf{K} = \begin{bmatrix} 0 &amp; 1 \end{bmatrix} \, \left[\begin{matrix}0 &amp; 1\\1 &amp; 0\end{matrix}\right] \, \left[\begin{matrix}3 \omega_{0}^{2} &amp; 4 \omega_{0}\\- 4 \omega_{0}^{3} &amp; 3 \omega_{0}^{2}\end{matrix}\right] = \left[\begin{matrix}3 \omega_{0}^{2} &amp; 4 \omega_{0}\end{matrix}\right]
+\end{align}\]</span></p>
+<p>Solução numérica com Python:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="realimentação-de-estados.html#cb1-1" tabindex="-1"></a><span class="im">import</span> control <span class="im">as</span> ct</span>
+<span id="cb1-2"><a href="realimentação-de-estados.html#cb1-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="realimentação-de-estados.html#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="realimentação-de-estados.html#cb1-4" tabindex="-1"></a>w0 <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb1-5"><a href="realimentação-de-estados.html#cb1-5" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">1</span>],[<span class="op">-</span>w0<span class="op">**</span><span class="dv">2</span>, <span class="dv">0</span>]])</span>
+<span id="cb1-6"><a href="realimentação-de-estados.html#cb1-6" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">0</span>],[<span class="dv">1</span>]])</span>
+<span id="cb1-7"><a href="realimentação-de-estados.html#cb1-7" tabindex="-1"></a>polos <span class="op">=</span> [<span class="op">-</span><span class="dv">2</span><span class="op">*</span>w0, <span class="op">-</span><span class="dv">2</span><span class="op">*</span>w0]</span>
+<span id="cb1-8"><a href="realimentação-de-estados.html#cb1-8" tabindex="-1"></a>K <span class="op">=</span> ct.acker(A,B, polos)</span>
+<span id="cb1-9"><a href="realimentação-de-estados.html#cb1-9" tabindex="-1"></a><span class="bu">print</span>(K)</span></code></pre></div>
+<pre><code>## [[3. 4.]]</code></pre>
+<p>A fórmula de Ackermann permite posicionar os pólos de malha
+fechada <strong>em qualquer lugar desejado</strong>, desde que a matriz de controlabilidade possua inversa.</p>
+<p>Isso torna o projeto mais direto, comparado por exemplo, ao método de projeto com LGR, onde o posicionamento dos pólos com controle proporcional fica restrito ao lugar geométrico.</p>
+<p>No entanto, isso é possível devido à hipótese forte de que todos os
+estados estão disponíveis para realimentação.</p>
+<p><strong>Exercício</strong></p>
+<p>Use Ackermann para projetar um controlador para o sistema
+<span class="math display">\[\begin{align}
+    G(s) &amp;= \frac{30}{s(s+1)^2}
+\end{align}\]</span></p>
+<p>Posicione os pólos em <span class="math inline">\(-4\pm j4\)</span> e <span class="math inline">\(-12\)</span>.</p>
+</div>
+<div id="introdução-da-referência" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Introdução da referência<a href="realimentação-de-estados.html#introdução-da-referência" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Até agora vimos como resolver o problema da regulação de estados apenas
+para zerar o estado final. No entanto, o objetivo do controle é fazer a
+saída rastrear a referência <span class="math inline">\(r\)</span>.</p>
+<p>Uma forma simples de fazer isso é usando o sinal de controle:
+<span class="math display">\[\begin{align*}
+u &amp;= -\mathbf{Kx}+Nr
+\end{align*}\]</span>
+onde <span class="math inline">\(\mathbf{K}\)</span> é o vetor de ganhos conforme já definimos e <span class="math inline">\(N\)</span> é
+um ganho a se determinar.</p>
+<p>Se usarmos esta lei de controle, a equação de estados do sistema em
+malha fechada fica:</p>
+<p><span class="math display">\[
+\dot{\mathbf{x}} = \mathbf{(A-BK)x} + \mathbf{B}N\,r
+\]</span></p>
+<p>A equação de saída fica:
+<span class="math display">\[
+y = (\mathbf{C}-D\mathbf{K})\mathbf{x}+DN\,r
+\]</span></p>
+<p>A função de transferência do sistema da entrada de referência <span class="math inline">\(r\)</span> para a
+saída <span class="math inline">\(y\)</span> é:</p>
+<p><span class="math display">\[
+  G(s) = (\mathbf{C}-D\mathbf{K})(s\mathbf{I-A+BK})^{-1}\mathbf{B}N+DN
+\]</span></p>
+<p>Se quisermos que o sistema rastreie a referência em regime
+permanente, <span class="math inline">\(y=r\)</span>, o ganho DC do sistema deve ser unitário, isto é,
+<span class="math inline">\(G(0)=1\)</span>. Então fazemos <span class="math inline">\(G(0)=1\)</span> na equação e resolvemos para <span class="math inline">\(N\)</span>. O
+resultado é:</p>
+<p><span class="math display">\[
+  N = \frac{1}{(\mathbf{C}-D\mathbf{K})(\mathbf{-A+BK})^{-1}\mathbf{B}+D}
+\]</span></p>
+<p>Como normalmente o ganho <span class="math inline">\(D\)</span> é nulo, temos o resultado mais usual:</p>
+<p><span class="math display">\[
+  N = \frac{1}{\mathbf{C}(\mathbf{-A+BK})^{-1}\mathbf{B}}
+\]</span></p>
+<p>O algoritmo de projeto é, portanto:</p>
+<ul>
+<li>Calcule o vetor de ganhos <span class="math inline">\(\mathbf{K}\)</span> normalmente, conforme as
+especificações de projeto</li>
+<li>Use o vetor <span class="math inline">\(\mathbf{K}\)</span> calculado para determinar <span class="math inline">\(N\)</span></li>
+<li>Implemente o algoritmo de controle como: <span class="math inline">\(u=-\mathbf{KX}+Nr\)</span></li>
+</ul>
+<p><img src="figs/Ex.7.18.svg" />
+Precisamos apenas usar a expressão:
+<span class="math display">\[
+  N = \frac{1}{\mathbf{C}(\mathbf{-A+BK})^{-1}\mathbf{B}}
+\]</span>
+A saída do oscilador é a posição <span class="math inline">\(x_1\)</span>, logo <span class="math inline">\(\mathbf{C} = \begin{bmatrix}1 &amp; 0\end{bmatrix}\)</span>. Usando o resultado anterior para <span class="math inline">\(\mathbf{K}\)</span>.</p>
+<p><span class="math display">\[\begin{align}
+  \mathbf{-A+BK} &amp;= \left[\begin{matrix}0 &amp; -1\\4 \omega_{0}^{2} &amp; 4 \omega_{0}\end{matrix}\right] \\
+  (\mathbf{-A+BK})^{-1} &amp;= \left[\begin{matrix}\frac{1}{\omega_{0}} &amp; \frac{1}{4 \omega_{0}^{2}}\\-1 &amp; 0\end{matrix}\right]\\
+  N &amp;= \frac{1}{\mathbf{C}(\mathbf{-A+BK})^{-1}\mathbf{B}} &amp;= \frac{1}{\frac{1}{4 \omega_{0}^{2}}} = 4 \omega_{0}^{2}
+\end{align}\]</span></p>
+<div id="simulação-em-malha-fechada" class="section level3 hasAnchor" number="5.4.1">
+<h3><span class="header-section-number">5.4.1</span> Simulação em malha fechada<a href="realimentação-de-estados.html#simulação-em-malha-fechada" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>É interessante testar o projeto agora usando uma resposta ao degrau. Note que para isso, precisamos definir o sistema em malha fechada.</p>
+<p>Substituindo <span class="math inline">\(u=-\mathbf{Kx}+Nr\)</span> na equação de estados vemos que as matrizes <span class="math inline">\(\mathbf{A}\)</span> e <span class="math inline">\(\mathbf{B}\)</span> em malha fechada mudam. A saída permanence a mesma, logo a matriz <span class="math inline">\(\mathbf{C}\)</span> de malha fechada permanece a mesma.</p>
+<p>Em malha fechada (i.e., ganhos realimentados), as equações do sistema ficam:
+<span class="math display">\[\begin{align}
+    \mathbf{\dot{x}} &amp;= \mathbf{(A-BK)x} +\mathbf{B}Nr\\
+    y &amp;= \mathbf{Cx}
+\end{align}\]</span></p>
+<p>A seguir resolvemos e simulamos o sistema do exemplo anterior com <span class="math inline">\(\omega_0=1\)</span>.</p>
+<p>Imports e sistema</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="realimentação-de-estados.html#cb3-1" tabindex="-1"></a><span class="im">import</span> control <span class="im">as</span> ct</span>
+<span id="cb3-2"><a href="realimentação-de-estados.html#cb3-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-3"><a href="realimentação-de-estados.html#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="realimentação-de-estados.html#cb3-4" tabindex="-1"></a>w0 <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-5"><a href="realimentação-de-estados.html#cb3-5" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">1</span>],[<span class="op">-</span>w0<span class="op">**</span><span class="dv">2</span>, <span class="dv">0</span>]])</span>
+<span id="cb3-6"><a href="realimentação-de-estados.html#cb3-6" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">0</span>],[<span class="dv">1</span>]])</span>
+<span id="cb3-7"><a href="realimentação-de-estados.html#cb3-7" tabindex="-1"></a>C <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">0</span>]])</span></code></pre></div>
+<p>Alocação de pólos e referência</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="realimentação-de-estados.html#cb4-1" tabindex="-1"></a>polos <span class="op">=</span> [<span class="op">-</span><span class="dv">2</span><span class="op">*</span>w0, <span class="op">-</span><span class="dv">2</span><span class="op">*</span>w0]</span>
+<span id="cb4-2"><a href="realimentação-de-estados.html#cb4-2" tabindex="-1"></a>K <span class="op">=</span> ct.acker(A,B, polos)</span>
+<span id="cb4-3"><a href="realimentação-de-estados.html#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="realimentação-de-estados.html#cb4-4" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(C <span class="op">@</span> np.linalg.inv(<span class="op">-</span>A<span class="op">+</span>B<span class="op">@</span>K) <span class="op">@</span> B)</span></code></pre></div>
+<p>Matrizes de malha fechada. Repare o uso do símbolo @ para produto matricial.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="realimentação-de-estados.html#cb5-1" tabindex="-1"></a>Amf <span class="op">=</span> A <span class="op">-</span> B<span class="op">@</span>K</span>
+<span id="cb5-2"><a href="realimentação-de-estados.html#cb5-2" tabindex="-1"></a>Bmf <span class="op">=</span> B<span class="op">@</span>N</span>
+<span id="cb5-3"><a href="realimentação-de-estados.html#cb5-3" tabindex="-1"></a>Cmf <span class="op">=</span> C</span>
+<span id="cb5-4"><a href="realimentação-de-estados.html#cb5-4" tabindex="-1"></a>Dmf <span class="op">=</span> np.array([[<span class="dv">0</span>]])</span>
+<span id="cb5-5"><a href="realimentação-de-estados.html#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="realimentação-de-estados.html#cb5-6" tabindex="-1"></a><span class="co"># Sistema</span></span>
+<span id="cb5-7"><a href="realimentação-de-estados.html#cb5-7" tabindex="-1"></a>sis <span class="op">=</span> ct.ss(Amf,Bmf,Cmf,Dmf)</span></code></pre></div>
+<p>Relatório de pólos de malha fechada</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="realimentação-de-estados.html#cb6-1" tabindex="-1"></a>tab <span class="op">=</span> ct.damp(sis)</span></code></pre></div>
+<pre><code>##     Eigenvalue (pole)       Damping     Frequency
+##                    -2             1             2
+##                    -2             1             2</code></pre>
+<p>Os pólos foram corretamente alocados. Repare que, por serem reais, o programa considera amortecimento (<em>damping</em>) igual a 1 e a frequência natural é o módulo do pólo.</p>
+<p>Zeros de transmissão</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="realimentação-de-estados.html#cb8-1" tabindex="-1"></a>ct.zeros(sis)</span></code></pre></div>
+<pre><code>## array([], dtype=complex128)</code></pre>
+<p>O sistema não possui zeros.</p>
+<p>Simula o sistema para uma resposta ao degrau unitário. Tempo de simulação é 7 segundos.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="realimentação-de-estados.html#cb10-1" tabindex="-1"></a>t,y <span class="op">=</span> ct.step_response(sis,<span class="dv">7</span>)</span></code></pre></div>
+<p>Plota os resultados, com algumas legendas</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="realimentação-de-estados.html#cb11-1" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-2"><a href="realimentação-de-estados.html#cb11-2" tabindex="-1"></a>plt.plot(t,y)</span>
+<span id="cb11-3"><a href="realimentação-de-estados.html#cb11-3" tabindex="-1"></a>plt.grid()</span>
+<span id="cb11-4"><a href="realimentação-de-estados.html#cb11-4" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;Tempo (seg)&#39;</span>)</span>
+<span id="cb11-5"><a href="realimentação-de-estados.html#cb11-5" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;Saída&#39;</span>)</span>
+<span id="cb11-6"><a href="realimentação-de-estados.html#cb11-6" tabindex="-1"></a>plt.legend(<span class="st">&#39;y&#39;</span>)</span>
+<span id="cb11-7"><a href="realimentação-de-estados.html#cb11-7" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+</div>
+<div id="escolha-dos-pólos" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Escolha dos pólos<a href="realimentação-de-estados.html#escolha-dos-pólos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>O sucesso do controle depende da escolha adequada do polinômio de malha fechada desejado. Esse polinômio deve ser construído tendo em mente todos os pólos de malha fechada desejados, não
+apenas os dominantes.</p>
+<p>Isso é importante quando temos um sistema de ordem maior que 2: os pólos que não serão dominantes devem ser escolhidos suficientemente distantes dos candidatos a dominantes.</p>
+<p>Uma regra prática é, após escolher os dominantes, escolher os demais como reais, com a parte real de 3 a 5 vezes maior que a parte real dos dominantes.</p>
+<p>Lembre-se, porém, que se o deslocamento dos polos para a nova posição for muito grande, os ganhos do controlador vão aumentar e consequentemente o sinal de controle vai exigir mais energia.</p>
+<p>Outra coisa a se ter em mente na hora de escolher pólos de malha fechada são os zeros do sistema. <strong>A realimentação de estados não altera a posição dos zeros</strong>, isto é, se eles não forem cancelados, eles permanecerão na mesma posição em malha fechada. Agora, se estes zeros estiverem próximos dos pólos dominantes em malha fechada, a dinâmica projetada não irá funcionar corretamente (normalmente o overshoot será mais alto do que o projetado).</p>
+<p>Uma forma de lidar com isso é posicionar um pólo extra sobre o zero que está atrapalhando o projeto, mas <strong>apenas se o zero for estável</strong>.</p>
+<p>Note que devido às incertezas e os arredondamentos de projeto, podemos ter que fazer novas escolhas de polos até achar uma combinação que se ajuste ao que precisamos.</p>
+<p><img src="figs/Ex7.20.svg" /></p>
+<p>Observe a solução com Python.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="realimentação-de-estados.html#cb12-1" tabindex="-1"></a><span class="co"># Imports</span></span>
+<span id="cb12-2"><a href="realimentação-de-estados.html#cb12-2" tabindex="-1"></a><span class="im">import</span> control <span class="im">as</span> ct</span>
+<span id="cb12-3"><a href="realimentação-de-estados.html#cb12-3" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-4"><a href="realimentação-de-estados.html#cb12-4" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="realimentação-de-estados.html#cb12-5" tabindex="-1"></a><span class="co"># Sistema</span></span>
+<span id="cb12-6"><a href="realimentação-de-estados.html#cb12-6" tabindex="-1"></a>A <span class="op">=</span> np.array([  [<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb12-7"><a href="realimentação-de-estados.html#cb12-7" tabindex="-1"></a>                [<span class="op">-</span><span class="fl">.1</span>, <span class="op">-</span><span class="fl">.35</span>, <span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.75</span>], </span>
+<span id="cb12-8"><a href="realimentação-de-estados.html#cb12-8" tabindex="-1"></a>                [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>],</span>
+<span id="cb12-9"><a href="realimentação-de-estados.html#cb12-9" tabindex="-1"></a>                [<span class="fl">.4</span>, <span class="fl">.4</span>, <span class="op">-</span><span class="fl">.4</span>, <span class="op">-</span><span class="fl">1.4</span>, <span class="dv">0</span>],</span>
+<span id="cb12-10"><a href="realimentação-de-estados.html#cb12-10" tabindex="-1"></a>                [<span class="dv">0</span>, <span class="op">-</span><span class="fl">.03</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>]     ],dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb12-11"><a href="realimentação-de-estados.html#cb12-11" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">0</span>],[<span class="dv">0</span>],[<span class="dv">0</span>],[<span class="dv">0</span>],[<span class="dv">1</span>]])</span>
+<span id="cb12-12"><a href="realimentação-de-estados.html#cb12-12" tabindex="-1"></a>C <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>]])</span>
+<span id="cb12-13"><a href="realimentação-de-estados.html#cb12-13" tabindex="-1"></a>D <span class="op">=</span> np.array([[<span class="dv">0</span>]])</span></code></pre></div>
+<p>Pólos desejados, calculados pelos parâmetros físicos</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="realimentação-de-estados.html#cb13-1" tabindex="-1"></a>xi <span class="op">=</span> <span class="fl">0.707</span></span>
+<span id="cb13-2"><a href="realimentação-de-estados.html#cb13-2" tabindex="-1"></a>wn <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="fl">1.15</span></span>
+<span id="cb13-3"><a href="realimentação-de-estados.html#cb13-3" tabindex="-1"></a>p <span class="op">=</span> <span class="op">-</span>xi<span class="op">*</span>wn<span class="op">+</span><span class="ot">1j</span><span class="op">*</span>wn<span class="op">*</span>np.sqrt(<span class="dv">1</span><span class="op">-</span>xi<span class="op">**</span><span class="dv">2</span>)</span></code></pre></div>
+<p>Polos de malha fechada desejados, conjunto completo. Note a forma de gerar os pólos adicionais usando o dominante como referência e o recurso de repetição de elementos de uma lista.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="realimentação-de-estados.html#cb14-1" tabindex="-1"></a>polos_dom <span class="op">=</span> np.array([[p, np.conjugate(p)]])</span>
+<span id="cb14-2"><a href="realimentação-de-estados.html#cb14-2" tabindex="-1"></a>polos_extras <span class="op">=</span> np.array([[np.real(p)<span class="op">*</span><span class="dv">4</span>]<span class="op">*</span><span class="dv">3</span>])</span>
+<span id="cb14-3"><a href="realimentação-de-estados.html#cb14-3" tabindex="-1"></a>polos_mf <span class="op">=</span> np.block([polos_dom,polos_extras])</span></code></pre></div>
+<p>Alocação de polos e referência</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="realimentação-de-estados.html#cb15-1" tabindex="-1"></a>K <span class="op">=</span> ct.acker(A,B,polos_mf[<span class="dv">0</span>,:])</span>
+<span id="cb15-2"><a href="realimentação-de-estados.html#cb15-2" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(C <span class="op">@</span> np.linalg.inv(<span class="op">-</span>A<span class="op">+</span>B<span class="op">@</span>K) <span class="op">@</span> B)</span></code></pre></div>
+<p>O vetor de ganhos encontrado é <span class="math inline">\(\mathbf{K} = \left[\begin{matrix}8.1 &amp; 19.33 &amp; 1.27 &amp; -0.2139 &amp; 5.857\end{matrix}\right]\)</span></p>
+<p><strong>Os valores são um pouco diferentes do livro. Tente descobrir a razão</strong></p>
+<p>Simulação em malha fechada:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="realimentação-de-estados.html#cb16-1" tabindex="-1"></a>Amf <span class="op">=</span> A <span class="op">-</span> B<span class="op">@</span>K</span>
+<span id="cb16-2"><a href="realimentação-de-estados.html#cb16-2" tabindex="-1"></a>Bmf <span class="op">=</span> B<span class="op">@</span>N</span>
+<span id="cb16-3"><a href="realimentação-de-estados.html#cb16-3" tabindex="-1"></a>Cmf <span class="op">=</span> C</span>
+<span id="cb16-4"><a href="realimentação-de-estados.html#cb16-4" tabindex="-1"></a>Dmf <span class="op">=</span> np.array([[<span class="dv">0</span>]])</span>
+<span id="cb16-5"><a href="realimentação-de-estados.html#cb16-5" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="realimentação-de-estados.html#cb16-6" tabindex="-1"></a><span class="co"># Sistema</span></span>
+<span id="cb16-7"><a href="realimentação-de-estados.html#cb16-7" tabindex="-1"></a>sis <span class="op">=</span> ct.ss(Amf,Bmf,Cmf,Dmf)</span>
+<span id="cb16-8"><a href="realimentação-de-estados.html#cb16-8" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="realimentação-de-estados.html#cb16-9" tabindex="-1"></a><span class="co"># Simulação</span></span>
+<span id="cb16-10"><a href="realimentação-de-estados.html#cb16-10" tabindex="-1"></a>t,y <span class="op">=</span> ct.step_response(sis,<span class="dv">7</span>)</span>
+<span id="cb16-11"><a href="realimentação-de-estados.html#cb16-11" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="realimentação-de-estados.html#cb16-12" tabindex="-1"></a>plt.plot(t,y)</span>
+<span id="cb16-13"><a href="realimentação-de-estados.html#cb16-13" tabindex="-1"></a>plt.grid()</span>
+<span id="cb16-14"><a href="realimentação-de-estados.html#cb16-14" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;Tempo (seg)&#39;</span>)</span>
+<span id="cb16-15"><a href="realimentação-de-estados.html#cb16-15" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;Saída&#39;</span>)</span>
+<span id="cb16-16"><a href="realimentação-de-estados.html#cb16-16" tabindex="-1"></a>plt.legend(<span class="st">&#39;y&#39;</span>)</span>
+<span id="cb16-17"><a href="realimentação-de-estados.html#cb16-17" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-21-3.png" width="672" /></p>
+<p>É sempre importante analisar as características do sistema (pólos e zeros), além dos sinais.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="realimentação-de-estados.html#cb17-1" tabindex="-1"></a>tab <span class="op">=</span> ct.damp(sis)</span></code></pre></div>
+<pre><code>##     Eigenvalue (pole)       Damping     Frequency
+##                -2.459             1         2.459
+##     -2.459+2.019e-05j             1         2.459
+##     -2.459-2.019e-05j             1         2.459
+##    -0.6148    +0.615j         0.707        0.8696
+##    -0.6148    -0.615j         0.707        0.8696</code></pre>
+<p>Zeros:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="realimentação-de-estados.html#cb19-1" tabindex="-1"></a>sis.zeros()</span></code></pre></div>
+<pre><code>## array([-0.7+0.55677644j, -0.7-0.55677644j])</code></pre>
+<p>valor máximo de saída:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="realimentação-de-estados.html#cb21-1" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">max</span>(y))</span></code></pre></div>
+<pre><code>## 1.0339565325466082</code></pre>
+<p>Tente explicar o que aconteceu com o projeto em malha fechada. Faça correlação com o gráfico do sinal de saída.</p>
+<p><strong>Exemplo:</strong></p>
+<p><img src="figs/Ex7.17.svg" width="100%" /></p>
+<p>Abaixo apenas o item (b), resolvendo direto com acker()</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="realimentação-de-estados.html#cb23-1" tabindex="-1"></a><span class="co"># Imports</span></span>
+<span id="cb23-2"><a href="realimentação-de-estados.html#cb23-2" tabindex="-1"></a><span class="im">import</span> control <span class="im">as</span> ct</span>
+<span id="cb23-3"><a href="realimentação-de-estados.html#cb23-3" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb23-4"><a href="realimentação-de-estados.html#cb23-4" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="realimentação-de-estados.html#cb23-5" tabindex="-1"></a>z0 <span class="op">=</span> <span class="fl">2.</span></span>
+<span id="cb23-6"><a href="realimentação-de-estados.html#cb23-6" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="realimentação-de-estados.html#cb23-7" tabindex="-1"></a><span class="co"># Declaração das matrizes e do sistema</span></span>
+<span id="cb23-8"><a href="realimentação-de-estados.html#cb23-8" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="op">-</span><span class="dv">7</span>,<span class="dv">1</span>],[<span class="op">-</span><span class="dv">12</span>,<span class="dv">0</span>]])</span>
+<span id="cb23-9"><a href="realimentação-de-estados.html#cb23-9" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">1</span>],[<span class="op">-</span>z0]])</span>
+<span id="cb23-10"><a href="realimentação-de-estados.html#cb23-10" tabindex="-1"></a>C <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">0</span>]])</span>
+<span id="cb23-11"><a href="realimentação-de-estados.html#cb23-11" tabindex="-1"></a>D <span class="op">=</span> np.array([[<span class="dv">0</span>]])</span>
+<span id="cb23-12"><a href="realimentação-de-estados.html#cb23-12" tabindex="-1"></a>sys <span class="op">=</span> ct.ss(A,B,C,D)</span>
+<span id="cb23-13"><a href="realimentação-de-estados.html#cb23-13" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="realimentação-de-estados.html#cb23-14" tabindex="-1"></a><span class="co"># Pólos desejados</span></span>
+<span id="cb23-15"><a href="realimentação-de-estados.html#cb23-15" tabindex="-1"></a>xi <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb23-16"><a href="realimentação-de-estados.html#cb23-16" tabindex="-1"></a>wn <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb23-17"><a href="realimentação-de-estados.html#cb23-17" tabindex="-1"></a>polo <span class="op">=</span> wn<span class="op">*</span>(<span class="op">-</span>xi<span class="op">+</span><span class="ot">1j</span><span class="op">*</span>np.sqrt(<span class="dv">1</span><span class="op">-</span>xi<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb23-18"><a href="realimentação-de-estados.html#cb23-18" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="realimentação-de-estados.html#cb23-19" tabindex="-1"></a><span class="co"># Alocação de polos</span></span>
+<span id="cb23-20"><a href="realimentação-de-estados.html#cb23-20" tabindex="-1"></a>K <span class="op">=</span> ct.acker(A,B,[polo, np.conj(polo)])</span></code></pre></div>
+<p>Regulador encontrado: <span class="math inline">\(\mathbf{K}= \left[\begin{matrix}-3.8 &amp; 0.6\end{matrix}\right]\)</span></p>
+<p>Execute novamente o código com <span class="math inline">\(z_0=3\)</span> para verificar a variação dos
+ganhos como no livro. Espera-se que haja um aumento significativo nos
+ganhos.</p>
+<p>Quando um polo e um zero tendem a se cancelar, o sistema tende a perder
+controlabilidade e isso torna os ganhos mais altos e, consequentemente,
+o controle fica mais “caro” (puxa mais energia). Vale a observação do
+livro:</p>
+<p><strong>“O sistema tem que trabalhar com mais força para conseguir o controle
+quando a controlabilidade é fraca.”</strong></p>
+<p>Além disso:</p>
+<p><strong>“Mover os polos em um longo caminho requer grandes ganhos.”</strong></p>
+<p>Isso é observado quando um sistema é naturalmente lento e tentamos
+deixá-lo mais rápido. Isso normalmente resulta em ganhos grandes (em
+módulo), o que resulta novamente em um controle “caro”.</p>
+</div>
+<div id="estimadores-de-estado" class="section level2 hasAnchor" number="5.6">
+<h2><span class="header-section-number">5.6</span> Estimadores de estado<a href="realimentação-de-estados.html#estimadores-de-estado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>No assunto anterior vimos que a ação de controle no espaço de estados é
+proporcional aos estados do sistema. Para isso ser possível de calcular,
+precisamos ter esses sinais disponíveis.</p>
+<p>Na prática, uma medição direta dos estados é raramente viável. O número
+de sensores pode ser grande, o que tornaria o projeto muito caro. Ou
+simplesmente, os estados não são possíveis de medir.</p>
+<p>Para contornar a situação usamos um sistema auxiliar, um subsistema do
+controlador, que é responsável por fornecer uma estimativa dos estados
+reais. Esse sistema é chamado de <strong>estimador</strong> ou <strong>observador de
+estados</strong>.</p>
+<div id="modelagem-do-observador" class="section level3 hasAnchor" number="5.6.1">
+<h3><span class="header-section-number">5.6.1</span> Modelagem do observador<a href="realimentação-de-estados.html#modelagem-do-observador" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Vamos supor que os estados reais sejam <span class="math inline">\(\mathbf{x}\)</span> e a respectiva
+estimativa seja <span class="math inline">\(\hat{\mathbf{x}}\)</span>. Idealmente, queremos que
+<span class="math inline">\(\hat{\mathbf{x}}\approx \mathbf{x}\)</span>.</p>
+<p>Suponha que o sistema real seja:
+<span class="math display">\[\begin{align*}
+    \dot{\mathbf{x}} &amp;= \mathbf{Ax+B}u\\
+    y &amp;= \mathbf{Cx} + Du
+\end{align*}\]</span></p>
+<p>O estimador é um sistema que tenta “imitar” o original, usando uma
+dinâmica parecida:
+<span class="math display">\[\begin{align*}
+    \dot{\mathbf{\hat{x}}} &amp;= \mathbf{A\hat{x}+B}u+\mathbf{L}(y-\mathbf{C\hat{x}})
+\end{align*}\]</span></p>
+<p>A interpretação dessa equação é a seguinte:</p>
+<ul>
+<li>O termo <span class="math inline">\(\mathbf{A\hat{x}+B}u\)</span> é uma tentativa de “imitar” a equação
+original do sistema.</li>
+<li>O termo <span class="math inline">\(\mathbf{L}(y-\mathbf{C\hat{x}})\)</span> é um fator de correção do
+anterior.
+<ul>
+<li>O termo <span class="math inline">\(\mathbf{C\hat{x}}\)</span> representa uma estimativa da saída
+do sistema (é a matriz de saída <span class="math inline">\(\mathbf{C}\)</span> vezes os estados
+estimados)</li>
+<li>O termo <span class="math inline">\(y-\mathbf{C\hat{x}}\)</span> representa, portanto, o erro entre
+a saída real e a saída estimada.</li>
+<li>O vetor coluna <span class="math inline">\(\mathbf{L}\)</span> funciona como um ganho proporcional.</li>
+</ul></li>
+</ul>
+<p>Assim, vemos que o estimador é um sistema que “imita” a dinâmica do
+sistema original, porém, ele corrige o erro da dinâmica usando uma
+parcela proporcional ao erro de estimativa da saída (que é um sinal que
+nós realmente conseguimos medir).</p>
+<p>Esse termo de correção é o que faz o estimador funcionar. Projetar o
+estimador é essencialmente calcular o vetor <span class="math inline">\(\mathbf{L}\)</span>, chamado de
+<em>ganho do estimador</em>.</p>
+<p>Se o ganho do estimador for bem projetado, a diferença entre
+<span class="math inline">\(\mathbf{x}-\mathbf{\hat{x}}\)</span> cairá rapidamente com o tempo. Ou seja,
+passado um longo tempo (isto é, em regime permanente), <span class="math inline">\(\mathbf{x}\)</span> e
+<span class="math inline">\(\mathbf{\hat{x}}\)</span> terão os mesmos valores. Matematicamente
+representamos <span class="math inline">\(\mathbf{x}\rightarrow \mathbf{\hat{x}}\)</span>.</p>
+<p><img src="figs/Fig7.28.svg" /></p>
+<p>A síntese do estimador é feita da seguinte maneira. Seja
+<span class="math inline">\(e = \mathbf{x}-\mathbf{\hat{x}}\)</span> o erro de estimação entre os estados.
+Combinando a dinâmica do sistema e do estimador, podemos mostrar que:
+<span class="math display">\[\begin{align*}
+    \dot{\mathbf{e}} &amp;= \mathbf{(A-LC)e}
+\end{align*}\]</span></p>
+<p>Esse é um sistema autônomo (sem entrada), que só depende das condições
+iniciais. Ele só possui a matriz de estados, que se for estável, fará
+com que o estado inicial decaia a zero, qualquer que ele seja.</p>
+<p>Em outras palavras, mesmo que não conheçamos o estado inicial do sistema
+para alimentar o estimador, o erro ainda assim irá para zero em regime
+permanente.</p>
+<p>Para que isso aconteça, basta que a matriz <span class="math inline">\(\mathbf{(A-LC)}\)</span> seja
+estável, isto é, tenha todos os autovalores no SPE.</p>
+<p>Esse é um problema semelhante ao da regulação de estados. A única
+diferença é a posição das matrizes. No problema de regulação temos
+<span class="math inline">\(\mathbf{A-BK}\)</span>.</p>
+<div align="center">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Regulador</th>
+<th align="center">Estimador</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Determinar</td>
+<td align="center"><span class="math inline">\(\mathbf{K}\)</span></td>
+<td align="center"><span class="math inline">\(\mathbf{L}\)</span></td>
+</tr>
+<tr class="even">
+<td>Dimensões</td>
+<td align="center"><span class="math inline">\(1\times n\)</span></td>
+<td align="center"><span class="math inline">\(n\times 1\)</span></td>
+</tr>
+<tr class="odd">
+<td>Equação</td>
+<td align="center"><span class="math inline">\(\mathbf{F-GK}\)</span></td>
+<td align="center"><span class="math inline">\(\mathbf{F-LH}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Devido às semelhanças, podemos usar as mesmas estratégias e funções
+Python para projetar o estimador.</p>
+<p><strong>Exemplo:</strong></p>
+<p><img src="figs/Ex7.25.svg" /></p>
+<p>Dados do problema:
+<span class="math display">\[\begin{align}
+\mathbf{A} &amp;= \left[\begin{matrix}0 &amp; 1\\- \omega_{0}^{2} &amp; 0\end{matrix}\right]\\
+\mathbf{C} &amp;= \left[\begin{matrix}1 &amp; 0\end{matrix}\right]
+\end{align}\]</span></p>
+<p>Observador:
+<span class="math display">\[\begin{align}
+  \mathbf{L} = \left[\begin{matrix}l_{1}\\l_{2}\end{matrix}\right]
+\end{align}\]</span></p>
+<p>Polinômio do observador:
+<span class="math display">\[\begin{align}
+  s\mathbf{I}-\mathbf{A+LC} &amp;= s\left[\begin{matrix}1 &amp; 0\\0 &amp; 1\end{matrix}\right]-\left[\begin{matrix}0 &amp; 1\\- \omega_{0}^{2} &amp; 0\end{matrix}\right]+\left[\begin{matrix}l_{1}\\l_{2}\end{matrix}\right]\left[\begin{matrix}1 &amp; 0\end{matrix}\right]= \\
+  &amp;= \left[\begin{matrix}s &amp; 0\\0 &amp; s\end{matrix}\right]-\left[\begin{matrix}0 &amp; 1\\- \omega_{0}^{2} &amp; 0\end{matrix}\right]+\left[\begin{matrix}l_{1} &amp; 0\\l_{2} &amp; 0\end{matrix}\right] =  \\
+  &amp;= \left[\begin{matrix}l_{1} + s &amp; -1\\\omega_{0}^{2} + l_{2} &amp; s\end{matrix}\right] \\
+\end{align}\]</span></p>
+<p>Logo:
+<span class="math display">\[\begin{align}
+|s\mathbf{I}-\mathbf{A+LC}| = \omega_{0}^{2} + l_{1} s + l_{2} + s^{2}
+\end{align}\]</span></p>
+<p>Polinômio desejado:
+<span class="math display">\[\begin{align}
+100 \omega_{0}^{2} + 20 \omega_{0} s + s^{2}
+\end{align}\]</span></p>
+<p>Igualando termo a termo:
+<span class="math display">\[\begin{align}
+\omega_{0}^{2} + l_{2} = 100 \omega_{0}^{2} \\
+l_{1} = 20 \omega_{0}
+\end{align}\]</span></p>
+<p>Solução:
+<span class="math display">\[\begin{align}
+\mathbf{L} = \left[\begin{matrix}20 \omega_{0}\\99 \omega_{0}^{2}\end{matrix}\right]
+\end{align}\]</span></p>
+<p><strong>Solução numérica</strong></p>
+<p>Se adotarmos <span class="math inline">\(\omega_0=1\)</span>, podemos resolver o mesmo problema usando a
+função de posicionamento de polos <em>acker()</em>. De fato, isso é possível,
+porque o problema do observador é muito semelhante ao do regulador,
+mudando apenas os seguintes parâmetros. * Usamos <span class="math inline">\(\mathbf{F}^T\)</span> ao
+invés de <span class="math inline">\(\mathbf{F}\)</span> * Usamos <span class="math inline">\(\mathbf{H}^T\)</span> ao invés de <span class="math inline">\(\mathbf{G}\)</span>
+* Transpomos o resultado para obter o ganho do observador na forma de
+vetor coluna</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="realimentação-de-estados.html#cb24-1" tabindex="-1"></a><span class="co"># Imports</span></span>
+<span id="cb24-2"><a href="realimentação-de-estados.html#cb24-2" tabindex="-1"></a><span class="im">import</span> control <span class="im">as</span> ct</span>
+<span id="cb24-3"><a href="realimentação-de-estados.html#cb24-3" tabindex="-1"></a><span class="co"># Declara as matrizes</span></span>
+<span id="cb24-4"><a href="realimentação-de-estados.html#cb24-4" tabindex="-1"></a>w0<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb24-5"><a href="realimentação-de-estados.html#cb24-5" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">0</span>,<span class="dv">1</span>],[<span class="op">-</span>w0<span class="op">**</span><span class="dv">2</span>,<span class="dv">0</span>]])</span>
+<span id="cb24-6"><a href="realimentação-de-estados.html#cb24-6" tabindex="-1"></a>C <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">0</span>]])</span>
+<span id="cb24-7"><a href="realimentação-de-estados.html#cb24-7" tabindex="-1"></a><span class="co"># Posiciona os polos</span></span>
+<span id="cb24-8"><a href="realimentação-de-estados.html#cb24-8" tabindex="-1"></a>L <span class="op">=</span> ct.acker(A<span class="op">=</span>A.T,B<span class="op">=</span>C.T,poles<span class="op">=</span>[<span class="op">-</span><span class="dv">10</span><span class="op">*</span>w0,<span class="op">-</span><span class="dv">10</span><span class="op">*</span>w0]).T</span></code></pre></div>
+<p>Resultado: <span class="math inline">\(\mathbf{L} = \left[\begin{matrix}20.0\\99.0\end{matrix}\right]\)</span></p>
+</div>
+<div id="forma-canônica-de-observador" class="section level3 hasAnchor" number="5.6.2">
+<h3><span class="header-section-number">5.6.2</span> Forma canônica de observador<a href="realimentação-de-estados.html#forma-canônica-de-observador" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Tal como no caso do regulador de estados, há uma forma de espaço de
+estados para a qual a solução do observador é muito simples. A forma é
+conhecida como forma canônica de observador.</p>
+<p>Para deduzi-la procedemos como anteriormente. Desenhamos um diagrama de
+blocos e extraimos as equações de estados dos integradores.</p>
+<p>O caso de terceira ordem geral é mostrado na Figura abaixo.</p>
+<p><img src="figs/Fig7.31.svg" /></p>
+<p>A função de transferência correspondente é:
+<span class="math display">\[\begin{align*}
+    G(s) = \frac{b_1s^2+b_2s+b_3}{s^3+a_1s^2+a_2s+a_3}
+\end{align*}\]</span></p>
+<p>Note que:</p>
+<ul>
+<li>Os integradores <strong>não</strong> estão em série diretamente</li>
+<li>Entre cada integrador há um somador</li>
+<li>Apenas a saída (último integrador) é realimentada</li>
+<li>A realimentação é feita para cada um dos somadores, através dos
+ganhos do denominador</li>
+<li>A entrada se conecta a cada um dos somadores, através dos ganhos do
+numerador</li>
+</ul>
+<p>A representação de estados é:</p>
+<p><span class="math display">\[\begin{align*}
+    \mathbf{\dot{x}} &amp;= \left[
+        \begin{array}{rrr}
+        -a_1 &amp; 1 &amp; 0\\
+        -a_2 &amp; 0 &amp; 1\\
+        -a_3 &amp; 0 &amp; 0\end{array}
+    \right]\mathbf{{x}}+
+    \left[\begin{array}{rrr}
+        b_1\\
+        b_2\\
+        b_3\end{array}
+    \right]u\\
+    y &amp;= \left[\begin{array}{ccc} 1 &amp; 0 &amp; 0\end{array}\right]\mathbf{x}
+\end{align*}\]</span></p>
+<p>Note que: * Na matriz <span class="math inline">\(\mathbf{A}\)</span>, a primeira coluna é formada pelos
+coeficientes do denominador com sinal trocado, ordem crescente de
+potência de <span class="math inline">\(s\)</span>, de cima para baixo. * As colunas restantes podem ser
+montadas usando uma matriz identidade de ordem 2 e uma linha de zeros *
+A matriz <span class="math inline">\(\mathbf{B}\)</span> é uma coluna formada pelos coeficientes do
+numerador, ordem crescente de potência de <span class="math inline">\(s\)</span> de cima para baixo. * A
+matriz <span class="math inline">\(\mathbf{C}\)</span> é uma linha de zeros, exceto pelo primeiro elemento
+igual a 1. * <span class="math inline">\(J=0\)</span>.</p>
+<p><strong>Exercício:</strong> Desenhe e obtenha as matrizes para o caso de 4a ordem.</p>
+<p>A forma de observador é útil no projeto de observadores. Para o caso de
+3a ordem anterior, a matriz de projeto é
+<span class="math display">\[\begin{align*}
+\mathbf{A-LC} &amp;= \left[
+        \begin{array}{rrr}
+        -a_1-l_1 &amp; 1 &amp; 0\\
+        -a_2-l_2 &amp; 0 &amp; 1\\
+        -a_3-l_3 &amp; 0 &amp; 0\end{array}
+    \right]
+\end{align*}\]</span></p>
+<p>cuja equação característica é:
+<span class="math display">\[\begin{align*}
+s^3+(a_1+l_1)s^2+(a_2+l_2)s+(a_3+l_3)=0
+\end{align*}\]</span></p>
+<p>Assim, podemos achar os ganhos do observador <span class="math inline">\(\mathbf{L}=\left[\begin{array}{ccc} l_1 &amp; l_2 &amp; l_3\end{array} \right]\)</span> muito facilmente com o polinômio desejado.</p>
+</div>
+<div id="observabilidade" class="section level3 hasAnchor" number="5.6.3">
+<h3><span class="header-section-number">5.6.3</span> Observabilidade<a href="realimentação-de-estados.html#observabilidade" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Observabilidade é a capacidade que um sistema possui em “permitir” que seus estados sejam estimados a partir apenas do conhecimento do sinal de saída.</p>
+<p>Da mesma forma que a controlabilidade, podemos medir a observabilidade pela <strong>matriz de observabilidade</strong> e seu determinante.</p>
+<p>A matriz de observabilidade é construída linha por linha, como:
+<span class="math display">\[\begin{align*}
+\mathbf{\mathcal{O}} &amp;= \left[
+        \begin{array}{c}
+        \mathbf{C}\\
+        \mathbf{CA}\\
+        \mathbf{CA^2}\\
+        \vdots\\
+        \mathbf{CA^{n-1}}
+        \end{array}
+    \right]
+\end{align*}\]</span></p>
+<p>Uma forma rápida de calcular essa matriz é usar a função obsv() da biblioteca <em>control</em>.</p>
+<p>Um sistema SISO é observável se <span class="math inline">\(\det \mathbf{\mathcal{O}} \neq 0\)</span>. Se o sistema é MIMO, devemos olhar para o posto da matriz de observabilidade.</p>
+<p>O sistema perde observabilidade quando há cancelamentos entre pólos zeros, de forma semalhante à controlabilidade. O sistema torna-se mais observável à medida que possui mais saídas mensuráveis.</p>
+<p>Observe que existem diversos paralelos entre controlabilidade e observabilidade, inclusive nos cálculos.</p>
+<p>Como já mostramos, os cálculos de observabilidades basicamente trocam a matriz <span class="math inline">\(\mathbf{B}\)</span> pela transposta de <span class="math inline">\(\mathbf{C}\)</span> e a matriz de estados pela sua transposta. Esse “paralelismo” é chamado de <em>dualidade</em> entre as duas propriedades.</p>
+</div>
+</div>
+<div id="compensador-dinâmico" class="section level2 hasAnchor" number="5.7">
+<h2><span class="header-section-number">5.7</span> Compensador dinâmico<a href="realimentação-de-estados.html#compensador-dinâmico" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Já aprendemos a projetar um regulador, que é um conjunto de ganhos que
+calcula a ação de controle usando os estados do sistema.</p>
+<p>Também aprendemos a projetar um observador de estados, que é um sistema
+dinâmico cuja função é fornecer uma estimativa dos estados reais do
+sistema a partir do sinal de saída.</p>
+<p>O compensador dinâmico é a junção destas duas ideias no mesmo sistema.</p>
+<p>A Figura abaixo esquematiza todos os subsistemas e rotas de sinal com a
+estratégia adotada.</p>
+<p><img src="figs/Fig7.35.svg" /></p>
+<p>No final, nosso controlador projetado com essas abordagens é um único
+sistema, cujas equações de estado são:
+<span class="math display">\[\begin{align*}
+    \dot{\mathbf{x}}_e &amp;= \mathbf{(A-BK-LC)}\mathbf{x}_e+\mathbf{L}y\\
+    u &amp;= \mathbf{-K}\mathbf{x}_e
+\end{align*}\]</span>
+onde <span class="math inline">\(\mathbf{x}_e\)</span> é a estimativa dos estados do sistema pelo
+observador, <span class="math inline">\(\mathbf{K}\)</span> e <span class="math inline">\(\mathbf{L}\)</span> são respectivamente os ganhos do
+regulador e do observador. Note que a entrada do controlador é a saída
+da planta. Da mesma forma, o sinal de saída do controlador é o sinal de
+controle <span class="math inline">\(u\)</span>, que vai para a entrada da planta.</p>
+<p>Perceba, que estas duas equações permitem realizar o controlador como um
+sistema entrada-saída normal, com uma função de transferência que
+basicamente dispensa as equações de estado, para fins de implementação.
+Esta função é:
+<span class="math display">\[\begin{align*}
+    Q(s) &amp;= -\mathbf{K}(s\mathbf{I-A+BK+LC})^{-1}\mathbf{L}
+\end{align*}\]</span></p>
+<p>Para fins de simulação, o sistema completo (planta+controlador) podem
+ser simulados usando um único conjunto de equações de estados:
+<span class="math display">\[\begin{align*}
+\dot{\mathbf{x}} &amp;= \mathbf{A}\mathbf{x}-\mathbf{BK}\mathbf{x_e}\\
+\dot{\mathbf{x}}_e &amp;= \mathbf{(A-BK-LC)}\mathbf{x}_e+\mathbf{LCx}\\
+y&amp;= \mathbf{Cx}
+\end{align*}\]</span></p>
+<p>É possível demonstrar que os pólos de malha fechada compensado por um
+controlador dessa natureza são exatamente os pólos projetados pelo
+regulador de estados completo (isto é, considerando realimentação dos
+estados verdadeiros, mesmo que na prática não vá ser assim no final) e o
+pólos alocados para o observador.</p>
+<p>Em outras palavras, o polinômio de malha fechada quando usamos um
+compensador que combina regulador+observador é simplesmente:
+<span class="math display">\[\begin{align*}
+    \alpha_{\text{mf}}(s) = \alpha_{\text{reg}}(s)\cdot \alpha_{\text{obs}}(s)
+\end{align*}\]</span>
+onde “mf”, “reg” e “obs” indicam respectivamente “malha fechada”,
+“regulador” e “observador”.</p>
+<p>O fato do projeto dos dois sistemas não “misturar” os pólos é um fato
+notável, que permite que os projetos sejam feitos de forma independente.
+Isso é chamado de principío da separação em teoria de controle.</p>
+<div id="compensador-com-referência" class="section level3 hasAnchor" number="5.7.1">
+<h3><span class="header-section-number">5.7.1</span> Compensador com referência<a href="realimentação-de-estados.html#compensador-com-referência" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Considerando a entrada <span class="math inline">\(u = Nr - \mathbf{K}\mathbf{x}_e\)</span> e um sistema com <span class="math inline">\(D=0\)</span>, as equações de estado ficam:</p>
+<p><span class="math display">\[\begin{align}
+\dot{\mathbf{x}} &amp;= \mathbf{Ax}-\mathbf{BK}\mathbf{x}_e +\mathbf{B}Nr\\
+\dot{\mathbf{x}}_e &amp;= \mathbf{(A-BK-LC)}\mathbf{x}_e+\mathbf{L}y +\mathbf{B}Nr\\
+y &amp;= \mathbf{Cx}
+\end{align}\]</span></p>
+<p>Para fins de simulação, é interessante blocar as matrizes para termos uma única representação global em malha fechada e podermos simular.
+<span class="math display">\[\begin{align}
+\begin{bmatrix}\dot{\mathbf{x}}\\\dot{\mathbf{x}}_e\end{bmatrix} &amp;=
+\begin{bmatrix} \mathbf{A} &amp; \mathbf{-BK} \\ \mathbf{LC} &amp; \mathbf{A-BK-LC}\end{bmatrix}
+\begin{bmatrix} {\mathbf{x}}\\{\mathbf{x}}_e\end{bmatrix} + \begin{bmatrix}\mathbf{B}N \\ \mathbf{B}N\end{bmatrix}r\\
+y &amp;= \begin{bmatrix}\mathbf{C} &amp; \mathbf{0}\end{bmatrix}\begin{bmatrix} {\mathbf{x}}\\{\mathbf{x}}_e\end{bmatrix}
+\end{align}\]</span></p>
+<p>Com essas matrizes também podemos calcular o valor do ganho de referência <span class="math inline">\(N\)</span> a fim de fornecer erro de regime nulo para uma entrada degrau, da mesma forma que já foi explicado, porém usando as matrizes blocadas.</p>
+<p><img src="figs/Ex7.28.svg" /></p>
+<p>Imports</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="realimentação-de-estados.html#cb25-1" tabindex="-1"></a><span class="co"># Imports</span></span>
+<span id="cb25-2"><a href="realimentação-de-estados.html#cb25-2" tabindex="-1"></a><span class="im">import</span> control <span class="im">as</span> ct</span>
+<span id="cb25-3"><a href="realimentação-de-estados.html#cb25-3" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code></pre></div>
+<p>Declaração das matrizes e do sistema</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="realimentação-de-estados.html#cb26-1" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">0</span>,<span class="dv">1</span>],[<span class="dv">0</span>,<span class="dv">0</span>]])</span>
+<span id="cb26-2"><a href="realimentação-de-estados.html#cb26-2" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">0</span>],[<span class="dv">1</span>]])</span>
+<span id="cb26-3"><a href="realimentação-de-estados.html#cb26-3" tabindex="-1"></a>C <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">0</span>]])</span>
+<span id="cb26-4"><a href="realimentação-de-estados.html#cb26-4" tabindex="-1"></a>D <span class="op">=</span> np.array([[<span class="dv">0</span>]])</span>
+<span id="cb26-5"><a href="realimentação-de-estados.html#cb26-5" tabindex="-1"></a>sys <span class="op">=</span> ct.ss(A,B,C,D)</span></code></pre></div>
+<p>Controlabilidade</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="realimentação-de-estados.html#cb27-1" tabindex="-1"></a>Co<span class="op">=</span> ct.ctrb(A,B)</span></code></pre></div>
+<p>A matriz de controlabilidade é</p>
+<p><span class="math display">\[
+  \mathcal{C} = \left[\begin{matrix}0 &amp; 1.0\\1.0 &amp; 0\end{matrix}\right]
+\]</span></p>
+<p>O determinante é <span class="math inline">\(-1.0\)</span>, logo o sistema é controlável.</p>
+<p>Observabilidade</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="realimentação-de-estados.html#cb28-1" tabindex="-1"></a>Ob<span class="op">=</span> ct.obsv(A,C)</span></code></pre></div>
+<p>A matriz de observabilidade é</p>
+<p><span class="math display">\[
+  \mathcal{O} = \left[\begin{matrix}1.0 &amp; 0\\0 &amp; 1.0\end{matrix}\right]
+\]</span></p>
+<p>O determinante é <span class="math inline">\(1.0\)</span>, logo o sistema é observável</p>
+<p>Pólos do regulador:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="realimentação-de-estados.html#cb29-1" tabindex="-1"></a>xi <span class="op">=</span> <span class="fl">0.707</span></span>
+<span id="cb29-2"><a href="realimentação-de-estados.html#cb29-2" tabindex="-1"></a>wn <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb29-3"><a href="realimentação-de-estados.html#cb29-3" tabindex="-1"></a>p <span class="op">=</span> wn<span class="op">*</span>(<span class="op">-</span>xi<span class="op">+</span><span class="ot">1j</span><span class="op">*</span>np.sqrt(<span class="dv">1</span><span class="op">-</span>xi<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb29-4"><a href="realimentação-de-estados.html#cb29-4" tabindex="-1"></a>pr <span class="op">=</span> [p, np.conj(p)]</span></code></pre></div>
+<p>Cálculo do regulador</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="realimentação-de-estados.html#cb30-1" tabindex="-1"></a>K <span class="op">=</span> ct.acker(A,B,pr)</span></code></pre></div>
+<p><span class="math display">\[
+\mathbf{K} = \left[\begin{matrix}1.0 &amp; 1.414\end{matrix}\right]
+\]</span></p>
+<p>Pólos do observador:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="realimentação-de-estados.html#cb31-1" tabindex="-1"></a>xi <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb31-2"><a href="realimentação-de-estados.html#cb31-2" tabindex="-1"></a>wn <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb31-3"><a href="realimentação-de-estados.html#cb31-3" tabindex="-1"></a>p <span class="op">=</span> wn<span class="op">*</span>(<span class="op">-</span>xi<span class="op">+</span><span class="ot">1j</span><span class="op">*</span>np.sqrt(<span class="dv">1</span><span class="op">-</span>xi<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb31-4"><a href="realimentação-de-estados.html#cb31-4" tabindex="-1"></a>po <span class="op">=</span> [p, np.conj(p)]</span></code></pre></div>
+<p>Cálculo do observador</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="realimentação-de-estados.html#cb32-1" tabindex="-1"></a>L <span class="op">=</span> ct.acker(A.T,C.T,po).T</span></code></pre></div>
+<p><span class="math display">\[
+\mathbf{L} = \left[\begin{matrix}5.0\\25.0\end{matrix}\right]
+\]</span></p>
+<p>Função de transferência do controlador:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="realimentação-de-estados.html#cb33-1" tabindex="-1"></a>comp <span class="op">=</span> ct.ss(A<span class="op">-</span>B<span class="op">@</span>K<span class="op">-</span>L<span class="op">@</span>C, L, <span class="op">-</span>K,<span class="dv">0</span>)</span>
+<span id="cb33-2"><a href="realimentação-de-estados.html#cb33-2" tabindex="-1"></a>Qs <span class="op">=</span> ct.tf(comp)</span></code></pre></div>
+<p><span class="math display">\[
+  Q(s) = \frac{- 40.35 s - 25.0}{1.0 s^{2} + 6.414 s + 33.07}
+\]</span></p>
+<p>Matrizes em bloco para o sistema em malha fechada:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="realimentação-de-estados.html#cb34-1" tabindex="-1"></a>Amf <span class="op">=</span> np.block([[A, <span class="op">-</span>B<span class="op">@</span>K],[L<span class="op">@</span>C, A<span class="op">-</span>B<span class="op">@</span>K<span class="op">-</span>L<span class="op">@</span>C]])</span>
+<span id="cb34-2"><a href="realimentação-de-estados.html#cb34-2" tabindex="-1"></a>Bmf <span class="op">=</span> np.block([[B],[B]])</span>
+<span id="cb34-3"><a href="realimentação-de-estados.html#cb34-3" tabindex="-1"></a>Cmf <span class="op">=</span> np.block([[C, np.zeros(C.shape)]])</span></code></pre></div>
+<p>Cálculo do ganho de referência:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="realimentação-de-estados.html#cb35-1" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(Cmf <span class="op">@</span> np.linalg.inv(<span class="op">-</span>Amf) <span class="op">@</span> Bmf)</span></code></pre></div>
+<p>Redefinir a matriz <span class="math inline">\(\mathbf{B}\)</span> de malha fechada para introduzir o ganho <span class="math inline">\(N\)</span></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="realimentação-de-estados.html#cb36-1" tabindex="-1"></a>Bmf <span class="op">=</span> Bmf <span class="op">@</span> N</span></code></pre></div>
+<p>Definie o sistema em malha fechada</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href="realimentação-de-estados.html#cb37-1" tabindex="-1"></a>sis_mf <span class="op">=</span> ct.ss(Amf,Bmf,Cmf, <span class="dv">0</span>)</span></code></pre></div>
+<p>Simula em malha fechada</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="realimentação-de-estados.html#cb38-1" tabindex="-1"></a>out <span class="op">=</span> ct.step_response(sis_mf)</span></code></pre></div>
+<p>Plota:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="realimentação-de-estados.html#cb39-1" tabindex="-1"></a>plt.plot(out.t,out.outputs)</span>
+<span id="cb39-2"><a href="realimentação-de-estados.html#cb39-2" tabindex="-1"></a>plt.grid()</span>
+<span id="cb39-3"><a href="realimentação-de-estados.html#cb39-3" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;Tempo (seg)&#39;</span>)</span>
+<span id="cb39-4"><a href="realimentação-de-estados.html#cb39-4" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;Saída&#39;</span>)</span>
+<span id="cb39-5"><a href="realimentação-de-estados.html#cb39-5" tabindex="-1"></a>plt.legend(<span class="st">&#39;y&#39;</span>)</span>
+<span id="cb39-6"><a href="realimentação-de-estados.html#cb39-6" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p><img src="figs/Ex7.30.svg" /></p>
+</div>
+</div>
+<div id="controle-integral" class="section level2 hasAnchor" number="5.8">
+<h2><span class="header-section-number">5.8</span> Controle integral<a href="realimentação-de-estados.html#controle-integral" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Sabemos que um integrador em malha aberta zera o erro de regime
+permanente quando fechamos a malha (para uma referência degrau pelo menos) e permite ao sistema
+rejeitar distúrbios (do tipo degrau). Portanto, a introdução de
+integradores na malha aberta é um aspecto desejável do projeto.</p>
+<p>Para introduzir um integrador no espaço de estados, adicionamos um novo
+estado ao sistema, que representa a integral do erro à referência:
+<span class="math display">\[\begin{align*}
+    {e} = \int (r-y)dt
+\end{align*}\]</span></p>
+<p>Supondo que <span class="math inline">\(y=\mathbf{Cx}\)</span>, a equação de estado deste novo sinal é:
+<span class="math display">\[\begin{align*}
+    \dot{e} = r-\mathbf{Cx}
+\end{align*}\]</span></p>
+<p>Essa última equação aumenta a ordem do sistema em 1. O sistema em malha
+aberta agora fica:
+<span class="math display">\[\begin{align*}
+    \dot{\mathbf{x}} &amp;= \mathbf{Ax}+\mathbf{B}u\\
+    \dot{e} &amp;= r-\mathbf{Cx}
+\end{align*}\]</span></p>
+<p>Em notação matricial em blocos temos:
+<span class="math display">\[\begin{align*}
+    \left[\begin{array}{c}\dot{\mathbf{x}}\\ \dot{e}\end{array}\right]&amp;=
+    \left[\begin{array}{cc}\mathbf{A} &amp; \mathbf{0}\\-\mathbf{C} &amp; 0\end{array}\right]\left[\begin{array}{c}{\mathbf{x}}\\ {e}\end{array}\right]+\left[\begin{array}{c}\mathbf{B}\\ 0\end{array}\right]u+\left[\begin{array}{c}\mathbf{0}\\ 1\end{array}\right]r
+\end{align*}\]</span></p>
+<p>Dizemos que o sistema está <em>aumentado</em></p>
+<p>O algoritmo de controle integral consiste em fazer uma realimentação
+completa de todos os estados agora definidos.
+<span class="math display">\[\begin{align*}
+    u = -\mathbf{K}_a\mathbf{x}_a
+\end{align*}\]</span></p>
+<p>Algoritmo de projeto:</p>
+<ul>
+<li><p>Construa as matrizes aumentadas:
+<span class="math display">\[\begin{align*}
+\mathbf{A}_a &amp;= \left[\begin{array}{cc}\mathbf{A} &amp; \mathbf{0}\\-\mathbf{C} &amp; 0\end{array}\right]\\
+\mathbf{B}_a &amp;=\left[\begin{array}{c}\mathbf{B}\\ 0\end{array}\right]
+\end{align*}\]</span></p></li>
+<li><p>Resolva o problema de regulação com
+<span class="math inline">\((\mathbf{A}_a, \, \mathbf{B}_a)\)</span>, para encontrar a matriz de ganhos
+aumentada <span class="math inline">\(\mathbf{K}_a\)</span></p></li>
+</ul>
+<div id="escolha-dos-pólos-1" class="section level3 hasAnchor" number="5.8.1">
+<h3><span class="header-section-number">5.8.1</span> Escolha dos pólos<a href="realimentação-de-estados.html#escolha-dos-pólos-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Perceba que a introdução de um integrador aumenta a ordem do sistema e
+isso vai requerer a especificação de pólos adicionais. Tente alocar
+estes pólos em posições estratégicas para não comprometer a dominância
+dos pólos desejados.</p>
+</div>
+<div id="equações-de-estado-do-compensador" class="section level3 hasAnchor" number="5.8.2">
+<h3><span class="header-section-number">5.8.2</span> Equações de estado do compensador:<a href="realimentação-de-estados.html#equações-de-estado-do-compensador" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>No controle integral, projetamos o observador de estados normalmente,
+como se o integrador não estivesse presente.</p>
+<p>Supondo que os estados do observador são <span class="math inline">\(\mathbf{z}=\hat{\mathbf{x}}\)</span>,
+as equações do compensador serão:</p>
+<p><span class="math display">\[\begin{align*}
+    \dot{\mathbf{z}}&amp;= (\mathbf{A}&#39;-\mathbf{B}&#39;\mathbf{K}_a-\mathbf{L}_0\mathbf{C}&#39;)\mathbf{z}+\mathbf{L}_1y+\mathbf{M}r\\
+    u &amp;= \mathbf{-K}_a\mathbf{z}
+\end{align*}\]</span></p>
+<p>As matrizes aumentadas são:</p>
+<p><span class="math display">\[\begin{align}
+\mathbf{A}&#39; &amp;= \left[\begin{array}{ll}
+                     \mathbf{A} &amp; \mathbf{0}_{n\times 1}\\
+                     \mathbf{0}_{1\times n} &amp; 0
+                \end{array}\right]\\
+
+\mathbf{B}&#39; &amp;= \left[\begin{array}{cc}
+\mathbf{B} \\ {0}
+\end{array}\right]\\
+
+\mathbf{C}&#39; &amp;= \left[\begin{array}{cc}
+\mathbf{C} &amp; {0}
+\end{array}\right]\\
+
+\mathbf{L}_0 &amp;= \left[\begin{array}{cc}
+\mathbf{L} \\ {0}
+\end{array}\right]\\
+
+\mathbf{L}_1 &amp;= \left[\begin{array}{rr}
+\mathbf{L} \\ {-1}
+\end{array}\right]\\
+
+\mathbf{M} &amp;= \left[\begin{array}{cc}
+\mathbf{0}_{n\times 1} \\ 1
+\end{array}\right]
+\end{align}\]</span></p>
+<p>É interessante observar que esse compensador requer duas entradas
+distintas para ser realizado: a referência e a saída da planta.</p>
+<p>Lembre-se que do ponto de vista do controlador, a saída é o sinal de
+controle <span class="math inline">\(u\)</span>. Portanto, a saída da planta <span class="math inline">\(y\)</span> é vista por ele como uma
+entrada, assim como a referência <span class="math inline">\(r\)</span>.</p>
+<p>Podemos enxergá-lo através de duas funções de transferência: uma de <span class="math inline">\(Y\)</span>
+para <span class="math inline">\(U\)</span> e outra de <span class="math inline">\(R\)</span> para <span class="math inline">\(U\)</span>. Assim, a saída do controlador poderia
+ser descrita como:</p>
+<p><span class="math display">\[\begin{align}
+    U(s) = C_1(s)Y(s)+C_2(s)R(s)
+\end{align}\]</span></p>
+<p>As funções de transferência <span class="math inline">\(C_1(s)\)</span> e <span class="math inline">\(C_2(s)\)</span> podem ser calculadas
+pelas matrizes usando a expressão que já estudamos.</p>
+<p>Do ponto de vista de fluxo de sinal, o sistema controlador funciona
+conforme o diagrama de blocos a seguir</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-51"></span>
+<img src="figs/controleIntegral.svg" alt="Controle integral" width="100%" />
+<p class="caption">
+Figure 5.1: Controle integral
+</p>
+</div>
+<p>Esse diagrama pode ser modificado para utilizar a estrutura convencional
+de controle com realimentação unitária, mas nesse caso, o bloco que
+alimenta a referência sofre modificação (<em>desafio: verifique que
+diagrama é esse</em>)</p>
+</div>
+<div id="simulação-em-malha-fechada-1" class="section level3 hasAnchor" number="5.8.3">
+<h3><span class="header-section-number">5.8.3</span> Simulação em malha fechada<a href="realimentação-de-estados.html#simulação-em-malha-fechada-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Com a realimentação do sistema aumentado, as equações em malha fechada
+serão:</p>
+<span class="math display">\[\begin{align*}
+\dot{\mathbf{x}} &amp;= \mathbf{A}\mathbf{x}-\mathbf{B}\mathbf{K}_a\mathbf{z}\\
+\dot{\mathbf{z}} &amp;= (\mathbf{A&#39;}-\mathbf{B&#39;}\mathbf{K}_a-\mathbf{L}_0\mathbf{C}&#39;)\mathbf{z}+\mathbf{L}_1\mathbf{C}\mathbf{x}+\mathbf{M}\, r\\
+y&amp;= \mathbf{Cx}
+\end{align*}\]</span>
+<p>Matrizes de malha fechada:</p>
+<p><span class="math display">\[\begin{align}
+\mathbf{A}_{\text{mf}} &amp;= \left[\begin{array}{cc}
+    \mathbf{A} &amp; -\mathbf{B}\mathbf{K}_a\\
+    \mathbf{L}_1\mathbf{C} &amp; \mathbf{A}&#39;-\mathbf{B}&#39;\mathbf{K}_a-\mathbf{L}_0\mathbf{C}&#39;
+\end{array}\right]\\
+\mathbf{B}_{\text{mf}} &amp;= \left[\begin{array}{cc}
+    \mathbf{0}_{n\times 1} \\ \mathbf{M}
+\end{array}\right] = \left[\begin{array}{cc}
+    \mathbf{0}_{2n\times 1} \\ 1
+\end{array}\right]\\
+\mathbf{C}_{\text{mf}} &amp;= \left[\begin{array}{cc}
+    \mathbf{C} &amp; \mathbf{0}_{1\times (n+1)}
+\end{array}\right]\\
+\mathbf{D}_{\text{mf}} &amp;= 0
+\end{align}\]</span></p>
+<p>Perceba que a realimentação de estados é feita através do sinal <span class="math inline">\(u\)</span>. O
+sinal <span class="math inline">\(r\)</span>, de referência não deve ser usado para realimentar.</p>
+<p><strong>Exemplo:</strong></p>
+<p>Construa um compensador com controle integral para o sistema
+<span class="math display">\[\begin{align}
+    G(s) = \frac{10}{(s+1)(s+2)}
+\end{align}\]</span>
+para que <span class="math inline">\(\xi = 0.7\)</span> e <span class="math inline">\(\omega_n=2\)</span>.</p>
+<p>Imports</p>
+<p>Declara o sistema</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a href="realimentação-de-estados.html#cb40-1" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="op">-</span><span class="dv">3</span>,<span class="op">-</span><span class="dv">2</span>],[<span class="dv">1</span>,<span class="dv">0</span>]])</span>
+<span id="cb40-2"><a href="realimentação-de-estados.html#cb40-2" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">1</span>],[<span class="dv">0</span>]])</span>
+<span id="cb40-3"><a href="realimentação-de-estados.html#cb40-3" tabindex="-1"></a>C <span class="op">=</span> np.array([[<span class="dv">0</span>,<span class="dv">10</span>]])</span>
+<span id="cb40-4"><a href="realimentação-de-estados.html#cb40-4" tabindex="-1"></a>D <span class="op">=</span> np.array([[<span class="dv">0</span>]])</span></code></pre></div>
+<p><span class="math display">\[\begin{align}
+  \dot{\mathbf{x}} &amp;= \left[\begin{matrix}-3 &amp; -2\\1 &amp; 0\end{matrix}\right]\mathbf{x} + \left[\begin{matrix}1\\0\end{matrix}\right]u\\
+  y &amp;= \left[\begin{matrix}0 &amp; 10\end{matrix}\right]\mathbf{x}
+\end{align}\]</span></p>
+<p>Matrizes aumentadas</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="realimentação-de-estados.html#cb41-1" tabindex="-1"></a>Aa <span class="op">=</span> np.block([[A, np.zeros([<span class="dv">2</span>,<span class="dv">1</span>])],[<span class="op">-</span>C, <span class="dv">0</span>]])</span>
+<span id="cb41-2"><a href="realimentação-de-estados.html#cb41-2" tabindex="-1"></a>Ba <span class="op">=</span> np.block([[B],[<span class="dv">0</span>]])</span></code></pre></div>
+<p><span class="math display">\[\begin{align}
+\mathbf{A}_a &amp;= \left[\begin{matrix}-3.0 &amp; -2.0 &amp; 0\\1.0 &amp; 0 &amp; 0\\0 &amp; -10.0 &amp; 0\end{matrix}\right]\\
+\mathbf{B}_a &amp;= \left[\begin{matrix}1\\0\\0\end{matrix}\right]
+\end{align}\]</span></p>
+<p>Especificações</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="realimentação-de-estados.html#cb42-1" tabindex="-1"></a>xi <span class="op">=</span> <span class="fl">0.7</span></span>
+<span id="cb42-2"><a href="realimentação-de-estados.html#cb42-2" tabindex="-1"></a>wn <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb42-3"><a href="realimentação-de-estados.html#cb42-3" tabindex="-1"></a><span class="co"># Polos de MF desejados</span></span>
+<span id="cb42-4"><a href="realimentação-de-estados.html#cb42-4" tabindex="-1"></a>pr <span class="op">=</span> wn<span class="op">*</span>(<span class="op">-</span>xi<span class="op">+</span><span class="ot">1j</span><span class="op">*</span>np.sqrt(<span class="dv">1</span><span class="op">-</span>xi<span class="op">**</span><span class="dv">2</span>))</span></code></pre></div>
+<p>Pólos desejados:
+<span class="math display">\[
+  s = -1.4 \pm j 1.4283
+\]</span></p>
+<p>Como o projeto ficou de terceira ordem, precisamos completar com um
+pólo. Para não interferir na dominância, vamos alocá-lo com uma
+frequência natural 5 vezes maior. Assim, o pólo extra será <span class="math inline">\(s=-10\)</span>.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb43-1"><a href="realimentação-de-estados.html#cb43-1" tabindex="-1"></a>p <span class="op">=</span> [pr, np.conj(pr), <span class="op">-</span><span class="dv">5</span><span class="op">*</span><span class="bu">abs</span>(pr)]</span></code></pre></div>
+<p>Projeto do ganho aumentado com Ackermann</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="realimentação-de-estados.html#cb44-1" tabindex="-1"></a>Ka <span class="op">=</span> ct.acker(Aa,Ba,p)</span></code></pre></div>
+<p><span class="math display">\[\begin{align}
+  \mathbf{K}_a = \left[\begin{matrix}9.8 &amp; 30.0 &amp; -4.0\end{matrix}\right]
+\end{align}\]</span></p>
+<p>Note que:
+<span class="math display">\[\begin{align}
+  \mahtbf{K} &amp;=  \left[\begin{matrix}9.8 &amp; 30.0\end{matrix}\right]\\
+  K_i &amp;= -4.0
+\end{align}\]</span></p>
+<p>Para o projeto do observador, podemos usar pólos distantes em um fator de 10 dos pólos originais.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href="realimentação-de-estados.html#cb45-1" tabindex="-1"></a>po <span class="op">=</span> [<span class="dv">10</span><span class="op">*</span>pr, <span class="dv">10</span><span class="op">*</span>np.conj(pr)]</span></code></pre></div>
+<p>Projeto do observador</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="realimentação-de-estados.html#cb46-1" tabindex="-1"></a>L <span class="op">=</span> ct.acker(A.T, C.T, po).T</span></code></pre></div>
+<p><span class="math display">\[\begin{align}
+  \mathbf{L} = \left[\begin{matrix}32.3\\2.5\end{matrix}\right]
+\end{align}\]</span></p>
+<p>Vamos agora escrever as equações de estado do controlador.</p>
+<p>Matrizes auxiliares:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="realimentação-de-estados.html#cb47-1" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb47-2"><a href="realimentação-de-estados.html#cb47-2" tabindex="-1"></a>Al <span class="op">=</span> np.block([[A,np.zeros((n,<span class="dv">1</span>))],[np.zeros((<span class="dv">1</span>,n<span class="op">+</span><span class="dv">1</span>))]])</span>
+<span id="cb47-3"><a href="realimentação-de-estados.html#cb47-3" tabindex="-1"></a>Bl <span class="op">=</span> Ba</span>
+<span id="cb47-4"><a href="realimentação-de-estados.html#cb47-4" tabindex="-1"></a>Cl <span class="op">=</span> np.block([C,<span class="dv">0</span>])</span>
+<span id="cb47-5"><a href="realimentação-de-estados.html#cb47-5" tabindex="-1"></a>L0 <span class="op">=</span> np.block([[L],[<span class="dv">0</span>]])</span>
+<span id="cb47-6"><a href="realimentação-de-estados.html#cb47-6" tabindex="-1"></a>L1 <span class="op">=</span> np.block([[L],[<span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb47-7"><a href="realimentação-de-estados.html#cb47-7" tabindex="-1"></a>M <span class="op">=</span> np.block([[np.zeros((n,<span class="dv">1</span>))],[<span class="dv">1</span>]])</span></code></pre></div>
+<p>Matrizes do controlador</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="realimentação-de-estados.html#cb48-1" tabindex="-1"></a>Ac <span class="op">=</span> np.block([[A<span class="op">-</span>B<span class="op">@</span>K<span class="op">-</span>L<span class="op">@</span>C, <span class="op">-</span>B<span class="op">*</span>Ki], [np.zeros((<span class="dv">1</span>,<span class="dv">3</span>))]])</span>
+<span id="cb48-2"><a href="realimentação-de-estados.html#cb48-2" tabindex="-1"></a>B1 <span class="op">=</span> np.block([[L],[<span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb48-3"><a href="realimentação-de-estados.html#cb48-3" tabindex="-1"></a>B2 <span class="op">=</span> np.block([[np.zeros((<span class="dv">2</span>,<span class="dv">1</span>))],[<span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb48-4"><a href="realimentação-de-estados.html#cb48-4" tabindex="-1"></a>Cc <span class="op">=</span> np.block([<span class="op">-</span>K, <span class="op">-</span>Ki])</span>
+<span id="cb48-5"><a href="realimentação-de-estados.html#cb48-5" tabindex="-1"></a>D1 <span class="op">=</span> np.array([[<span class="dv">0</span>]])</span>
+<span id="cb48-6"><a href="realimentação-de-estados.html#cb48-6" tabindex="-1"></a>D2 <span class="op">=</span> D1</span></code></pre></div>
+<p>Equações do controlador:
+<span class="math display">\[\begin{align}
+  \dot{\mathbf{z}} &amp;= \left[\begin{matrix}-12.8 &amp; -355.0 &amp; 4.0\\1.0 &amp; -25.0 &amp; 0\\0 &amp; 0 &amp; 0\end{matrix}\right] \mathbf{z} +  \left[\begin{matrix}32.3\\2.5\\-1.0\end{matrix}\right] y\\
+  u &amp;= \left[\begin{matrix}-9.8 &amp; -30.0 &amp; 4.0\end{matrix}\right] \mathbf{z}
+\end{align}\]</span></p>
+<p>Funções de transferência do controlador. Primeiro, da saída do sistema <span class="math inline">\(y\)</span> para o sinal de controle <span class="math inline">\(u\)</span>.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb49-1"><a href="realimentação-de-estados.html#cb49-1" tabindex="-1"></a>C1 <span class="op">=</span> ct.ss(Ac, B1, Cc, D1)</span>
+<span id="cb49-2"><a href="realimentação-de-estados.html#cb49-2" tabindex="-1"></a>C1 <span class="op">=</span> ct.tf(C1)</span></code></pre></div>
+<p>Atenção ao índice utilizado para a matriz Bc.</p>
+<p><span class="math display">\[\begin{align}
+C_1(s) &amp;= \frac{- 395.54 s^{2} - 1257.0 s - 1600.0}{1.0 s^{3} + 37.8 s^{2} + 675.0 s}
+\end{align}\]</span></p>
+<p>Depois, a função entre o sinal de controle e a referência:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="realimentação-de-estados.html#cb50-1" tabindex="-1"></a>C2 <span class="op">=</span> ct.ss(Ac, B2, Cc, D2)</span>
+<span id="cb50-2"><a href="realimentação-de-estados.html#cb50-2" tabindex="-1"></a>C2 <span class="op">=</span> ct.tf(C2)</span></code></pre></div>
+<p><span class="math display">\[\begin{align}
+C_2(s) &amp;= \frac{- 4.0 s^{2} - 112.0 s - 1600.0}{1.0 s^{3} + 37.8 s^{2} + 675.0 s}
+\end{align}\]</span></p>
+<p>Pólos e zeros do controlador:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="realimentação-de-estados.html#cb51-1" tabindex="-1"></a>C1.poles()</span></code></pre></div>
+<pre><code>## array([-18.9+17.82666542j, -18.9-17.82666542j,   0.  +0.j        ])</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href="realimentação-de-estados.html#cb53-1" tabindex="-1"></a>C1.zeros()</span></code></pre></div>
+<pre><code>## array([-1.58896698+1.23299912j, -1.58896698-1.23299912j])</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb55-1"><a href="realimentação-de-estados.html#cb55-1" tabindex="-1"></a>C2.zeros()</span></code></pre></div>
+<pre><code>## array([-14.+14.28285686j, -14.-14.28285686j])</code></pre>
+<p>Para verificar o projeto, montamos um sistema em malha fechada e simulamos uma referência degrau.</p>
+<p>Matrizes em malha fechada:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb57-1"><a href="realimentação-de-estados.html#cb57-1" tabindex="-1"></a>Amf <span class="op">=</span> np.block([[A  ,  <span class="op">-</span>B<span class="op">@</span>Ka ] , [ L1<span class="op">@</span>C ,  Al<span class="op">-</span>Bl<span class="op">@</span>Ka<span class="op">-</span>L0<span class="op">@</span>Cl ] ])</span>
+<span id="cb57-2"><a href="realimentação-de-estados.html#cb57-2" tabindex="-1"></a>Bmf <span class="op">=</span> np.block([[np.zeros(B.shape)],[M]])</span>
+<span id="cb57-3"><a href="realimentação-de-estados.html#cb57-3" tabindex="-1"></a>Cmf <span class="op">=</span> np.block([C, np.zeros([<span class="dv">1</span>,<span class="dv">3</span>])])</span>
+<span id="cb57-4"><a href="realimentação-de-estados.html#cb57-4" tabindex="-1"></a>Dmf <span class="op">=</span> <span class="dv">0</span></span></code></pre></div>
+<p>Sistema e simulação</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a href="realimentação-de-estados.html#cb58-1" tabindex="-1"></a>sis_mf <span class="op">=</span> ct.ss(Amf,Bmf,Cmf,Dmf)</span>
+<span id="cb58-2"><a href="realimentação-de-estados.html#cb58-2" tabindex="-1"></a>resp <span class="op">=</span> ct.step_response(sis_mf)</span></code></pre></div>
+<p>Gráficos</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb59-1"><a href="realimentação-de-estados.html#cb59-1" tabindex="-1"></a>plt.plot(resp.t, resp.outputs)</span>
+<span id="cb59-2"><a href="realimentação-de-estados.html#cb59-2" tabindex="-1"></a>plt.grid()</span>
+<span id="cb59-3"><a href="realimentação-de-estados.html#cb59-3" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;Tempo (seg)&#39;</span>)</span>
+<span id="cb59-4"><a href="realimentação-de-estados.html#cb59-4" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+<p>É sempre prudente analisar a resposta também em termos de pólos e zeros de malha fechada. Isso é especialmente útil quando a simulação parece não exibir o comportamento que foi solicitado no projeto.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="realimentação-de-estados.html#cb60-1" tabindex="-1"></a>tabela <span class="op">=</span> ct.damp(sis_mf)</span></code></pre></div>
+<pre><code>##     Eigenvalue (pole)       Damping     Frequency
+##        -14    +14.28j           0.7            20
+##        -14    -14.28j           0.7            20
+##                   -10             1            10
+##       -1.4    +1.428j           0.7             2
+##       -1.4    -1.428j           0.7             2</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a href="realimentação-de-estados.html#cb62-1" tabindex="-1"></a>sis_mf.zeros()</span></code></pre></div>
+<pre><code>## array([-14.+14.28285686j, -14.-14.28285686j])</code></pre>
+<p>Devemos analisar este resultado buscando possíveis cancelamentos entre pólos e zeros. Observe também que a planta não possui zeros. Os zeros que surgem na malha são provenientes do próprio controlador.</p>
+<p>Também podemos calcular a resposta de malha fechada pelas funções de transferência.</p>
+<p>Função de malha fechada.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="realimentação-de-estados.html#cb64-1" tabindex="-1"></a>G <span class="op">=</span> ct.tf(<span class="dv">10</span>, np.poly([<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>]))</span>
+<span id="cb64-2"><a href="realimentação-de-estados.html#cb64-2" tabindex="-1"></a>MF <span class="op">=</span> ct.series(C2,ct.feedback(G,C1,<span class="dv">1</span>))</span></code></pre></div>
+<p>Pólos de malha fechada; amortecimento e frequência natural.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb65-1"><a href="realimentação-de-estados.html#cb65-1" tabindex="-1"></a>tabela <span class="op">=</span> ct.damp(MF)</span></code></pre></div>
+<pre><code>##     Eigenvalue (pole)       Damping     Frequency
+##      -18.9    +17.83j        0.7275         25.98
+##      -18.9    -17.83j        0.7275         25.98
+##        -14    +14.28j           0.7            20
+##        -14    -14.28j           0.7            20
+##                   -10             1            10
+##       -1.4    +1.428j           0.7             2
+##       -1.4    -1.428j           0.7             2
+##                     0             1             0
+## 
+## C:\Users\rafae\AppData\Local\Programs\Python\PYTHON~1\Lib\site-packages\control\lti.py:118: RuntimeWarning: invalid value encountered in divide
+##   zeta = -real(splane_poles)/wn</code></pre>
+<p>Zeros de malha.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb67-1"><a href="realimentação-de-estados.html#cb67-1" tabindex="-1"></a>MF.zeros()</span></code></pre></div>
+<pre><code>## array([-18.9+17.82666542j, -18.9-17.82666542j, -14. +14.28285686j,
+##        -14. -14.28285686j,   0.  +0.j        ])</code></pre>
+<p>A simulação com função de transferência deve fornecer o mesmo resultado.</p>
+<p>Sistema e simulação</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb69-1"><a href="realimentação-de-estados.html#cb69-1" tabindex="-1"></a>resp <span class="op">=</span> ct.step_response(MF)</span></code></pre></div>
+<p>Gráficos</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb70-1"><a href="realimentação-de-estados.html#cb70-1" tabindex="-1"></a>plt.plot(resp.t, resp.outputs)</span>
+<span id="cb70-2"><a href="realimentação-de-estados.html#cb70-2" tabindex="-1"></a>plt.grid()</span>
+<span id="cb70-3"><a href="realimentação-de-estados.html#cb70-3" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;Tempo (seg)&#39;</span>)</span>
+<span id="cb70-4"><a href="realimentação-de-estados.html#cb70-4" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-81-3.png" width="672" /></p>
+<p>Podemos simular uma perturbação no sistema, adicionando um sinal de entrada novo. Na representação de estados isso pode ser feito adicionando uma nova coluna na matriz <span class="math inline">\(\mathbf{B}\)</span> de malha fechada.</p>
+<p>A simulação mostra a ação do controle integral, fazendo o sistema retornar ao setpoint. Note que isso não aconteceria se a mesma perturbação fosse aplicada em um sistema sem controle integral.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="análise-de-sistemas-com-espaço-de-estados.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="controle-digital.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-Controle.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

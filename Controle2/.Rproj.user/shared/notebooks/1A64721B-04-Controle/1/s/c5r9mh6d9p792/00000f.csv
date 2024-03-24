@@ -1,0 +1,3 @@
+"0","Co_str = latex(ImmutableMatrix(Co))"
+"0","det_Co_srtr = latex(det(Co))"
+"0",""

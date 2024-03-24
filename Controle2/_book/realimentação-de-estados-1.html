@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 6 (7.5) Realimentação de estados | Sistemas de Controle II (EL180)</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 6 (7.5) Realimentação de estados | Sistemas de Controle II (EL180)" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 6 (7.5) Realimentação de estados | Sistemas de Controle II (EL180)" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Rafael Suzuki Bayma" />
+
+
+<meta name="date" content="2023-12-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="realimentação-de-estados.html"/>
+<link rel="next" href="escolha-dos-pólos.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Apresentação</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#objetivos"><i class="fa fa-check"></i><b>1.1</b> Objetivos</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#avaliação"><i class="fa fa-check"></i><b>1.2</b> <strong>Avaliação:</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introdução.html"><a href="introdução.html"><i class="fa fa-check"></i><b>2</b> Introdução</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introdução.html"><a href="introdução.html#o-que-é-espaço-de-estados"><i class="fa fa-check"></i><b>2.1</b> O que é espaço de estados?</a></li>
+<li class="chapter" data-level="2.2" data-path="introdução.html"><a href="introdução.html#o-que-é-estado"><i class="fa fa-check"></i><b>2.2</b> O que é estado?</a></li>
+<li class="chapter" data-level="2.3" data-path="introdução.html"><a href="introdução.html#sistemas-lit-siso"><i class="fa fa-check"></i><b>2.3</b> Sistemas LIT SISO</a></li>
+<li class="chapter" data-level="2.4" data-path="introdução.html"><a href="introdução.html#representação-matricial"><i class="fa fa-check"></i><b>2.4</b> Representação matricial</a></li>
+<li class="chapter" data-level="2.5" data-path="introdução.html"><a href="introdução.html#sistemas-lit-mimo"><i class="fa fa-check"></i><b>2.5</b> Sistemas LIT MIMO</a></li>
+<li class="chapter" data-level="2.6" data-path="introdução.html"><a href="introdução.html#sistemas-não-lineares"><i class="fa fa-check"></i><b>2.6</b> Sistemas não-lineares</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="introdução.html"><a href="introdução.html#exemplo-sistema-maglev"><i class="fa fa-check"></i><b>2.6.1</b> Exemplo: sistema MAGLEV</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="introdução.html"><a href="introdução.html#equilíbrio"><i class="fa fa-check"></i><b>2.7</b> Equilíbrio</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="introdução.html"><a href="introdução.html#exemplo-sistema-maglev-1"><i class="fa fa-check"></i><b>2.7.1</b> Exemplo: sistema MAGLEV</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="introdução.html"><a href="introdução.html#linearização"><i class="fa fa-check"></i><b>2.8</b> Linearização</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="modelagem.html"><a href="modelagem.html"><i class="fa fa-check"></i><b>3</b> Modelagem</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="modelagem.html"><a href="modelagem.html#sobre-a-não-unicidade-da-representação-de-estados"><i class="fa fa-check"></i><b>3.1</b> Sobre a não unicidade da representação de estados</a></li>
+<li class="chapter" data-level="3.2" data-path="modelagem.html"><a href="modelagem.html#equação-diferencial-simples"><i class="fa fa-check"></i><b>3.2</b> Equação diferencial simples</a></li>
+<li class="chapter" data-level="3.3" data-path="modelagem.html"><a href="modelagem.html#forma-canônica-de-controlador-fcc"><i class="fa fa-check"></i><b>3.3</b> Forma canônica de controlador (FCC)</a></li>
+<li class="chapter" data-level="3.4" data-path="modelagem.html"><a href="modelagem.html#fcc-geral"><i class="fa fa-check"></i><b>3.4</b> FCC geral</a></li>
+<li class="chapter" data-level="3.5" data-path="modelagem.html"><a href="modelagem.html#forma-de-jordan-ou-modal"><i class="fa fa-check"></i><b>3.5</b> Forma de Jordan ou Modal</a></li>
+<li class="chapter" data-level="3.6" data-path="modelagem.html"><a href="modelagem.html#pólos-reais-e-distintos"><i class="fa fa-check"></i><b>3.6</b> Pólos reais e distintos</a></li>
+<li class="chapter" data-level="3.7" data-path="modelagem.html"><a href="modelagem.html#forma-de-jordan-com-polos-reais-e-repetidos"><i class="fa fa-check"></i><b>3.7</b> Forma de Jordan com polos reais e repetidos</a></li>
+<li class="chapter" data-level="3.8" data-path="modelagem.html"><a href="modelagem.html#transformação-de-estado"><i class="fa fa-check"></i><b>3.8</b> Transformação de estado</a></li>
+<li class="chapter" data-level="3.9" data-path="modelagem.html"><a href="modelagem.html#dica-útil-matriz-inversa-de-segunda-ordem"><i class="fa fa-check"></i><b>3.9</b> Dica útil: Matriz inversa de segunda ordem</a></li>
+<li class="chapter" data-level="3.10" data-path="modelagem.html"><a href="modelagem.html#forma-de-jordan-polos-repetidos-e-complexos"><i class="fa fa-check"></i><b>3.10</b> Forma de Jordan: polos repetidos e complexos</a></li>
+<li class="chapter" data-level="3.11" data-path="modelagem.html"><a href="modelagem.html#pólos-reais-repetidos"><i class="fa fa-check"></i><b>3.11</b> Pólos reais repetidos</a></li>
+<li class="chapter" data-level="3.12" data-path="modelagem.html"><a href="modelagem.html#pólos-complexos-conjugados"><i class="fa fa-check"></i><b>3.12</b> Pólos complexos conjugados</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html"><i class="fa fa-check"></i><b>4</b> Análise de sistemas com espaço de estados</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#sinal-de-saída-e-função-de-transferência"><i class="fa fa-check"></i><b>4.1</b> Sinal de saída e função de transferência</a></li>
+<li class="chapter" data-level="4.2" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#pólos-de-um-sistema-no-espaço-de-estados-autovalores"><i class="fa fa-check"></i><b>4.2</b> Pólos de um sistema no espaço de estados (Autovalores)</a></li>
+<li class="chapter" data-level="4.3" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#zeros-do-sistema"><i class="fa fa-check"></i><b>4.3</b> Zeros do sistema</a></li>
+<li class="chapter" data-level="4.4" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#estabilidade-no-espaço-de-estados"><i class="fa fa-check"></i><b>4.4</b> Estabilidade no espaço de estados</a></li>
+<li class="chapter" data-level="4.5" data-path="análise-de-sistemas-com-espaço-de-estados.html"><a href="análise-de-sistemas-com-espaço-de-estados.html#exemplo-verifique-se-o-sistema-abaixo-é-estável"><i class="fa fa-check"></i><b>4.5</b> Exemplo: verifique se o sistema abaixo é estável</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="realimentação-de-estados.html"><a href="realimentação-de-estados.html"><i class="fa fa-check"></i><b>5</b> Realimentação de estados</a></li>
+<li class="chapter" data-level="6" data-path="realimentação-de-estados-1.html"><a href="realimentação-de-estados-1.html"><i class="fa fa-check"></i><b>6</b> (7.5) Realimentação de estados</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="realimentação-de-estados-1.html"><a href="realimentação-de-estados-1.html#análise-da-realimentação-de-estados"><i class="fa fa-check"></i><b>6.1</b> Análise da realimentação de estados</a></li>
+<li class="chapter" data-level="6.2" data-path="realimentação-de-estados-1.html"><a href="realimentação-de-estados-1.html#exemplo"><i class="fa fa-check"></i><b>6.2</b> Exemplo</a></li>
+<li class="chapter" data-level="6.3" data-path="realimentação-de-estados-1.html"><a href="realimentação-de-estados-1.html#exercício"><i class="fa fa-check"></i><b>6.3</b> Exercício</a></li>
+<li class="chapter" data-level="6.4" data-path="realimentação-de-estados-1.html"><a href="realimentação-de-estados-1.html#problemas-mais-realistas"><i class="fa fa-check"></i><b>6.4</b> Problemas mais realistas</a></li>
+<li class="chapter" data-level="6.5" data-path="realimentação-de-estados-1.html"><a href="realimentação-de-estados-1.html#forma-canônica-de-controlador"><i class="fa fa-check"></i><b>6.5</b> Forma canônica de controlador</a></li>
+<li class="chapter" data-level="6.6" data-path="realimentação-de-estados-1.html"><a href="realimentação-de-estados-1.html#exemplo-1"><i class="fa fa-check"></i><b>6.6</b> Exemplo:</a></li>
+<li class="chapter" data-level="6.7" data-path="realimentação-de-estados-1.html"><a href="realimentação-de-estados-1.html#exemplo-2"><i class="fa fa-check"></i><b>6.7</b> Exemplo:</a></li>
+<li class="chapter" data-level="6.8" data-path="realimentação-de-estados-1.html"><a href="realimentação-de-estados-1.html#exercício-1"><i class="fa fa-check"></i><b>6.8</b> Exercício</a></li>
+<li class="chapter" data-level="6.9" data-path="realimentação-de-estados-1.html"><a href="realimentação-de-estados-1.html#introdução-da-referência"><i class="fa fa-check"></i><b>6.9</b> (7.5.2) Introdução da referência</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="escolha-dos-pólos.html"><a href="escolha-dos-pólos.html"><i class="fa fa-check"></i><b>7</b> (7.6) Escolha dos pólos</a></li>
+<li class="chapter" data-level="8" data-path="estimadores-de-estado.html"><a href="estimadores-de-estado.html"><i class="fa fa-check"></i><b>8</b> (7.7) Estimadores de estado</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="estimadores-de-estado.html"><a href="estimadores-de-estado.html#exemplo-3"><i class="fa fa-check"></i><b>8.1</b> Exemplo:</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="forma-canônica-de-observador-e-observabilidade.html"><a href="forma-canônica-de-observador-e-observabilidade.html"><i class="fa fa-check"></i><b>9</b> Forma canônica de observador e observabilidade</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="forma-canônica-de-observador-e-observabilidade.html"><a href="forma-canônica-de-observador-e-observabilidade.html#exercício-2"><i class="fa fa-check"></i><b>9.1</b> Exercício:</a></li>
+<li class="chapter" data-level="9.2" data-path="forma-canônica-de-observador-e-observabilidade.html"><a href="forma-canônica-de-observador-e-observabilidade.html#observabilidade"><i class="fa fa-check"></i><b>9.2</b> Observabilidade</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="estimador-de-ordem-reduzida.html"><a href="estimador-de-ordem-reduzida.html"><i class="fa fa-check"></i><b>10</b> Estimador de ordem reduzida</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="estimador-de-ordem-reduzida.html"><a href="estimador-de-ordem-reduzida.html#compensador-dinâmico"><i class="fa fa-check"></i><b>10.1</b> Compensador dinâmico</a></li>
+<li class="chapter" data-level="10.2" data-path="estimador-de-ordem-reduzida.html"><a href="estimador-de-ordem-reduzida.html#implementação-quando-o-observador-é-reduzido"><i class="fa fa-check"></i><b>10.2</b> Implementação quando o observador é reduzido</a></li>
+<li class="chapter" data-level="10.3" data-path="estimador-de-ordem-reduzida.html"><a href="estimador-de-ordem-reduzida.html#introdução-da-referência-e-controle-integral"><i class="fa fa-check"></i><b>10.3</b> Introdução da referência e controle integral</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="estimador-de-ordem-reduzida.html"><a href="estimador-de-ordem-reduzida.html#equações-de-estado-do-compensador"><i class="fa fa-check"></i><b>10.3.1</b> Equações de estado do compensador:</a></li>
+<li class="chapter" data-level="10.3.2" data-path="estimador-de-ordem-reduzida.html"><a href="estimador-de-ordem-reduzida.html#equações-de-estado-do-sistema-em-malha-fechada-supondo-j0"><i class="fa fa-check"></i><b>10.3.2</b> Equações de estado do sistema em malha fechada (supondo <span class="math inline">\(J=0\)</span>):</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="estimador-de-ordem-reduzida.html"><a href="estimador-de-ordem-reduzida.html#exemplo-4"><i class="fa fa-check"></i><b>10.4</b> Exemplo:</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>11</b> Blocks</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>11.1</b> Equations</a></li>
+<li class="chapter" data-level="11.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>11.2</b> Theorems and proofs</a></li>
+<li class="chapter" data-level="11.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>11.3</b> Callout blocks</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>12</b> Sharing your book</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>12.1</b> Publishing</a></li>
+<li class="chapter" data-level="12.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>12.2</b> 404 pages</a></li>
+<li class="chapter" data-level="12.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>12.3</b> Metadata for sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Sistemas de Controle II (EL180)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="realimentação-de-estados-1" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Capítulo 6</span> (7.5) Realimentação de estados<a href="realimentação-de-estados-1.html#realimentação-de-estados-1" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>A principal técnica de controle em espaço de estados é o que chamamos de “realimentação de estados”.</p>
+<p>A estratégia básica é fazer a lei de controle <span class="math inline">\(u\)</span> ser proporcional ao vetor de estados.
+<span class="math display">\[
+\begin{align*}
+    u = -\mathbf{Kx}
+\end{align*}
+\]</span></p>
+<p>Lembra um pouco o controle proporcional, realimentação negativa e o controlador é apenas uma constante. Mas a diferença básica é que, como o <span class="math inline">\(\mathbf{x}\)</span> é um vetor, o controlador <span class="math inline">\(\mathbf{K}\)</span> tem que ser um vetor também.</p>
+<p>No caso, o sinal de controle é um escalar. Sendo <span class="math inline">\(\mathbf{x}\)</span> um vetor coluna de <span class="math inline">\(n\)</span> elementos, então <span class="math inline">\(\mathbf{K}\)</span> deve ser um vetor linha de <span class="math inline">\(n\)</span> elementos. Assim:
+<span class="math display">\[
+\begin{align*}
+    \mathbf{K}= \left[\begin{array}{cccc}K_1 &amp; K_2 &amp; \ldots &amp; K_n\end{array}\right]
+\end{align*}
+\]</span></p>
+<p>O objetivo inicial da realimentação de estados é fazer com que os estados do sistema caminhem para zero (ponto de equilíbrio) a partir de um estado inicial <span class="math inline">\(\mathbf{x}(0)\)</span> diferente de zero, em regime permanente (isto é, passado um longo tempo). Esse problema é chamado de <strong>regulação</strong>.</p>
+<p>Quando o controlador é capaz de fazer isso, tarefas um pouco mais complexas (tais como rastreamento) tornam-se possíveis.</p>
+<p><strong>Observação importante</strong>: se prestar atenção, o controlador de estados é muito simples. É basicamente multiplicar cada estado por uma constante e somar o resultado antes de realimentar! Porém, ele tem uma limitação fundamental: supomos que <strong>todos</strong> os estados são conhecidos para calcular a ação de controle. O único sinal que está disponível, por definição, é o sinal de saída.</p>
+<p>Isso quase sempre não é verdade. Os estados são grandezas internas que, às vezes, nem conseguimos medir. Mas mesmo quando é possível, pode não ser economicamente viável comprar sensor para medir todo mundo.</p>
+<p>Na prática o que precisamos fazer é construir um sistema auxiliar que forneça umas <em>estimativa</em> dos estados reais a partir do sinal de saída. Esse sistema é conhecido como estimador ou observador de estados.</p>
+<p align="center">
+<img src="Fig7.11.svg" width="70%">
+</p>
+<p>O projeto e análise do observador de estados será visto mais a frente.</p>
+<p><strong>Por enquanto vamos considerar que é possível medir todos os estados do sistema para fazer a realimentação</strong></p>
+<div id="análise-da-realimentação-de-estados" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Análise da realimentação de estados<a href="realimentação-de-estados-1.html#análise-da-realimentação-de-estados" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para um sistema
+<span class="math display">\[
+\begin{align*}
+    \mathbf{\dot{x}} &amp;= \mathbf{Fx+G}u
+\end{align*}
+\]</span>
+se usarmos a lei de controle <span class="math inline">\(u = -\mathbf{Kx}\)</span>, a equação deixará de ter entrada, podendo ser resolvida a partir da condição inicial.</p>
+<p><span class="math display">\[
+\begin{align*}
+    \mathbf{\dot{x}} &amp;= \mathbf{Fx+G(-Kx)}\\
+    &amp;= \mathbf{Fx-GKx}\\
+    &amp;= \mathbf{(F-GK)x}\\
+    \mathbf{\dot{x}} &amp;= \mathbf{F}_m \mathbf{x}
+\end{align*}
+\]</span></p>
+<p>Vamos chamar matriz <span class="math inline">\(\mathbf{F}_m\)</span> de “matriz de malha fechada”.</p>
+<p>A última equação é uma EDO que não possui entrada, então só tem sentido resolvê-la para uma condição inicial <span class="math inline">\(\mathbf{x}(0)\)</span> diferente de zero.</p>
+<p>A condição necessária para que os estados do sistema caminhem para zero em regime permanente é apenas que o sistema em malha fechada seja estável, isto é, <strong>todos</strong> os autovalores da matriz <span class="math inline">\(\mathbf{F}_m\)</span> devem ter parte real estritamente negativa.</p>
+<p>Além de estabilidade, é também desejado que a convergência dos estados para zero seja feita com critérios de velocidade e oscilação específicos do projeto. Isso é equivalente a satisfazer as condições de overshoot, tempo de acomodação e dominância que você aprendeu a fazer no projeto com função de trsferência.</p>
+<p>Vamos supor que essas condições de projeto estejam definidas em termos de pólos de malha fechada bem selecionados e que esses pólos determinam um polinômio de malha fechada <span class="math inline">\(\alpha (s)\)</span>.</p>
+<p>Sendo assim, o problema de regulação é enunciado como: <em>achar a matriz <span class="math inline">\(\mathbf{K}\)</span>, tal que estejam no semi-plano esquerdo todas as raizes da equação:</em>
+<span class="math display">\[
+\begin{align}
+    \det (s\mathbf{I-F_m})= \det (s\mathbf{I-F+BK})=\alpha (s)
+\end{align}
+\]</span></p>
+</div>
+<div id="exemplo" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Exemplo<a href="realimentação-de-estados-1.html#exemplo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p align="center">
+<img src="Ex7.15.svg" width="70%">
+</p>
+<p>Como os parâmetros do problema não são numéricos, precisamos resolver usando matemática simbólica.</p>
+<p>O livro mostra uma simulação da resposta desse sistema para <span class="math inline">\(\omega_0=1\)</span>. Repare que os gráficos mostram, em função do tempo, os dois estados.</p>
+<p align="center">
+<img src="Fig7.13.svg" width="90%">
+</p>
+<p>Note que nenhum dos gráficos oscila. Isso porque as características dos pólos que foram alocados são válidas para todos os estados e a saída do sistema.</p>
+</div>
+<div id="exercício" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Exercício<a href="realimentação-de-estados-1.html#exercício" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ache a forma de controlador do sistema
+<span class="math display">\[
+\begin{align}
+    G(s) = \frac{20}{(s+1)(s+2)}
+\end{align}
+\]</span></p>
+<p>Depois, projete um controlador de realimentação de estados que posicione os pólos em <span class="math inline">\(-3\pm j5\)</span></p>
+</div>
+<div id="problemas-mais-realistas" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Problemas mais realistas<a href="realimentação-de-estados-1.html#problemas-mais-realistas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>O exemplo anterior ilustra bem a solução do problema de realimentação de estados. Porém, ele é simples demais:
+* Ele é de ordem baixa (2). Na prática, os sistemas podem ser de ordem bem mais elevada
+* Em um problema de ordem mais alta, o trabalho seria muito maior e a solução desenvolvida, inviável
+* Além disso, em um problema real temos também que nos preocupar com questões numéricas de arredondamento.</p>
+</div>
+<div id="forma-canônica-de-controlador" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Forma canônica de controlador<a href="realimentação-de-estados-1.html#forma-canônica-de-controlador" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A primeira forma de lidar com problemas de ordem mais alta é transformar o sistema para forma canônica de controlador.</p>
+<p>Usar essa forma é vantajoso porque ela simplifica as equações dos ganhos na hora que igualamos os polinômios desejado e de projeto. Isso permite encontrar os ganhos com equações mais simples, geralmente fazendo substituições sucessivas.</p>
+<p>Normalmente, a forma mais fácil de mudar para a forma de controlador é achando a função de transferência do sistema e usando as regras práticas de inspeção do numerador e denominador.</p>
+<p>Isso pode ser um pouco trabalhoso para sistemas de ordem elevada.
+## Método de Ackermann</p>
+<p>Uma maneira mais direta e geral de projetar a realimentação de estados é usar o método de Ackerman. Ele consiste de aplicar a expressão:
+<span class="math display">\[
+\begin{align}
+    \mathbf{K} = \left[\begin{array}{ccccc}0&amp;0&amp;\ldots &amp; 0 &amp; 1\end{array}\right]\mathbf{\mathcal{C}}^{-1}\alpha_c(\mathbf{F})
+\end{align}
+\]</span>
+onde <span class="math inline">\(\mathbf{\mathcal{C}}\)</span> é a matriz de controlabilidade do sistema
+<span class="math display">\[
+\begin{align}
+    \mathbf{\mathcal{C}} = \left[\begin{array}{ccccc}\mathbf{G}&amp;\mathbf{FG}&amp;\ldots &amp; \mathbf{F}^{n-2}\mathbf{G} &amp; \mathbf{F}^{n-1}\mathbf{G}\end{array}\right]
+\end{align}
+\]</span>
+e <span class="math inline">\(\alpha_c(\mathbf{F})\)</span> é uma matriz construída pela expressão:
+<span class="math display">\[
+\begin{align}
+    \alpha_c(\mathbf{F}) = \mathbf{F}^{n}+\alpha_1\mathbf{F}^{n-1}+\alpha_2\mathbf{F}^{n-2}+\ldots++\alpha_n\mathbf{I}
+\end{align}
+\]</span></p>
+<p>Note que <span class="math inline">\(\alpha_c(\mathbf{F})\)</span> é o polinômio de malha fechado desejado, mas no lugar de <span class="math inline">\(s\)</span> temos a matriz <span class="math inline">\(\mathbf{F}\)</span> de malha aberta do sistema.</p>
+<p>O método é trabalhoso, mas fácil de implementar no computador. Em Python temos a função “acker()” da biblioteca <em>control</em> que faz o processo automaticamente (sem precisar fornecer a forma de controlador), que funciona bem para sistemas de até 10a ordem e preferencialmente com pólos de malha fechada não-repetidos.</p>
+<p>Para problemas mais complexos, recomenda-se o uso da função “place()” da biblioteca <em>control</em>, ou “place_poles()” da biblioteca <em>scipy.signal</em>.</p>
+<p>Nota: essas funções só funcionam para problemas numéricos. Não se recomenda utilizá-las com objetos simbólicos.</p>
+</div>
+<div id="exemplo-1" class="section level2 hasAnchor" number="6.6">
+<h2><span class="header-section-number">6.6</span> Exemplo:<a href="realimentação-de-estados-1.html#exemplo-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p align="center">
+<img src="Ex7.16.svg" width="80%">
+</p>
+<p>Eis um fato interessante: Ackermann permite posicionar os pólos de malha fechada <strong>em qualquer lugar desejado</strong>, mas isso só é possível se a matriz de controlabilidade possuir inversa.</p>
+<p>Isso é relativamente interessante, comparado por exemplo, à técnica do LGR, onde o posicionamento dos pólos fica restrito ao lugar geométrico. No entanto, lembre-se que estamos sob uma hipótese forte de que todos os estados estão disponíveis para realimentação.</p>
+</div>
+<div id="exemplo-2" class="section level2 hasAnchor" number="6.7">
+<h2><span class="header-section-number">6.7</span> Exemplo:<a href="realimentação-de-estados-1.html#exemplo-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p align="center">
+<img src="Ex7.17.svg" width="80%">
+</p>
+<p>Abaixo apenas o item (b), resolvendo direto com acker()</p>
+<p>Execute novamente o código com <span class="math inline">\(z_0=3\)</span> para verificar a variação dos ganhos como no livro. Espera-se que haja um aumento significativo nos ganhos.</p>
+<p>Quando um polo e um zero tendem a se cancelar, o sistema tende a perder controlabilidade e isso torna os ganhos mais altos e, consequentemente, o controle fica mais “caro” (puxa mais energia). Vale a observação do livro:</p>
+<p><strong>“O sistema tem que trabalhar com mais força para conseguir o controle quando a controlabilidade é fraca.”</strong></p>
+<p>Além disso:</p>
+<p><strong>“Mover os polos em um longo caminho requer grandes ganhos.”</strong></p>
+<p>Isso é observado quando um sistema é naturalmente lento e tentamos deixá-lo mais rápido. Isso normalmente resulta em ganhos grandes (em módulo), o que resulta novamente em um controle “caro”.</p>
+</div>
+<div id="exercício-1" class="section level2 hasAnchor" number="6.8">
+<h2><span class="header-section-number">6.8</span> Exercício<a href="realimentação-de-estados-1.html#exercício-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Use Ackermann para projetar um controlador para o sistema
+<span class="math display">\[
+\begin{align}
+    G(s) &amp;= \frac{30}{s(s+1)^2}
+\end{align}
+\]</span></p>
+<p>Posicione os dominantes em <span class="math inline">\(-4\pm j4\)</span>.</p>
+</div>
+<div id="introdução-da-referência" class="section level2 hasAnchor" number="6.9">
+<h2><span class="header-section-number">6.9</span> (7.5.2) Introdução da referência<a href="realimentação-de-estados-1.html#introdução-da-referência" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Até agora vimos como resolver o problema da regulação de estados apenas para zerar o estado final. No entanto, o objetivo do controle é fazer a saída rastrear a referência <span class="math inline">\(r\)</span>.</p>
+<p>Uma forma simples de fazer isso é usando o sinal de controle:
+<span class="math display">\[
+\begin{align*}
+u &amp;= -\mathbf{Kx}+(N_u+\mathbf{K}\mathbf{N_x})r
+\end{align*}
+\]</span>
+onde <span class="math inline">\(\mathbf{K}\)</span> é o vetor de ganhos conforme já definimos e <span class="math inline">\(N_u\)</span> e <span class="math inline">\(\mathbf{N_x}\)</span> são as soluções do sistema
+<span class="math display">\[
+\begin{align*}
+\left[\begin{array}{cc}\mathbf{F} &amp; \mathbf{G}\\ \mathbf{H} &amp; J \end{array}\right]
+\left[\begin{array}{cc}\mathbf{N_x}\\ N_u\end{array}\right] =
+\left[\begin{array}{cc}\mathbf{0}\\ 1\end{array}\right]
+\end{align*}
+\]</span></p>
+<p>Se tiver interesse, a dedução para o método é simples e pode ser encontrada na seção 7.5.2 do livro texto.</p>
+É interessante visualizar como essa estratégia funciona do ponto de vista da rota de sinal. Estude a figura 7.15 a seguir:
+<p align="center">
+<img src="Fig7.15.svg" width="80%">
+</p>
+<p>Repare que a parte (b) da figura é apenas uma simplificação, mostrando que o controle funciona como uma realimentação negativa normal do sistema, mas a referência entra na malha multiplicada por uma constante.</p>
+<p align="center">
+<img src="Ex.7.18.svg" width="80%">
+</p>
+<p>Esse é o sistema do pêndulo novamente. As matrizes <span class="math inline">\(\mathbf{F}\)</span> e <span class="math inline">\(\mathbf{G}\)</span> já são conhecidas. Também usaremos:
+<span class="math display">\[
+\begin{align*}
+\mathbf{H} &amp;=\left[\begin{array}{cc}1 &amp; 0\end{array}\right]\\
+J &amp;=0
+\end{align*}
+\]</span></p>
+<p>Para resolver o problema vamos montar o sistema de equações da seguinte maneira
+<span class="math display">\[
+\begin{align*}
+\left[\begin{array}{cc}\mathbf{F} &amp; \mathbf{G}\end{array}\right] &amp;= \mathbf{M_1}\\
+\left[\begin{array}{cc}\mathbf{H} &amp; J\end{array}\right] &amp;= \mathbf{M_2}\\
+\left[\begin{array}{cc}\mathbf{M_1} \\ \mathbf{M_2}\end{array}\right] &amp;= \mathbf{M}
+\end{align*}
+\]</span>
+e o sistema vai ser resolvido como <span class="math inline">\(\mathbf{M}^{-1}\mathbf{v}\)</span>, onde
+<span class="math display">\[
+\begin{align*}
+    \mathbf{v} &amp;=\left[\begin{array}{ccc}0 &amp; 0 &amp; 1\end{array}\right]^T
+\end{align*}
+\]</span></p>
+<p>É interessante testar o projeto agora usando uma resposta ao degrau. Porém, note que para isso, precisamos definir o sistema em malha fechada.</p>
+<p>Em malha fechada as matrizes não serão as mesmas. A matriz <span class="math inline">\(\mathbf{F}\)</span> muda pois o sistema teve os estados realimentados. Além disso, a referência passa a ser a nossa entrada, já que o sinal <span class="math inline">\(u\)</span> foi substituido por <span class="math inline">\(u=-\mathbf{Kx}+Nr\)</span>. A saída permanence a mesma <span class="math inline">\(y=x_1\)</span>.</p>
+<p>Observe no código abaixo como o sistema é definido antes de calcular a resposta ao degrau.</p>
+<p>Observação: se quisermos obter os outros sinais do sistema, tais como o sinal de controle usado e os estados, basta definir uma matriz <span class="math inline">\(\mathbf{H}\)</span>. Isso é apenas para forçar o programa de simulação a devolver esses resultados para nós e não realmente definir uma saída nova para o sistema, com significado físico novo.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="realimentação-de-estados.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="escolha-dos-pólos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-Controle.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
