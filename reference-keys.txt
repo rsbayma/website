@@ -1,7 +1,11 @@
 sobre
 uso
-hello-bookdown
-a-section
+máquinas-cnc
+origens
+terminologias
+configurações-de-máquina
+segurança
+fluxo-de-trabalho
 desenho-2d
 corte-a-laser
 teoria
