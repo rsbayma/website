@@ -1,4 +1,0 @@
-"0","Amf = np.block([[A, -B@K],[L@C, A-B@K-L@C]])"
-"0","Bmf = np.block([[B],[B]])"
-"0","Cmf = np.block([[C, np.zeros(C.shape)]])"
-"0",""

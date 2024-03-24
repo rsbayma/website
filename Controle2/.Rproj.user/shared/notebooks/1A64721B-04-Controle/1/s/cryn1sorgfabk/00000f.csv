@@ -1,3 +1,0 @@
-"0","kk = ImmutableMatrix(K)"
-"0","K_str = latex(kk.evalf(4))"
-"0",""

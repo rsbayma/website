@@ -1,3 +1,0 @@
-"0","sis_mf = ct.ss(Amf,Bmf,Cmf,Dmf)"
-"0","resp = ct.step_response(sis_mf)"
-"0",""

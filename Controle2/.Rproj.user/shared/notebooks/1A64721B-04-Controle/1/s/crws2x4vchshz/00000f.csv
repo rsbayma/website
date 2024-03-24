@@ -1,8 +1,0 @@
-"2","Error in py_call_impl(callable, call_args$unnamed, call_args$named) : 
-  TypeError: cannot determine truth value of Relational
-[90mRun ]8;;rstudio:run:reticulate::py_last_error()`reticulate::py_last_error()`]8;; for details.[39m
-"
-"0","A_str = sp.latex(sp.ImmutableMatrix(A))"
-"0","B_str = sp.latex(sp.ImmutableMatrix(B))"
-"0","C_str = sp.latex(sp.ImmutableMatrix(C))"
-"0",""

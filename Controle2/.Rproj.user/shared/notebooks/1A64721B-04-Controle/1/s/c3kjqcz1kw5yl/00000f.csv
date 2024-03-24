@@ -1,6 +1,0 @@
-"0","Ka_str = sp.latex(sp.ImmutableMatrix(Ka).evalf(4))"
-"0","Ki = Ka[0,-1]"
-"0","Ki_str = sp.latex(Ki)"
-"0","K = Ka[:,0:-1]"
-"0","K_str = sp.latex(sp.ImmutableDenseMatrix(K))"
-"0",""

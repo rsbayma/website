@@ -1,4 +1,0 @@
-"0","polos_dom = np.array([[p, np.conjugate(p)]])"
-"0","polos_extras = np.array([[np.real(p)*4]*3])"
-"0","polos_mf = np.block([polos_dom,polos_extras])"
-"0",""

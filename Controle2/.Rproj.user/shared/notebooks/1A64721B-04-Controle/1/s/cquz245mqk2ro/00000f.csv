@@ -1,5 +1,0 @@
-"0","n2 = sp.Poly(C2.num[0][0],s).as_expr().evalf(5)"
-"0","d2 = sp.Poly(C2.den[0][0],s).as_expr().evalf(5)"
-"0","C2s = n2/d2"
-"0","C2_str = sp.latex(C2s)"
-"0",""

@@ -1,7 +1,0 @@
-"0","import sympy as sp"
-"0","s = sp.symbols('s')"
-"0","n1 = sp.Poly(C1.num[0][0],s).as_expr().evalf(5)"
-"0","d1 = sp.Poly(C1.den[0][0],s).as_expr().evalf(5)"
-"0","C1s = n1/d1"
-"0","C1_str = sp.latex(C1s)"
-"0",""

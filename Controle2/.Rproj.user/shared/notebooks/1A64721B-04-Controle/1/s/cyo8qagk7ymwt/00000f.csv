@@ -1,5 +1,0 @@
-"0","xi = 0.7"
-"0","wn = 2"
-"0","# Polos de MF desejados"
-"0","pr = wn*(-xi+1j*np.sqrt(1-xi**2))"
-"0",""

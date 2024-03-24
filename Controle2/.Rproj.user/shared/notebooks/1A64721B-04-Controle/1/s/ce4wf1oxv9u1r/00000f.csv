@@ -1,3 +1,0 @@
-"0","re_s = sp.latex(round(np.real(pr),4))"
-"0","im_s = sp.latex(round(np.imag(pr),4))"
-"0",""
