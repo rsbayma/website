@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Sistemas de Controle II (EL180)</title>
+  <title>Capítulo 7 Transformada \(\mathcal{Z}\) | Sistemas de Controle II (EL180)</title>
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Sistemas de Controle II (EL180)" />
+  <meta property="og:title" content="Capítulo 7 Transformada \(\mathcal{Z}\) | Sistemas de Controle II (EL180)" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
@@ -19,7 +19,7 @@ set in the _output.yml file.</p>" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Sistemas de Controle II (EL180)" />
+  <meta name="twitter:title" content="Capítulo 7 Transformada \(\mathcal{Z}\) | Sistemas de Controle II (EL180)" />
   
   <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
@@ -36,8 +36,8 @@ set in the _output.yml file.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="introdução-às-técnicas-de-espaço-de-estados..html"/>
+<link rel="prev" href="controle-digital.html"/>
+<link rel="next" href="análise-dinâmica-de-sistemas-discretos.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -261,33 +261,210 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Sistemas de Controle II (EL180)</h1>
-<p class="author"><em>Rafael Suzuki Bayma</em></p>
-<p class="date"><em>2024-03-26</em></p>
+<div id="transformada-mathcalz" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Capítulo 7</span> Transformada <span class="math inline">\(\mathcal{Z}\)</span><a href="transformada-mathcalz.html#transformada-mathcalz" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>A transformada <span class="math inline">\(\mathcal{Z}\)</span> é a transformada de Laplace aplicada a sistemas de tempo discreto.</p>
+<p>Um sinal discreto possui uma e somente uma transformada <span class="math inline">\(\mathcal{Z}\)</span>. Usualmente denotamos:
+<span class="math display">\[\begin{align}
+  Y(z) &amp;= \mathcal{Z}\{y[k]\}
+\end{align}\]</span></p>
+<p>Ou em notação inversa (semelhante à transformada inversa de Laplace):
+<span class="math display">\[\begin{align}
+  y[k] &amp;= \mathcal{Z}^{-1}\{y[k]\}
+\end{align}\]</span></p>
+<p>A variável complexa <span class="math inline">\(z\)</span> desempenha papel semelhante à frequência complexa <span class="math inline">\(s\)</span> na transformada de Laplace. Note porém, que <span class="math inline">\(z\)</span> é uma variável contínua, enquanto que o tempo <span class="math inline">\(k\)</span> para sinais discretos é uma variável discreta.</p>
+<p>A relação entre <span class="math inline">\(s\)</span> e <span class="math inline">\(z\)</span> é dada pela equação fundamental:
+<span class="math display">\[
+z = \exp(sT)
+\]</span></p>
+<p>Onde <span class="math inline">\(T\)</span> é o período de amostragem sobre o qual o sinal discreto está submetido.</p>
+<div id="transformada-mathcalz-1" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Transformada <span class="math inline">\(\mathcal{Z}\)</span><a href="transformada-mathcalz.html#transformada-mathcalz-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A transformada <span class="math inline">\(\mathcal{Z}\)</span> da sequência <span class="math inline">\(x[k]\)</span> é definida como:</p>
+<p><span class="math display">\[\begin{align*}
+     \mathcal{Z}\{x[k]\} = X(z) =\sum_{k=0}^\infty x[k]\,z^{-k}
+\end{align*}\]</span></p>
+<p>Sinal discreto: <span class="math inline">\(k \in \mathbb{Z}\)</span>
+<span class="math display">\[\begin{align*}
+\mathcal{Z}\{f[k-1]\} = z^{-1}F(z)
+\end{align*}\]</span></p>
+<p>Equações de diferenças:<br />
+<span class="math display">\[\begin{align*}
+y[k]&amp;=-a_1y[k-1]-a_2y[k-2]+b_0u[k]+b_1u[k-1]\\&amp;+b_2u[k-2]
+\end{align*}\]</span></p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb83-1"><a href="transformada-mathcalz.html#cb83-1" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb83-2"><a href="transformada-mathcalz.html#cb83-2" tabindex="-1"></a>y <span class="op">=</span> np.zeros((<span class="dv">10</span>,))</span>
+<span id="cb83-3"><a href="transformada-mathcalz.html#cb83-3" tabindex="-1"></a>y[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb83-4"><a href="transformada-mathcalz.html#cb83-4" tabindex="-1"></a>y[<span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb83-5"><a href="transformada-mathcalz.html#cb83-5" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> np.arange(<span class="dv">2</span>,<span class="dv">10</span>):</span>
+<span id="cb83-6"><a href="transformada-mathcalz.html#cb83-6" tabindex="-1"></a>    y[k] <span class="op">=</span> y[k<span class="op">-</span><span class="dv">1</span>]<span class="op">+</span>y[k<span class="op">-</span><span class="dv">2</span>]</span>
+<span id="cb83-7"><a href="transformada-mathcalz.html#cb83-7" tabindex="-1"></a></span>
+<span id="cb83-8"><a href="transformada-mathcalz.html#cb83-8" tabindex="-1"></a><span class="bu">print</span>(y)</span></code></pre></div>
+<pre><code>## [ 0.  1.  1.  2.  3.  5.  8. 13. 21. 34.]</code></pre>
+<p>Função de transferência discreta:<br />
+<span class="math display">\[\begin{align}
+\displaystyle\frac{Y(z)}{U(z)} = \frac{b_0+b_1z^{-1}+b_2z^{-2}}{1+a_1z^{-1}+a_2z^{-2}}
+\end{align}\]</span></p>
 </div>
-<div id="apresentação" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Capítulo 1</span> Apresentação<a href="index.html#apresentação" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Curso de Sistemas de Controle II - Faculdade de Engenharia Elétrica, Campus Tucuruí.</p>
-<p>Versão: 2024.2</p>
-<div id="objetivos" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> Objetivos<a href="index.html#objetivos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Objetivo principal do curso é introduzir técnicas de modelagem, análise e projeto de sistemas de controle usando duas abordagens principais: espaço de estados e modelos de sinais e sistemas digitaisl.</p>
-<p><strong>Carga horária:</strong> 60 horas</p>
-<p>O curso é predominantemente teórico com aplicações computacionais. Aplicações práticas em laboratório poderão ocorrer mediante disponibilidade de equipamento.</p>
-<p><strong>Pré-requisitos:</strong> Análise de Sistemas Lineares, Sistemas de Controle I.</p>
-<p><strong>Recomendado:</strong> boa compreensão de equações diferenciais, sinais e sistemas, mecânica clássica, Circuitos Elétricos I, amplificadores operacionais, Python simbólico e numérico, linguagem R (apenas para gerar trabalhos de melhor qualidade).</p>
+<div id="transformadas-elementares" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Transformadas elementares<a href="transformada-mathcalz.html#transformadas-elementares" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para a maioria dos resultados, usamos a fórmula da PG infinita:</p>
+<p><span class="math display">\[\begin{align}
+    1+q+q^2+q^3+\ldots = \frac{1}{1-q}
+\end{align}\]</span></p>
+<p><strong>Impulso discreto</strong> - <span class="math inline">\(\delta[k]\)</span></p>
+<p><span class="math display">\[\begin{align}
+    \mathcal{Z}\{\delta[k]\} = 1
+\end{align}\]</span></p>
+<p>Códigos Python para desenhar o sinal.</p>
+<p>Imports:</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb85-1"><a href="transformada-mathcalz.html#cb85-1" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code></pre></div>
+<p>Cria o vetor de tempo e uma função rápida para avaliar o impulso de acordo com o tempo.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb86-1"><a href="transformada-mathcalz.html#cb86-1" tabindex="-1"></a>k <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">5</span>,<span class="dv">10</span>)</span>
+<span id="cb86-2"><a href="transformada-mathcalz.html#cb86-2" tabindex="-1"></a>delta <span class="op">=</span> <span class="kw">lambda</span> k: k<span class="op">==</span><span class="dv">0</span></span></code></pre></div>
+<p>Plotagem:</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb87-1"><a href="transformada-mathcalz.html#cb87-1" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb87-2"><a href="transformada-mathcalz.html#cb87-2" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">16</span>,<span class="dv">5</span>))</span>
+<span id="cb87-3"><a href="transformada-mathcalz.html#cb87-3" tabindex="-1"></a>plt.stem(k,delta(k))</span>
+<span id="cb87-4"><a href="transformada-mathcalz.html#cb87-4" tabindex="-1"></a>plt.title(<span class="st">&#39;Função impulso discreto&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-107-1.png" width="1536" /></p>
+<p>A função de plotagem “stem” é um pouco melhor para ilustração de sinais discretos.</p>
+<p><strong>Degrau discreto</strong> - <span class="math inline">\(u[k]\)</span></p>
+<p><span class="math display">\[\begin{align}
+    \mathcal{Z}\{u[k]\} = \frac{z}{z-1} = \frac{1}{1-z^{-1}}
+\end{align}\]</span></p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb88-1"><a href="transformada-mathcalz.html#cb88-1" tabindex="-1"></a>degrau <span class="op">=</span> <span class="kw">lambda</span> k: k<span class="op">&gt;=</span><span class="dv">0</span></span>
+<span id="cb88-2"><a href="transformada-mathcalz.html#cb88-2" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">16</span>,<span class="dv">5</span>))</span>
+<span id="cb88-3"><a href="transformada-mathcalz.html#cb88-3" tabindex="-1"></a>plt.stem(k,degrau(k))</span>
+<span id="cb88-4"><a href="transformada-mathcalz.html#cb88-4" tabindex="-1"></a>plt.title(<span class="st">&#39;Função degrau discreto&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-108-3.png" width="1536" /></p>
+<p><strong>Exponencial discreta</strong> - <span class="math inline">\(a^k\, u[k]\)</span></p>
+<p><span class="math display">\[\begin{align}
+    \mathcal{Z}\{a^k\,u[k]\} = \frac{z}{z-a} = \frac{1}{1-az^{-1}}
+\end{align}\]</span></p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb89-1"><a href="transformada-mathcalz.html#cb89-1" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0.9</span></span>
+<span id="cb89-2"><a href="transformada-mathcalz.html#cb89-2" tabindex="-1"></a>k <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">5</span>,<span class="dv">15</span>)</span>
+<span id="cb89-3"><a href="transformada-mathcalz.html#cb89-3" tabindex="-1"></a>expo <span class="op">=</span> <span class="kw">lambda</span> k: np.real(a<span class="op">**</span>k <span class="op">*</span> degrau(k))</span>
+<span id="cb89-4"><a href="transformada-mathcalz.html#cb89-4" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">16</span>,<span class="dv">5</span>))</span>
+<span id="cb89-5"><a href="transformada-mathcalz.html#cb89-5" tabindex="-1"></a>plt.stem(k,expo(k), label <span class="op">=</span> <span class="ss">f&#39;a=</span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">&#39;</span>)<span class="op">;</span></span>
+<span id="cb89-6"><a href="transformada-mathcalz.html#cb89-6" tabindex="-1"></a>plt.title(<span class="st">&#39;Exponencial discreta (base &lt; 1) &#39;</span>)<span class="op">;</span></span>
+<span id="cb89-7"><a href="transformada-mathcalz.html#cb89-7" tabindex="-1"></a>plt.legend()<span class="op">;</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-109-5.png" width="1536" /></p>
+<p>Experimente diferentes valores de <span class="math inline">\(a\)</span> e analise o que acontece. Inclusive valores imaginários.</p>
 </div>
-<div id="avaliação" class="section level2 hasAnchor" number="1.2">
-<h2><span class="header-section-number">1.2</span> <strong>Avaliação:</strong><a href="index.html#avaliação" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Estimativa de 2 trabalhos divididos em 2 partes cada.</p>
-<p>Trabalho 1 - espaço de estados. Parte 1: exame escrito com resolução de problemas básicos de baixa ordem (3a no máximo); trabalho presencial realizado em sala, individual, com consulta. Parte 2: projeto computacional resolvido em Python de um problema mais complexo, com auxílio das bibliotecas relevantes e simulação. Objetivo é fazer o projeto, simular e analisar o resultado.</p>
-<p>Trabalho 2 - sistemas digitais. Partes seguindo o mesmo roteiro do trabalho 1, exceto agora sobre sistemas digitais.</p>
-<p>Trabalho final - opcional, versando sobre toda a matéria. Destinado apenas aqueles que não alcançaram média ou que necessitarem de 2a chamada.</p>
-<p>A parte computacional deve ser feita toda em Python. Os projetos devem ser entregues no formato de um relatório/dashboard em arquivo PDF ou HTML contendo os resultados e a análise. Outros formatos não serão aceitos por questões de organização e portabilidade.</p>
-<p>Uma correção dos erros em cada trabalho poderá ser apresentada, caso autorizada, com uma penalidade na pontuação final (a definir em cada avaliação). Válido apenas aos alunos que fizeram a primeira entrega. Vedado participar da correção ao aluno que não entregou o trabalho.</p>
-<p>A nota final é a média simples das duas maiores notas.</p>
+<div id="propriedades" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Propriedades<a href="transformada-mathcalz.html#propriedades" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As propriedades mais importantes da transformada <span class="math inline">\(\mathcal{Z}\)</span> são basicamente as mesmas da transformada de Laplace:</p>
+<p><strong>Linearidade</strong></p>
+<p><span class="math display">\[\begin{align}
+    k_1\,x_1[k] + k_2\,x_2[k] \longleftrightarrow k_1\,X_1(z) + k_2\,X_2(z)
+\end{align}\]</span></p>
+<p><strong>Convolução</strong></p>
+<p>Essa propriedade é a que permite avaliar a resposta de um sistema LIT discreto a uma entrada.</p>
+<p>É essencialmente a mesma do domínio contínuo, exceto que precisamos redefinir convolução para sinais discretos.</p>
+<p><span class="math display">\[\begin{align}
+    x[k]*h[k] = \sum_{n=-\infty}^{\infty} x[n]h[k-n] \longleftrightarrow X(z)H(z)
+\end{align}\]</span></p>
+<p>Uma consequência disso é que as <strong>regras de diagramas de blocos para sistemas discretos são as mesmas dos sistemas contínuos.</strong></p>
+<p><strong>Deslocamento e condição inicial</strong></p>
+<p><span class="math display">\[\begin{align}
+    x[k+1] \longleftrightarrow zX(z)-zx[0]
+\end{align}\]</span></p>
+<p>Podemos deduzir outras transformadas não-exponenciais a partir das propriedades.</p>
+<p>Por exemplo:
+<span class="math display">\[\begin{align}
+\mathcal{Z}\{A\,\cos(\omega k)\} &amp;= \mathcal{Z}\left\{\frac{Ae^{j\omega k}}{2}+\frac{Ae^{-j\omega k}}{2}\right\}\\[10pt]
+&amp;= \frac{Az}{2(z-e^{j\omega})}+\frac{Az}{2(z-e^{-j\omega})}\\
+&amp;= \frac{Az(z-\cos\omega)}{z^2+2z\cos\omega+1}
+\end{align}\]</span></p>
+</div>
+<div id="transformada-mathcalz-inversa" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Transformada <span class="math inline">\(\mathcal{Z}\)</span> inversa<a href="transformada-mathcalz.html#transformada-mathcalz-inversa" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Expansão em frações parciais de <span class="math inline">\(\displaystyle\frac{X(z)}{z} \longrightarrow x[k]\)</span>.</p>
+<p><strong>Exemplo</strong>: use expansão em fraçõs parciais para determinar a transformada inversa de</p>
+<p><span class="math display">\[Y(z) = \displaystyle\frac{28(z+1)(z-0.7)}{(z-1)(z-0.9)(z+0.9)}\]</span></p>
+<p>Solução com Python:</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb90-1"><a href="transformada-mathcalz.html#cb90-1" tabindex="-1"></a><span class="im">from</span> scipy.signal <span class="im">import</span> residue</span>
+<span id="cb90-2"><a href="transformada-mathcalz.html#cb90-2" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span></code></pre></div>
+<p>Define o problema. Observe diferentes formas de montar os polinômios</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb91-1"><a href="transformada-mathcalz.html#cb91-1" tabindex="-1"></a>z <span class="op">=</span> sp.symbols(<span class="st">&#39;z&#39;</span>)</span>
+<span id="cb91-2"><a href="transformada-mathcalz.html#cb91-2" tabindex="-1"></a>num <span class="op">=</span> <span class="dv">28</span><span class="op">*</span>np.convolve([<span class="dv">1</span>,<span class="dv">1</span>],[<span class="dv">1</span>,<span class="op">-</span><span class="fl">0.7</span>])</span>
+<span id="cb91-3"><a href="transformada-mathcalz.html#cb91-3" tabindex="-1"></a>den <span class="op">=</span> np.poly([<span class="dv">1</span>, <span class="fl">0.9</span>, <span class="op">-</span><span class="fl">0.9</span>, <span class="dv">0</span>])</span></code></pre></div>
+<p>Verifique a forma como foi definida <span class="math inline">\(Y(z)/z\)</span></p>
+<p>Encontra a expansão com a função “residue”.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb92-1"><a href="transformada-mathcalz.html#cb92-1" tabindex="-1"></a>r,p,k <span class="op">=</span> residue(num,den)</span></code></pre></div>
+<p>Note que este resultado é numérico. Para recuperá-lo no contexto simbólico, pode-se usar o seguinte código (há outras formas de fazê-lo)</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb93-1"><a href="transformada-mathcalz.html#cb93-1" tabindex="-1"></a>S <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb93-2"><a href="transformada-mathcalz.html#cb93-2" tabindex="-1"></a><span class="cf">for</span> R,P <span class="kw">in</span> <span class="bu">zip</span>(r,p):</span>
+<span id="cb93-3"><a href="transformada-mathcalz.html#cb93-3" tabindex="-1"></a>    S <span class="op">+=</span> R.<span class="bu">round</span>(<span class="dv">2</span>)<span class="op">*</span>z<span class="op">/</span>(z<span class="op">-</span>P.<span class="bu">round</span>(<span class="dv">2</span>))</span>
+<span id="cb93-4"><a href="transformada-mathcalz.html#cb93-4" tabindex="-1"></a></span>
+<span id="cb93-5"><a href="transformada-mathcalz.html#cb93-5" tabindex="-1"></a>S_str <span class="op">=</span> sp.latex(S)</span></code></pre></div>
+<p>Expansão encontrada:
+<span class="math display">\[\begin{align}
+  Y(z) = \frac{1.46 z}{z + 0.9} - \frac{65.68 z}{z - 0.9} + \frac{88.42 z}{z - 1.0} - 24.2
+\end{align}\]</span></p>
+<p>Portanto:
+<span class="math display">\[\begin{align*}
+    y[k] &amp;= 1.46(-0.9)^k\, u[k] - 65.68(0.9)^k\,u[k]\\&amp;\,+88.42u[k]-24.2\delta[k]
+\end{align*}\]</span></p>
+<p>Usamos a transformada inversa para ter um sentimento qualitativo da resposta do sistema e para explicar o que está acontecendo com a dinâmica. Para efeitos de cálculo mesmo, apenas resolvemos numericamente as equações de diferenças.</p>
+<p>Para projeto de controle, o ideal é converter a função para equação de diferenças.</p>
+</div>
+<div id="relação-entre-s-e-z" class="section level2 hasAnchor" number="7.5">
+<h2><span class="header-section-number">7.5</span> Relação entre <span class="math inline">\(s\)</span> e <span class="math inline">\(z\)</span><a href="transformada-mathcalz.html#relação-entre-s-e-z" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="math display">\[\begin{align}
+z &amp;= e^{sT}
+\end{align}\]</span></p>
+<ul>
+<li>Eixo imaginário <span class="math inline">\(\longrightarrow\)</span> circunferência unitária</li>
+<li>SPE/SPD <span class="math inline">\(\longrightarrow\)</span> interior/exterior do círculo unitário</li>
+<li>Origem <span class="math inline">\(s=0\)</span> <span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\(z=1\)</span></li>
+<li>Parte real constante <span class="math inline">\(\longrightarrow\)</span> circunferências</li>
+<li>Parte imaginária constante <span class="math inline">\(\longrightarrow\)</span> linhas radiais</li>
+</ul>
+<p><img src="figs/Fig8.4.svg" /></p>
+</div>
+<div id="teorema-do-valor-final" class="section level2 hasAnchor" number="7.6">
+<h2><span class="header-section-number">7.6</span> Teorema do valor final<a href="transformada-mathcalz.html#teorema-do-valor-final" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="math display">\[\begin{align}
+    \lim_{k\rightarrow \infty} x[k] = \lim_{z\rightarrow 1} (1-z^{-1})\,X(z)
+\end{align}\]</span></p>
+<p>desde que todos os pólos de <span class="math inline">\(X(z)\)</span> estejam dentro do círculo unitário.</p>
+</div>
+<div id="exercícios" class="section level2 hasAnchor" number="7.7">
+<h2><span class="header-section-number">7.7</span> Exercícios<a href="transformada-mathcalz.html#exercícios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ol style="list-style-type: decimal">
+<li>Determine a transformada inversa de <span class="math inline">\(Y(z)\)</span></li>
+</ol>
+<div class="sourceCode" id="cb94"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb94-1"><a href="transformada-mathcalz.html#cb94-1" tabindex="-1"></a>A <span class="op">=</span> randint(<span class="dv">2</span>,<span class="dv">50</span>)</span>
+<span id="cb94-2"><a href="transformada-mathcalz.html#cb94-2" tabindex="-1"></a>B <span class="op">=</span> (<span class="op">-</span><span class="dv">1</span>)<span class="op">**</span>randint(<span class="dv">1</span>)<span class="op">*</span>randint(<span class="dv">1</span>,<span class="dv">50</span>)</span>
+<span id="cb94-3"><a href="transformada-mathcalz.html#cb94-3" tabindex="-1"></a>C <span class="op">=</span> randint(<span class="dv">1</span>,<span class="dv">10</span>)</span>
+<span id="cb94-4"><a href="transformada-mathcalz.html#cb94-4" tabindex="-1"></a>Y <span class="op">=</span> A<span class="op">/</span>z <span class="op">+</span> B<span class="op">*</span>z<span class="op">/</span>(C<span class="op">*</span>z<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb94-5"><a href="transformada-mathcalz.html#cb94-5" tabindex="-1"></a>Y_str <span class="op">=</span> sp.latex(Y)</span></code></pre></div>
+<p><span class="math display">\[\begin{align}
+Y(z) = \frac{48 z}{9 z - 1} + \frac{49}{z}
+\end{align}\]</span></p>
+<p>Utilize o código para gerar outros problemas e exercitar.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Usando Python, calcule o valor final do sinal cuja transformada <span class="math inline">\(\mathcal{Z}\)</span> é dada. Demonstre manualmente como esse resultado é calculado.</li>
+</ol>
+<div class="sourceCode" id="cb95"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb95-1"><a href="transformada-mathcalz.html#cb95-1" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb95-2"><a href="transformada-mathcalz.html#cb95-2" tabindex="-1"></a>num <span class="op">=</span> randint(<span class="dv">1</span>,<span class="dv">100</span>)<span class="op">*</span>sp.prod([z<span class="op">*</span>randint(<span class="dv">2</span>,<span class="dv">10</span>)<span class="op">-</span><span class="dv">1</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>)] )</span>
+<span id="cb95-3"><a href="transformada-mathcalz.html#cb95-3" tabindex="-1"></a>num <span class="op">=</span> sp.expand(num)</span>
+<span id="cb95-4"><a href="transformada-mathcalz.html#cb95-4" tabindex="-1"></a>den <span class="op">=</span> sp.expand(sp.prod([z<span class="op">*</span>randint(<span class="dv">2</span>,<span class="dv">8</span>)<span class="op">-</span><span class="dv">1</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>)] ) )</span>
+<span id="cb95-5"><a href="transformada-mathcalz.html#cb95-5" tabindex="-1"></a>G<span class="op">=</span> num<span class="op">/</span>den</span>
+<span id="cb95-6"><a href="transformada-mathcalz.html#cb95-6" tabindex="-1"></a>G_str <span class="op">=</span> sp.latex(G)</span></code></pre></div>
+<p><span class="math display">\[\begin{align}
+G(z) = \frac{896 z^{3} - 688 z^{2} + 136 z - 8}{980 z^{4} - 721 z^{3} + 195 z^{2} - 23 z + 1}
+\end{align}\]</span></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Deduza a transformada inversa da função
+<span class="math display">\[\begin{align}
+X(z) &amp;= \frac{(A+jB)z}{z-\alpha \,e^{j\beta}} + \frac{(A-jB)z}{z-\alpha \,e^{-j\beta}}
+\end{align}\]</span></li>
+</ol>
 
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="transformada-mathcalz.html#cb96-1" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span></code></pre></div>
 </div>
 </div>
             </section>
@@ -295,8 +472,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-
-<a href="introdução-às-técnicas-de-espaço-de-estados..html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="controle-digital.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="análise-dinâmica-de-sistemas-discretos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -327,7 +504,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/index.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/06-TransformadaZ.Rmd",
 "text": "Edit"
 },
 "history": {

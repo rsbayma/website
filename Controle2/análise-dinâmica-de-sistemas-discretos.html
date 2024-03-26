@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Sistemas de Controle II (EL180)</title>
+  <title>Capítulo 8 Análise dinâmica de sistemas discretos | Sistemas de Controle II (EL180)</title>
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Sistemas de Controle II (EL180)" />
+  <meta property="og:title" content="Capítulo 8 Análise dinâmica de sistemas discretos | Sistemas de Controle II (EL180)" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
@@ -19,7 +19,7 @@ set in the _output.yml file.</p>" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Sistemas de Controle II (EL180)" />
+  <meta name="twitter:title" content="Capítulo 8 Análise dinâmica de sistemas discretos | Sistemas de Controle II (EL180)" />
   
   <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
@@ -36,8 +36,8 @@ set in the _output.yml file.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="introdução-às-técnicas-de-espaço-de-estados..html"/>
+<link rel="prev" href="transformada-mathcalz.html"/>
+<link rel="next" href="projeto-usando-equivalentes-discretos.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -261,33 +261,135 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Sistemas de Controle II (EL180)</h1>
-<p class="author"><em>Rafael Suzuki Bayma</em></p>
-<p class="date"><em>2024-03-26</em></p>
+<div id="análise-dinâmica-de-sistemas-discretos" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Capítulo 8</span> Análise dinâmica de sistemas discretos<a href="análise-dinâmica-de-sistemas-discretos.html#análise-dinâmica-de-sistemas-discretos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="equações-de-diferenças" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Equações de diferenças<a href="análise-dinâmica-de-sistemas-discretos.html#equações-de-diferenças" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>São análogas às equações diferenciais, porém ao invés de derivadas, utiliza deslocamentos de tempo na função de saída, p.ex.: <span class="math inline">\(y[k+1]\)</span>, <span class="math inline">\(y[k-2]\)</span>.</p>
+<p>A resposta de uma equação de diferenças é uma sequência de valores que pode ser obtida resolvendo a equação analiticamente ou numericamente (mais fácil).</p>
+<p>Um exemplo clássico é a equação de Fibonacci: <span class="math inline">\(y[k+2] = y[k+1]+y[k]\)</span>, com <span class="math inline">\(y[0]=0\)</span>, <span class="math inline">\(y[1]=1\)</span>. Experimente calcular.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb97-1"><a href="análise-dinâmica-de-sistemas-discretos.html#cb97-1" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb97-2"><a href="análise-dinâmica-de-sistemas-discretos.html#cb97-2" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb97-3"><a href="análise-dinâmica-de-sistemas-discretos.html#cb97-3" tabindex="-1"></a></span>
+<span id="cb97-4"><a href="análise-dinâmica-de-sistemas-discretos.html#cb97-4" tabindex="-1"></a>y <span class="op">=</span> np.zeros(<span class="dv">10</span>)</span>
+<span id="cb97-5"><a href="análise-dinâmica-de-sistemas-discretos.html#cb97-5" tabindex="-1"></a>y[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb97-6"><a href="análise-dinâmica-de-sistemas-discretos.html#cb97-6" tabindex="-1"></a>y[<span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb97-7"><a href="análise-dinâmica-de-sistemas-discretos.html#cb97-7" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(y)<span class="op">-</span><span class="dv">2</span>):</span>
+<span id="cb97-8"><a href="análise-dinâmica-de-sistemas-discretos.html#cb97-8" tabindex="-1"></a>    y[k<span class="op">+</span><span class="dv">2</span>] <span class="op">=</span> y[k<span class="op">+</span><span class="dv">1</span>] <span class="op">+</span> y[k]</span>
+<span id="cb97-9"><a href="análise-dinâmica-de-sistemas-discretos.html#cb97-9" tabindex="-1"></a>    </span>
+<span id="cb97-10"><a href="análise-dinâmica-de-sistemas-discretos.html#cb97-10" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;Sequência de Fibonacci: &#39;</span>, y)</span></code></pre></div>
+<pre><code>## Sequência de Fibonacci:  [ 0.  1.  1.  2.  3.  5.  8. 13. 21. 34.]</code></pre>
+<div class="sourceCode" id="cb99"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb99-1"><a href="análise-dinâmica-de-sistemas-discretos.html#cb99-1" tabindex="-1"></a>plt.stem(y)<span class="op">;</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
+<p>A implementação dessas equações é trivial usando <em>loops</em> (estruturas de repetição) computacionais. É desta forma que implementamos um algoritmo de controle dentro de um programa.</p>
+<p>Equações de diferenças representativas de sistemas reais podem surgir basicamente de duas formas:<br />
+(a) Da discretização do sistema contínuo (equivalente discreto)<br />
+(b) Da identificação do sistema contínuo usando regressão linear (identificação de sistemas)</p>
 </div>
-<div id="apresentação" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Capítulo 1</span> Apresentação<a href="index.html#apresentação" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Curso de Sistemas de Controle II - Faculdade de Engenharia Elétrica, Campus Tucuruí.</p>
-<p>Versão: 2024.2</p>
-<div id="objetivos" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> Objetivos<a href="index.html#objetivos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Objetivo principal do curso é introduzir técnicas de modelagem, análise e projeto de sistemas de controle usando duas abordagens principais: espaço de estados e modelos de sinais e sistemas digitaisl.</p>
-<p><strong>Carga horária:</strong> 60 horas</p>
-<p>O curso é predominantemente teórico com aplicações computacionais. Aplicações práticas em laboratório poderão ocorrer mediante disponibilidade de equipamento.</p>
-<p><strong>Pré-requisitos:</strong> Análise de Sistemas Lineares, Sistemas de Controle I.</p>
-<p><strong>Recomendado:</strong> boa compreensão de equações diferenciais, sinais e sistemas, mecânica clássica, Circuitos Elétricos I, amplificadores operacionais, Python simbólico e numérico, linguagem R (apenas para gerar trabalhos de melhor qualidade).</p>
+<div id="função-de-transferência-discreta" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Função de transferência discreta<a href="análise-dinâmica-de-sistemas-discretos.html#função-de-transferência-discreta" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>O procedimento para encontrar a função de transferência discreta é o mesmo aplicado a equações diferenciais, apenas atentando para a propriedade</p>
+<p><span class="math display">\[\mathcal{Z}\{y[k+1]\}=zY(z)\]</span></p>
+<p>ou</p>
+<p><span class="math display">\[\mathcal{Z}\{y[k-1]\}=z^{-1}Y(z)\]</span></p>
+<p><strong>Exemplo:</strong>
+<span class="math display">\[\begin{align}
+    y[k+2] + 10y[k] = 8x[k-1]
+\end{align}\]</span></p>
+<p>Aplicando a transformada <span class="math inline">\(\mathcal{Z}\)</span>
+<span class="math display">\[\begin{align}
+   z^2Y(z) + 10Y(z) &amp;=8z^{-1}X(z)\\
+   (z^2+10)Y(z) &amp;= \frac{8X(z)}{z}\\
+   \frac{Y(z)}{X(z)} &amp;= \frac{8}{z(z^2+10)}
+\end{align}\]</span></p>
+<p>Da mesma forma que o caso contínuo, definimos para funções de transferência discretas:
+- Pólos: raízes do denominador
+- Zeros: raízes do numerador</p>
+<p>As características dos pólos do sistema definem que tipo de resposta ele vai apresentar.</p>
 </div>
-<div id="avaliação" class="section level2 hasAnchor" number="1.2">
-<h2><span class="header-section-number">1.2</span> <strong>Avaliação:</strong><a href="index.html#avaliação" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Estimativa de 2 trabalhos divididos em 2 partes cada.</p>
-<p>Trabalho 1 - espaço de estados. Parte 1: exame escrito com resolução de problemas básicos de baixa ordem (3a no máximo); trabalho presencial realizado em sala, individual, com consulta. Parte 2: projeto computacional resolvido em Python de um problema mais complexo, com auxílio das bibliotecas relevantes e simulação. Objetivo é fazer o projeto, simular e analisar o resultado.</p>
-<p>Trabalho 2 - sistemas digitais. Partes seguindo o mesmo roteiro do trabalho 1, exceto agora sobre sistemas digitais.</p>
-<p>Trabalho final - opcional, versando sobre toda a matéria. Destinado apenas aqueles que não alcançaram média ou que necessitarem de 2a chamada.</p>
-<p>A parte computacional deve ser feita toda em Python. Os projetos devem ser entregues no formato de um relatório/dashboard em arquivo PDF ou HTML contendo os resultados e a análise. Outros formatos não serão aceitos por questões de organização e portabilidade.</p>
-<p>Uma correção dos erros em cada trabalho poderá ser apresentada, caso autorizada, com uma penalidade na pontuação final (a definir em cada avaliação). Válido apenas aos alunos que fizeram a primeira entrega. Vedado participar da correção ao aluno que não entregou o trabalho.</p>
-<p>A nota final é a média simples das duas maiores notas.</p>
+<div id="estabilidade" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Estabilidade<a href="análise-dinâmica-de-sistemas-discretos.html#estabilidade" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>O sistema é estável se todos os pólos estão dentro do círculo unitário <span class="math inline">\(|z|&lt;1\)</span></li>
+<li>O sistema é instável se um ou mais pólos estão fora do círculo unitário <span class="math inline">\(|z|\geq 1\)</span></li>
+</ul>
+</div>
+<div id="tipo-de-resposta" class="section level2 hasAnchor" number="8.4">
+<h2><span class="header-section-number">8.4</span> Tipo de resposta<a href="análise-dinâmica-de-sistemas-discretos.html#tipo-de-resposta" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>Sobre amortecida (<span class="math inline">\(\xi&gt;1\)</span>): pólos reais e distintos</li>
+<li>Criticamente amortecida (<span class="math inline">\(\xi=1\)</span>): pólos reais e iguais</li>
+<li>Sub amortecida (<span class="math inline">\(\xi&lt;1\)</span>): pólos imaginários conjugados estáveis</li>
+<li>Oscilatória (senoidal pura): pólos imaginários em cima do círculo <span class="math inline">\(|z|=1\)</span></li>
+<li>Alternante (oscila, mas não senoidal): pólos reais negativos</li>
+<li>Integrador: <span class="math inline">\(z=1\)</span></li>
+</ul>
+<p><img src="figs/Fig8.5.svg" /></p>
+<p>Simulações para ilustrar.</p>
+<p>Define pólos no domínio <span class="math inline">\(s\)</span> para nos situarmos</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb100-1"><a href="análise-dinâmica-de-sistemas-discretos.html#cb100-1" tabindex="-1"></a>s1 <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">5</span>])</span>
+<span id="cb100-2"><a href="análise-dinâmica-de-sistemas-discretos.html#cb100-2" tabindex="-1"></a>s2 <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb100-3"><a href="análise-dinâmica-de-sistemas-discretos.html#cb100-3" tabindex="-1"></a>s3 <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">1</span><span class="op">+</span><span class="ot">1j</span>, <span class="op">-</span><span class="dv">1</span><span class="op">-</span><span class="ot">1j</span>])</span>
+<span id="cb100-4"><a href="análise-dinâmica-de-sistemas-discretos.html#cb100-4" tabindex="-1"></a>s4 <span class="op">=</span> np.array([<span class="ot">1j</span>, <span class="op">-</span><span class="ot">1j</span>])</span></code></pre></div>
+<p>Mapeamos estes pólos para o plano <span class="math inline">\(z\)</span>, usando a relação fundamental entre <span class="math inline">\(s\)</span> e <span class="math inline">\(z\)</span>.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb101-1"><a href="análise-dinâmica-de-sistemas-discretos.html#cb101-1" tabindex="-1"></a>T <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb101-2"><a href="análise-dinâmica-de-sistemas-discretos.html#cb101-2" tabindex="-1"></a>z1 <span class="op">=</span> np.exp(s1<span class="op">*</span>T)</span>
+<span id="cb101-3"><a href="análise-dinâmica-de-sistemas-discretos.html#cb101-3" tabindex="-1"></a>z2 <span class="op">=</span> np.exp(s2<span class="op">*</span>T)</span>
+<span id="cb101-4"><a href="análise-dinâmica-de-sistemas-discretos.html#cb101-4" tabindex="-1"></a>z3 <span class="op">=</span> np.exp(s3<span class="op">*</span>T)</span>
+<span id="cb101-5"><a href="análise-dinâmica-de-sistemas-discretos.html#cb101-5" tabindex="-1"></a>z4 <span class="op">=</span> np.exp(s4<span class="op">*</span>T)</span></code></pre></div>
+<p>Construímos algumas funções de transferência agora. Repare que usaremos apenas um conjunto de pólos (experimente outros por conta própria)</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb102-1"><a href="análise-dinâmica-de-sistemas-discretos.html#cb102-1" tabindex="-1"></a>num1 <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>]</span>
+<span id="cb102-2"><a href="análise-dinâmica-de-sistemas-discretos.html#cb102-2" tabindex="-1"></a>num2 <span class="op">=</span> np.poly([<span class="fl">.85</span>,<span class="dv">0</span>])</span>
+<span id="cb102-3"><a href="análise-dinâmica-de-sistemas-discretos.html#cb102-3" tabindex="-1"></a>den <span class="op">=</span> np.poly(z4)</span>
+<span id="cb102-4"><a href="análise-dinâmica-de-sistemas-discretos.html#cb102-4" tabindex="-1"></a>H1 <span class="op">=</span> ct.tf(num1,den,T)</span>
+<span id="cb102-5"><a href="análise-dinâmica-de-sistemas-discretos.html#cb102-5" tabindex="-1"></a>H1 <span class="op">=</span> H1<span class="op">/</span>H1.dcgain()    <span class="co"># Isto é feito para garantir que o ganho DC será 1</span></span>
+<span id="cb102-6"><a href="análise-dinâmica-de-sistemas-discretos.html#cb102-6" tabindex="-1"></a>H2 <span class="op">=</span> ct.tf(num2,den,T)</span>
+<span id="cb102-7"><a href="análise-dinâmica-de-sistemas-discretos.html#cb102-7" tabindex="-1"></a>H2 <span class="op">=</span> H2<span class="op">/</span>H2.dcgain()</span></code></pre></div>
+<p>As duas funções de transferência foram definidas com zeros ligeiramente diferentes, para ver também sua influência.</p>
+<p>Relatório de pólos discretos</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb103-1"><a href="análise-dinâmica-de-sistemas-discretos.html#cb103-1" tabindex="-1"></a>_ <span class="op">=</span> ct.damp(H1)</span></code></pre></div>
+<pre><code>##     Eigenvalue (pole)       Damping     Frequency
+##      0.995  +0.09983j    -5.551e-16             1
+##      0.995  -0.09983j    -5.551e-16             1</code></pre>
+<div class="sourceCode" id="cb105"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb105-1"><a href="análise-dinâmica-de-sistemas-discretos.html#cb105-1" tabindex="-1"></a><span class="bu">print</span>(ct.zero(H1))</span></code></pre></div>
+<pre><code>## [0.+0.j 0.+0.j]</code></pre>
+<p>Simulação de resposta ao degrau.</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb107-1"><a href="análise-dinâmica-de-sistemas-discretos.html#cb107-1" tabindex="-1"></a>t,y1 <span class="op">=</span> ct.step_response(H1,<span class="dv">10</span>)</span>
+<span id="cb107-2"><a href="análise-dinâmica-de-sistemas-discretos.html#cb107-2" tabindex="-1"></a>t,y2 <span class="op">=</span> ct.step_response(H2,<span class="dv">10</span>)</span>
+<span id="cb107-3"><a href="análise-dinâmica-de-sistemas-discretos.html#cb107-3" tabindex="-1"></a>plt.step(t,y1,<span class="st">&#39;b&#39;</span>,t,y2,<span class="st">&#39;r&#39;</span>)<span class="op">;</span></span>
+<span id="cb107-4"><a href="análise-dinâmica-de-sistemas-discretos.html#cb107-4" tabindex="-1"></a>plt.legend([<span class="st">&#39;zeros na origem&#39;</span>,<span class="st">&#39;zero próximo&#39;</span>])<span class="op">;</span></span>
+<span id="cb107-5"><a href="análise-dinâmica-de-sistemas-discretos.html#cb107-5" tabindex="-1"></a>plt.show()<span class="op">;</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-124-3.png" width="672" /></p>
+</div>
+<div id="ganho-dc" class="section level2 hasAnchor" number="8.5">
+<h2><span class="header-section-number">8.5</span> Ganho DC<a href="análise-dinâmica-de-sistemas-discretos.html#ganho-dc" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para um sistema contínuo sem pólos na origem, o ganho DC é o valor da função de transferência quando <span class="math inline">\(s\rightarrow 0\)</span>.</p>
+<p>O ganho DC informa o quanto a saída vai aumentar ou diminuir em relação à entrada, quando esta é um sinal constante.</p>
+<p>O ganho DC discreto possui a mesma interpretação, mas devido ao mapeamento no plano <span class="math inline">\(z\)</span>, ele é definido como o valor da função de transferência quando <span class="math inline">\(z\rightarrow 1\)</span>.</p>
+<p><strong>Exemplo:</strong></p>
+<p><span class="math display">\[G(z) = \displaystyle \frac{0.0009(z+1)^2}{z(z-0.9)(z-0.8e^{j0.1})(z-0.8e^{-j0.1})}\]</span></p>
+<p>Como todos os pólos são estáveis:</p>
+<p><span class="math display">\[\begin{align}
+  G(z) &amp;= \frac{0.0009 \left(z + 1\right)^{2}}{z \left(z - 0.9\right) \left(z - 0.8 e^{- 0.1 i}\right) \left(z - 0.8 e^{0.1 i}\right)}\\K_{dc} &amp;= \frac{0.036}{\left(1 - 0.8 e^{- 0.1 i}\right) \left(1 - 0.8 e^{0.1 i}\right)}\\K_{dc} &amp;= 0.750104
+\end{align}\]</span></p>
+<p>Usando o pacote “control”</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb108-1"><a href="análise-dinâmica-de-sistemas-discretos.html#cb108-1" tabindex="-1"></a>num <span class="op">=</span> <span class="fl">9e-4</span><span class="op">*</span>np.poly([<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb108-2"><a href="análise-dinâmica-de-sistemas-discretos.html#cb108-2" tabindex="-1"></a>den <span class="op">=</span> np.poly([<span class="dv">0</span>,<span class="fl">0.9</span>,<span class="fl">0.8</span><span class="op">*</span>np.exp(<span class="ot">0.1j</span>),<span class="fl">0.8</span><span class="op">*</span>np.exp(<span class="op">-</span><span class="ot">0.1j</span>)])</span>
+<span id="cb108-3"><a href="análise-dinâmica-de-sistemas-discretos.html#cb108-3" tabindex="-1"></a>Gz <span class="op">=</span> ct.tf(num,den,<span class="dv">1</span>)       <span class="co"># Período de amostragem não foi dado, então usamos 1</span></span>
+<span id="cb108-4"><a href="análise-dinâmica-de-sistemas-discretos.html#cb108-4" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;Ganho DC: &#39;</span>, Gz.dcgain())</span></code></pre></div>
+<pre><code>## Ganho DC:  0.7501041464106208</code></pre>
+<p>Simulação para visualizar interepratação física</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb110-1"><a href="análise-dinâmica-de-sistemas-discretos.html#cb110-1" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb110-2"><a href="análise-dinâmica-de-sistemas-discretos.html#cb110-2" tabindex="-1"></a>t,y <span class="op">=</span> ct.step_response(Gz)</span>
+<span id="cb110-3"><a href="análise-dinâmica-de-sistemas-discretos.html#cb110-3" tabindex="-1"></a>degrau <span class="op">=</span> np.ones(t.size)</span>
+<span id="cb110-4"><a href="análise-dinâmica-de-sistemas-discretos.html#cb110-4" tabindex="-1"></a>plt.step(t,y,t,degrau)<span class="op">;</span></span>
+<span id="cb110-5"><a href="análise-dinâmica-de-sistemas-discretos.html#cb110-5" tabindex="-1"></a>plt.grid()</span>
+<span id="cb110-6"><a href="análise-dinâmica-de-sistemas-discretos.html#cb110-6" tabindex="-1"></a><span class="bu">print</span>(y[<span class="op">-</span><span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## 0.7501039766960299</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-127-5.png" width="672" /></p>
+<p>Quando o sistema possui um ou mais integradores, o ganho DC é calculado da mesma forma, porém removendo os integradores. A interpretação nesse caso é diferente, por ele mede o erro não mais em relação a um degrau, mas a uma entrada equivalente ao número de integradores (rampa, parábola, etc.)</p>
 
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="análise-dinâmica-de-sistemas-discretos.html#cb112-1" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span></code></pre></div>
 </div>
 </div>
             </section>
@@ -295,8 +397,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-
-<a href="introdução-às-técnicas-de-espaço-de-estados..html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="transformada-mathcalz.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="projeto-usando-equivalentes-discretos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -327,7 +429,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/index.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/07-Análise-Sistemas-Discretos.Rmd",
 "text": "Edit"
 },
 "history": {
