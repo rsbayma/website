@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>index</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>tutorial</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7516,13 +7516,223 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Materiais-de-aula">Materiais de aula<a class="anchor-link" href="#Materiais-de-aula">¶</a></h2><p><br/> <br/> <br/></p>
-<p><a href="./Controle2/sc2index.html">Controle 2</a></p>
-<p><a href="./Fab/index.html">Fabricação (Tóp. Especiais)</a></p>
-<p><a href="">Funções Especiais para Engenharia (em construção)</a></p>
-<p><a href="./Circuito%20impresso/index.html">Circuito impresso</a></p>
-<p><a href="./PAAP-SAEST/index.html">Projeto de acompanhamento de aprendizagem (PAAP-SAEST)</a></p>
-<p><em>Última atualização: 2024.4</em></p>
+<h1 id="Tutorial:-Aplica%C3%A7%C3%A3o-com-ESP32-integrado-ao-Firebase">Tutorial: Aplicação com ESP32 integrado ao Firebase<a class="anchor-link" href="#Tutorial:-Aplica%C3%A7%C3%A3o-com-ESP32-integrado-ao-Firebase">¶</a></h1><p>Este tutorial descreve como integrar um ESP32 ao Firebase para controle de relés e leitura de sensores.</p>
+<p>O código no ESP32 será escrito em C (usando a Arduino IDE), enquanto o código Python será usado para monitorar e interagir com o Firebase no lado do servidor.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Passo-1:-Configura%C3%A7%C3%B5es-iniciais"><strong>Passo 1: Configurações iniciais</strong><a class="anchor-link" href="#Passo-1:-Configura%C3%A7%C3%B5es-iniciais">¶</a></h2><h3 id="Hardware-necess%C3%A1rio"><strong>Hardware necessário</strong><a class="anchor-link" href="#Hardware-necess%C3%A1rio">¶</a></h3><ul>
+<li>ESP32.</li>
+<li>Relé(s).</li>
+<li>Sensor(es) (ex.: DHT22 para temperatura e umidade).</li>
+<li>Protoboard e jumpers.</li>
+<li>Fonte de alimentação.</li>
+</ul>
+<h3 id="Software-necess%C3%A1rio"><strong>Software necessário</strong><a class="anchor-link" href="#Software-necess%C3%A1rio">¶</a></h3><ul>
+<li>Arduino IDE (<a href="https://www.arduino.cc/en/software">Baixar aqui</a>).</li>
+<li>Python 3 com bibliotecas <code>firebase-admin</code> e <code>requests</code>.</li>
+<li>Jupyter Notebook (opcional para executar o tutorial).</li>
+</ul>
+<h3 id="Firebase"><strong>Firebase</strong><a class="anchor-link" href="#Firebase">¶</a></h3><ul>
+<li>Crie um projeto no Firebase Console (<a href="https://console.firebase.google.com/">Firebase Console</a>).</li>
+<li>Habilite o <strong>Realtime Database</strong>.</li>
+<li>Faça o download do arquivo de credenciais JSON em <strong>Configurações do projeto &gt; Contas de serviço</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Passo-2:-Configura%C3%A7%C3%A3o-do-ESP32"><strong>Passo 2: Configuração do ESP32</strong><a class="anchor-link" href="#Passo-2:-Configura%C3%A7%C3%A3o-do-ESP32">¶</a></h2><ol>
+<li><p>Instale o suporte ao ESP32 na Arduino IDE:</p>
+<ul>
+<li>Vá em <strong>Arquivo &gt; Preferências</strong> e adicione este URL em "URLs adicionais de gerenciadores":<pre><code>https://dl.espressif.com/dl/package_esp32_index.json
+</code></pre>
+</li>
+<li>Em <strong>Ferramentas &gt; Placa &gt; Gerenciador de Placas</strong>, instale o pacote ESP32.</li>
+</ul>
+</li>
+<li><p>Instale as bibliotecas na Arduino IDE:</p>
+<ul>
+<li><code>Firebase ESP32</code>: Vá em <strong>Ferramentas &gt; Gerenciar Bibliotecas</strong> e procure por "Firebase ESP32".</li>
+<li><code>DHT</code>: Instale a biblioteca para seu sensor.</li>
+</ul>
+</li>
+<li><p>Configure o circuito:</p>
+<ul>
+<li>Conecte o relé ao GPIO do ESP32.</li>
+<li>Conecte o sensor (ex.: DHT22) ao ESP32.</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Passo-3:-C%C3%B3digo-para-o-ESP32-(Arduino-IDE)"><strong>Passo 3: Código para o ESP32 (Arduino IDE)</strong><a class="anchor-link" href="#Passo-3:-C%C3%B3digo-para-o-ESP32-(Arduino-IDE)">¶</a></h2><p>O código abaixo lê dados do sensor (temperatura/umidade) e controla o relé com base no valor armazenado no Firebase.</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFi.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;FirebaseESP32.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;DHT.h&gt;</span>
+
+<span class="c1">// Configurações de Wi-Fi</span>
+<span class="cp">#define WIFI_SSID "sua_rede_wifi"</span>
+<span class="cp">#define WIFI_PASSWORD "sua_senha_wifi"</span>
+
+<span class="c1">// Configurações do Firebase</span>
+<span class="cp">#define FIREBASE_HOST "seu-projeto.firebaseio.com"</span>
+<span class="cp">#define FIREBASE_AUTH "sua-chave-api"</span>
+
+<span class="c1">// Configuração do DHT</span>
+<span class="cp">#define DHTPIN 4</span>
+<span class="cp">#define DHTTYPE DHT22</span>
+<span class="n">DHT</span><span class="w"> </span><span class="nf">dht</span><span class="p">(</span><span class="n">DHTPIN</span><span class="p">,</span><span class="w"> </span><span class="n">DHTTYPE</span><span class="p">);</span>
+
+<span class="c1">// Relé</span>
+<span class="cp">#define RELE_PIN 2</span>
+
+<span class="n">FirebaseData</span><span class="w"> </span><span class="n">firebaseData</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configurar pino do relé</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">RELE_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">RELE_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Inicializar sensor</span>
+<span class="w">  </span><span class="n">dht</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// Conectar ao Wi-Fi</span>
+<span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">WIFI_SSID</span><span class="p">,</span><span class="w"> </span><span class="n">WIFI_PASSWORD</span><span class="p">);</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Conectar ao Firebase</span>
+<span class="w">  </span><span class="n">Firebase</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">FIREBASE_HOST</span><span class="p">,</span><span class="w"> </span><span class="n">FIREBASE_AUTH</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Firebase</span><span class="p">.</span><span class="n">reconnectWiFi</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">temperatura</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dht</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">umidade</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dht</span><span class="p">.</span><span class="n">readHumidity</span><span class="p">();</span>
+
+<span class="w">  </span><span class="n">Firebase</span><span class="p">.</span><span class="n">setFloat</span><span class="p">(</span><span class="n">firebaseData</span><span class="p">,</span><span class="w"> </span><span class="s">"/sensor/temperatura"</span><span class="p">,</span><span class="w"> </span><span class="n">temperatura</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Firebase</span><span class="p">.</span><span class="n">setFloat</span><span class="p">(</span><span class="n">firebaseData</span><span class="p">,</span><span class="w"> </span><span class="s">"/sensor/umidade"</span><span class="p">,</span><span class="w"> </span><span class="n">umidade</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Firebase</span><span class="p">.</span><span class="n">getInt</span><span class="p">(</span><span class="n">firebaseData</span><span class="p">,</span><span class="w"> </span><span class="s">"/rele/status"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">statusRele</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">firebaseData</span><span class="p">.</span><span class="n">intData</span><span class="p">();</span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">RELE_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">statusRele</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">HIGH</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Passo-4:-C%C3%B3digo-Python-para-intera%C3%A7%C3%A3o-com-Firebase"><strong>Passo 4: Código Python para interação com Firebase</strong><a class="anchor-link" href="#Passo-4:-C%C3%B3digo-Python-para-intera%C3%A7%C3%A3o-com-Firebase">¶</a></h2><p>Este código será executado em seu computador ou servidor para monitorar e enviar comandos ao ESP32 via Firebase.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Importar bibliotecas</span>
+<span class="kn">import</span> <span class="nn">firebase_admin</span>
+<span class="kn">from</span> <span class="nn">firebase_admin</span> <span class="kn">import</span> <span class="n">credentials</span><span class="p">,</span> <span class="n">db</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c1"># Configurações do Firebase</span>
+<span class="n">FIREBASE_CREDENTIALS</span> <span class="o">=</span> <span class="s2">"caminho/para/arquivo-chave.json"</span>  <span class="c1"># Substitua pelo caminho do arquivo JSON da chave</span>
+<span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="s2">"https://seu-projeto.firebaseio.com"</span>  <span class="c1"># Substitua pela URL do seu Realtime Database</span>
+
+<span class="c1"># Inicializar Firebase</span>
+<span class="n">cred</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">Certificate</span><span class="p">(</span><span class="n">FIREBASE_CREDENTIALS</span><span class="p">)</span>
+<span class="n">firebase_admin</span><span class="o">.</span><span class="n">initialize_app</span><span class="p">(</span><span class="n">cred</span><span class="p">,</span> <span class="p">{</span><span class="s2">"databaseURL"</span><span class="p">:</span> <span class="n">DATABASE_URL</span><span class="p">})</span>
+
+<span class="c1"># Função para enviar dados</span>
+<span class="k">def</span> <span class="nf">enviar_dados</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="n">valor</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">reference</span><span class="p">(</span><span class="n">caminho</span><span class="p">)</span>
+        <span class="n">ref</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Dados enviados para </span><span class="si">{</span><span class="n">caminho</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">valor</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Erro ao enviar dados: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Função para ler dados</span>
+<span class="k">def</span> <span class="nf">ler_dados</span><span class="p">(</span><span class="n">caminho</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">reference</span><span class="p">(</span><span class="n">caminho</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ref</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Erro ao ler dados: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1"># Loop principal</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Simular envio de dados do sensor</span>
+        <span class="n">enviar_dados</span><span class="p">(</span><span class="s2">"/sensor/temperatura"</span><span class="p">,</span> <span class="mf">25.5</span><span class="p">)</span>
+        <span class="n">enviar_dados</span><span class="p">(</span><span class="s2">"/sensor/umidade"</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">)</span>
+
+        <span class="c1"># Ler estado do relé</span>
+        <span class="n">status_rele</span> <span class="o">=</span> <span class="n">ler_dados</span><span class="p">(</span><span class="s2">"/rele/status"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Status do relé: </span><span class="si">{</span><span class="s1">'Ligado'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">status_rele</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'Desligado'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Passo-5:-Execu%C3%A7%C3%A3o-e-testes"><strong>Passo 5: Execução e testes</strong><a class="anchor-link" href="#Passo-5:-Execu%C3%A7%C3%A3o-e-testes">¶</a></h2><ol>
+<li>Faça o upload do código no ESP32 usando a Arduino IDE.</li>
+<li>Execute o código Python para interagir com o Firebase:<div class="highlight"><pre><span></span>python3<span class="w"> </span>nome_do_arquivo.py
+</pre></div>
+</li>
+<li>Verifique os dados no Firebase e observe o comportamento do ESP32.</li>
+</ol>
+<p>E pronto! A integração entre ESP32, Firebase e Python está configurada.</p>
 </div>
 </div>
 </div>
